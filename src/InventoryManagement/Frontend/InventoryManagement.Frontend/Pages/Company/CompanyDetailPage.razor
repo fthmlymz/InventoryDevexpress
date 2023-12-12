@@ -151,7 +151,7 @@
 
                     @if (_authorizationService.HasPermission("res:brand", "scopes:read"))
                     {
-                        <RadzenTabsItem Text="Marka/Model">
+                        <RadzenTabsItem Text="Marka/ModelDto">
                             <div class="row">
                                 @if (_authorizationService.HasPermission("res:brand", "scopes:read"))
                                 {
@@ -162,23 +162,23 @@
                                                     <div>Ana Kategori</div>
                                                     @if (_authorizationService.HasPermission("res:brand", "scopes:create"))
                                                     {
-                                                        <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Marka" Click="@((args) => InsertRowBrand(new BrandModel()))" Disabled="@(brandToInsert != null || brandToUpdate != null)" />
+                                                        <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Marka" Click="@((args) => InsertRowBrand(new BrandDto()))" Disabled="@(brandToInsert != null || brandToUpdate != null)" />
                                                     }
                                                 </div>
                                                 <RadzenDataGrid @ref="brandGrid" ColumnWidth="200px" AllowFiltering="true" AllowSorting="true" RowUpdate="@OnUpdateRowBrand" RowCreate="@OnCreateRowBrand"
-                                                                Data="@brandModel?.data" TItem="BrandModel" @bind-Value="@SelectedBrand" EditMode="DataGridEditMode.Single" Style="max-height: 75vh;">
+                                                                Data="@brandModel?.data" TItem="BrandDto" @bind-Value="@SelectedBrand" EditMode="DataGridEditMode.Single" Style="max-height: 75vh;">
                                                     <Columns>
-                                                        <RadzenDataGridColumn TItem="BrandModel" Property="Id" Title="Id" Width="80px" />
+                                                        <RadzenDataGridColumn TItem="BrandDto" Property="Id" Title="Id" Width="80px" />
 
 
-                                                        <RadzenDataGridColumn TItem="BrandModel" Property="Name" Title="Marka Adı" Width="100%">
+                                                        <RadzenDataGridColumn TItem="BrandDto" Property="Name" Title="Marka Adı" Width="100%">
                                                             <EditTemplate Context="brand">
                                                                 <RadzenTextBox @bind-Value="brand.Name" style="width: 100%" Name="Name"></RadzenTextBox>
                                                                 <RadzenRequiredValidator style="display: grid" Component="Name" Text="Marka adı zorunludur" Popup="true" />
                                                             </EditTemplate>
                                                         </RadzenDataGridColumn>
 
-                                                        <RadzenDataGridColumn TItem="BrandModel" Context="brand" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+                                                        <RadzenDataGridColumn TItem="BrandDto" Context="brand" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
                                                             <Template Context="brand">
                                                                 @if (_authorizationService.HasPermission("res:brand", "scopes:update"))
                                                                 {
@@ -222,7 +222,7 @@
                                                         <div>
                                                             @if (_authorizationService.HasPermission("res:model", "scopes:create"))
                                                             {
-                                                                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Model" Click="@((args) => InsertRowModel(new Model()))" Disabled="@(modelToInsert != null || modelToUpdate != null)" />
+                                                                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni ModelDto" Click="@((args) => InsertRowModel(new ModelDto()))" Disabled="@(modelToInsert != null || modelToUpdate != null)" />
                                                             }
                                                         </div>
                                                     </div>
@@ -232,20 +232,20 @@
                                                 <RadzenTabs>
                                                     <Tabs>
                                                         <RadzenTabsItem Text="Modeller">
-                                                            <RadzenDataGrid @ref="modelGrid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@(SelectedBrand?.FirstOrDefault()?.Models)" TItem="Model"
+                                                            <RadzenDataGrid @ref="modelGrid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@(SelectedBrand?.FirstOrDefault()?.Models)" TItem="ModelDto"
                                                                             RowUpdate="@OnUpdateRowModel" RowCreate="@OnCreateRowModel" EditMode="DataGridEditMode.Single">
                                                                 <Columns>
-                                                                    <RadzenDataGridColumn TItem="Model" Property="Id" Title="Id" />
-                                                                    <RadzenDataGridColumn TItem="Model" Property="Name" Title="Model Adı">
+                                                                    <RadzenDataGridColumn TItem="ModelDto" Property="Id" Title="Id" />
+                                                                    <RadzenDataGridColumn TItem="ModelDto" Property="Name" Title="ModelDto Adı">
                                                                         <EditTemplate Context="model">
                                                                             <RadzenTextBox @bind-Value="model.Name" style="width: 100%" Name="Name"></RadzenTextBox>
-                                                                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="Model adı zorunludur" Popup="true" />
+                                                                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="ModelDto adı zorunludur" Popup="true" />
                                                                         </EditTemplate>
                                                                     </RadzenDataGridColumn>
 
-                                                                    <RadzenDataGridColumn TItem="Model" Property="BrandId" Title="Model Id" />
+                                                                    <RadzenDataGridColumn TItem="ModelDto" Property="BrandId" Title="ModelDto Id" />
 
-                                                                    <RadzenDataGridColumn TItem="Model" Context="model" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+                                                                    <RadzenDataGridColumn TItem="ModelDto" Context="model" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
                                                                         <Template Context="model">
                                                                             @if (_authorizationService.HasPermission("res:model", "scopes:update"))
                                                                             {

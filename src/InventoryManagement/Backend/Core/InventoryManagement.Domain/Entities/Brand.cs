@@ -4,13 +4,13 @@ namespace InventoryManagement.Domain.Entities
 {
     public class Brand : BaseAuditableEntity
     {
-        public string Name { get; set; }= string.Empty;
+        public string? Name { get; set; }
 
 
 
         #region Relationship - Affiliated with the upper class
-        public int CompanyId { get; set; }
-        public Company Company { get; set; } = default!;
+        public int? CompanyId { get; set; }
+        public Company ? Company { get; set; } = default!;
         #endregion
 
 

@@ -9,8 +9,8 @@ namespace InventoryManagement.Domain.Entities
 
 
         #region Relationship - Affiliated with the upper class
-        public int BrandId { get; set; }
-        public Brand Brand { get; set; } = default!;
+        public int? BrandId { get; set; }
+        public Brand? Brand { get; set; }
         #endregion
     }
 }

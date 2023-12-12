@@ -68,7 +68,7 @@ namespace InventoryManagement.Application.Features.Companies.Queries.GetCompanyB
                 .Entities.Where(x => x.CompanyId == request.Id)
                 .ToListAsync(cancellationToken);
             var brandModels = await _unitOfWork.Repository<Model>()
-                .Entities.Where(x => brands.Select(c => c.Id).Contains(x.BrandId))
+                .Entities.Where(x => brands.Select(c => c.Id).Contains(x.BrandId.Value))
                 .ToListAsync(cancellationToken);
 
 
@@ -107,7 +107,7 @@ namespace InventoryManagement.Application.Features.Companies.Queries.GetCompanyB
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    CompanyId = c.CompanyId,
+                    CompanyId = c.CompanyId.Value,
                     CreatedBy = company.CreatedBy,
                     CreatedDate = company.CreatedDate,
                     UpdatedBy = company.UpdatedBy,

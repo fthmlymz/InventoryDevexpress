@@ -61,9 +61,7 @@ namespace InventoryManagement.Application.Features.Models.Commands.CreateModel
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             // Döngüyü kırmak için Brand nesnesini null'a atayalım(Relationship hatasını önlemek için)
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             model.Brand = null;
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
 
             // Tüm tabloyu önbelleğe kaydet

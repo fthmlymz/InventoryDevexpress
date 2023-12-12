@@ -11,7 +11,7 @@ namespace InventoryManagement.Application.Features.Brands.Queries.GetBrandListWi
 
 
         #region Relationship - Affiliated with the upper class
-        public int CompanyId { get; set; }
+        public int? CompanyId { get; set; }
         public List<GetCompanyAndBrandAndModelDto> Models { get; set; } = new();
         #endregion
     }

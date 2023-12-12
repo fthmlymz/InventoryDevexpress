@@ -43,13 +43,15 @@ namespace InventoryManagement.Application.Features.Brands.Commands.CreateBrand
             }
 
 
-
-            //Şirket kayıtlı mı ?
-            var companyExists = _unitOfWork.Repository<Company>().Entities.SingleOrDefault(x => x.Id == request.CompanyId);
-            if (companyExists == null)
+            //CompanyId gonderildiyse kontrol et
+            if (request.CompanyId > 0)
             {
-                _logger.LogWarning($"Company Id not found for brand record: {request.Name}", request.Name);
-                throw new BadRequestExceptionCustom($"{request.Name} için kayıt edilecek şirket bilgisi bulunamadı");
+                var companyExists = _unitOfWork.Repository<Company>().Entities.SingleOrDefault(x => x.Id == request.CompanyId);
+                if (companyExists == null)
+                {
+                    _logger.LogWarning($"Company Id not found for brand record: {request.Name}", request.Name);
+                    throw new BadRequestExceptionCustom($"{request.Name} için kayıt edilecek şirket bilgisi bulunamadı");
+                }
             }
 
 
@@ -60,9 +62,7 @@ namespace InventoryManagement.Application.Features.Brands.Commands.CreateBrand
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             // Döngüyü kırmak için Company nesnesini null'a atayalım(Relationship hatasını önlemek için)
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             brand.Company = null;
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             //Tüm tabloyu önbelleğe kaydet
             cacheKey = $"Brand_{brand.Id}";

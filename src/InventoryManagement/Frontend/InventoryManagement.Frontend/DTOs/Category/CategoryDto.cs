@@ -1,8 +1,11 @@
-﻿namespace InventoryManagement.Frontend.DTOs.Category
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace InventoryManagement.Frontend.DTOs.Category
 {
     public class CategoryDto
     {
         public int Id { get; set; }
+        [Required(ErrorMessage ="Kategori adı gereklidir")]
         public string? Name { get; set; }
         //public int CompanyId { get; set; }
         public string? CreatedBy { get; set; }
@@ -11,12 +14,13 @@
         public string? UpdatedBy { get; set; }
         public string? UpdatedUserId { get; set; }
         public DateTime UpdatedDate { get; set; }
-        public List<CategorySubModel>? CategorySubs { get; set; }
+        public List<CategorySubModel>? CategorySubs { get; set; } = new List<CategorySubModel>();
     }
 
     public class CategorySubModel
     {
         public int Id { get; set; }
+        [Required(ErrorMessage = "Alt kategori adı gereklidir")]
         public string? Name { get; set; }
         public int CategoryId { get; set; }
         public string? CreatedBy { get; set; }

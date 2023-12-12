@@ -33,14 +33,14 @@ namespace InventoryManagement.Frontend.Pages.Company
         #endregion
 
         #region Brand-Model
-        private PaginatedResult<BrandModel>? brandModel { get; set; }
-        private PaginatedResult<Model>? modelModel { get; set; }
+        private PaginatedResult<BrandDto>? brandModel { get; set; }
+        private PaginatedResult<ModelDto>? modelModel { get; set; }
         #endregion
 
 
         //Master Detail
         IList<CategoryDto> SelectedCategory { get; set; }
-        IList<BrandModel> SelectedBrand { get; set; }
+        IList<BrandDto> SelectedBrand { get; set; }
 
 
 
@@ -67,21 +67,21 @@ namespace InventoryManagement.Frontend.Pages.Company
 
         #region BrandModel
         //Table Edit, Clone
-        private Dictionary<int, BrandModel> originalBrandDataList = new Dictionary<int, BrandModel>();//cache
-        IQueryable<BrandModel> brands;
-        private BrandModel brandToInsert;
-        private BrandModel brandToUpdate;
-        private List<BrandModel> brandsToUpdate = new List<BrandModel>();
-        private RadzenDataGrid<BrandModel> brandGrid;
+        private Dictionary<int, BrandDto> originalBrandDataList = new Dictionary<int, BrandDto>();//cache
+        IQueryable<BrandDto> brands;
+        private BrandDto brandToInsert;
+        private BrandDto brandToUpdate;
+        private List<BrandDto> brandsToUpdate = new List<BrandDto>();
+        private RadzenDataGrid<BrandDto> brandGrid;
         #endregion
         #region BrandModelsModel
         //Table Edit, Clone
-        private Dictionary<int, Model> originalModelDataList = new Dictionary<int, Model>();//cache
-        IQueryable<Model> modelsSub;
-        private Model modelToInsert;
-        private Model modelToUpdate;
-        private List<Model> modelsToUpdate = new List<Model>();
-        private RadzenDataGrid<Model> modelGrid;
+        private Dictionary<int, ModelDto> originalModelDataList = new Dictionary<int, ModelDto>();//cache
+        IQueryable<ModelDto> modelsSub;
+        private ModelDto modelToInsert;
+        private ModelDto modelToUpdate;
+        private List<ModelDto> modelsToUpdate = new List<ModelDto>();
+        private RadzenDataGrid<ModelDto> modelGrid;
         #endregion
 
 
@@ -158,9 +158,9 @@ namespace InventoryManagement.Frontend.Pages.Company
 
                 var dataElement = jsonDocument.RootElement.GetProperty("data");
                 var brandsElement = dataElement.GetProperty("brands");
-                var brands = System.Text.Json.JsonSerializer.Deserialize<List<BrandModel>>(brandsElement);
+                var brands = System.Text.Json.JsonSerializer.Deserialize<List<BrandDto>>(brandsElement);
 
-                brandModel = new PaginatedResult<BrandModel> { data = brands };
+                brandModel = new PaginatedResult<BrandDto> { data = brands };
 
                 StateHasChanged();
             }
@@ -408,19 +408,19 @@ namespace InventoryManagement.Frontend.Pages.Company
 
 
         #region DataTable Brand
-        async Task EditRowBrand(BrandModel brand)
+        async Task EditRowBrand(BrandDto brand)
         {
-            originalBrandDataList[brand.Id] = brand.Clone();
-            brandsToUpdate.Add(brand);
-            brand.CompanyId = SelectedCompany.Id;
+            //originalBrandDataList[brand.Id] = brand.Clone();
+            //brandsToUpdate.Add(brand);
+            //brand.CompanyId = SelectedCompany.Id;
 
-            Task editRowTask = brandGrid.EditRow(brand);
-            Task reloadTask = brandGrid.Reload();
+            //Task editRowTask = brandGrid.EditRow(brand);
+            //Task reloadTask = brandGrid.Reload();
 
-            await Task.WhenAll(editRowTask, reloadTask);
-            StateHasChanged();
+            //await Task.WhenAll(editRowTask, reloadTask);
+            //StateHasChanged();
         }
-        async void OnUpdateRowBrand(BrandModel brand)
+        async void OnUpdateRowBrand(BrandDto brand)
         {
             if (brand == brandToInsert)
             {
@@ -434,14 +434,14 @@ namespace InventoryManagement.Frontend.Pages.Company
             }
             StateHasChanged();
         }
-        async Task SaveRowBrand(BrandModel brand)
+        async Task SaveRowBrand(BrandDto brand)
         {
             if (brandGrid != null)
             {
                 await brandGrid.UpdateRow(brand);
             }
         }
-        void CancelEditBrand(BrandModel brand)
+        void CancelEditBrand(BrandDto brand)
         {
             if (brand == brandToInsert)
             {
@@ -451,7 +451,7 @@ namespace InventoryManagement.Frontend.Pages.Company
             {
                 if (originalBrandDataList.TryGetValue(brand.Id, out var originalCompany))
                 {
-                    brand.SetPropertiesFromJson(originalCompany);
+                    //brand.SetPropertiesFromJson(originalCompany);
                 }
                 brandsToUpdate.Remove(brand);
             }
@@ -459,7 +459,7 @@ namespace InventoryManagement.Frontend.Pages.Company
             brandGrid.Reload();
             StateHasChanged();
         }
-        async Task DeleteRowBrand(BrandModel brand)
+        async Task DeleteRowBrand(BrandDto brand)
         {
             if (brand == brandToInsert)
             {
@@ -490,14 +490,14 @@ namespace InventoryManagement.Frontend.Pages.Company
                 }
             }
         }
-        async Task InsertRowBrand(BrandModel brand)
+        async Task InsertRowBrand(BrandDto brand)
         {
-            brandToInsert = brand;
-            brand.CompanyId = SelectedCompany.Id;
-            await brandGrid.InsertRow(brandToInsert);
-            StateHasChanged();
+            //brandToInsert = brand;
+            //brand.CompanyId = SelectedCompany.Id;
+            //await brandGrid.InsertRow(brandToInsert);
+            //StateHasChanged();
         }
-        async void OnCreateRowBrand(BrandModel brand)
+        async void OnCreateRowBrand(BrandDto brand)
         {
             try
             {
@@ -505,7 +505,7 @@ namespace InventoryManagement.Frontend.Pages.Company
 
                 if (insertedBrand.IsSuccessStatusCode)
                 {
-                    var insertedBrandModel = await insertedBrand.Content.ReadFromJsonAsync<BrandModel>();
+                    var insertedBrandModel = await insertedBrand.Content.ReadFromJsonAsync<BrandDto>();
                     brandModel.data?.Add(insertedBrandModel);
                     brandModel.totalCount++;
                 }
@@ -520,18 +520,18 @@ namespace InventoryManagement.Frontend.Pages.Company
         }
         #endregion
         #region DataTable Brand - Model
-        async Task EditRowModel(Model model)
+        async Task EditRowModel(ModelDto model)
         {
-            originalModelDataList[model.Id] = model.Clone();
-            modelsToUpdate.Add(model);
+            //originalModelDataList[model.Id] = model.Clone();
+            //modelsToUpdate.Add(model);
 
-            Task editRowTask = modelGrid.EditRow(model);
-            Task reloadTask = modelGrid.Reload();
+            //Task editRowTask = modelGrid.EditRow(model);
+            //Task reloadTask = modelGrid.Reload();
 
-            await Task.WhenAll(editRowTask, reloadTask);
-            StateHasChanged();
+            //await Task.WhenAll(editRowTask, reloadTask);
+            //StateHasChanged();
         }
-        async void OnUpdateRowModel(Model model)
+        async void OnUpdateRowModel(ModelDto model)
         {
             if (model == modelToInsert)
             {
@@ -545,14 +545,14 @@ namespace InventoryManagement.Frontend.Pages.Company
             }
             StateHasChanged();
         }
-        async Task SaveRowModel(Model model)
+        async Task SaveRowModel(ModelDto model)
         {
             if (modelGrid != null)
             {
                 await modelGrid.UpdateRow(model);
             }
         }
-        void CancelEditModel(Model model)
+        void CancelEditModel(ModelDto model)
         {
             if (model == modelToInsert)
             {
@@ -562,7 +562,7 @@ namespace InventoryManagement.Frontend.Pages.Company
             {
                 if (originalModelDataList.TryGetValue(model.Id, out var originalCompanySub))
                 {
-                    model.SetPropertiesFromJson(originalCompanySub);
+                   // model.SetPropertiesFromJson(originalCompanySub);
                 }
                 modelsToUpdate.Remove(model);
             }
@@ -570,7 +570,7 @@ namespace InventoryManagement.Frontend.Pages.Company
             modelGrid.Reload();
             StateHasChanged();
         }
-        async Task DeleteRowModel(Model model)
+        async Task DeleteRowModel(ModelDto model)
         {
             if (model == modelToInsert)
             {
@@ -603,14 +603,14 @@ namespace InventoryManagement.Frontend.Pages.Company
                 }
             }
         }
-        async Task InsertRowModel(Model model)
+        async Task InsertRowModel(ModelDto model)
         {
             modelToInsert = model;
             model.BrandId = SelectedBrand[0].Id;
             await modelGrid.InsertRow(modelToInsert);
             StateHasChanged();
         }
-        async Task OnCreateRowModel(Model model)
+        async Task OnCreateRowModel(ModelDto model)
         {
             model.BrandId = SelectedBrand.First().Id;
 
@@ -618,7 +618,7 @@ namespace InventoryManagement.Frontend.Pages.Company
 
             if (response.IsSuccessStatusCode)
             {
-                var createdModel = await response.Content.ReadFromJsonAsync<Model>();
+                var createdModel = await response.Content.ReadFromJsonAsync<ModelDto>();
                 if (createdModel != null)
                 {
                     SelectedBrand.First().Models.Add(createdModel);
