@@ -1,0 +1,296 @@
+﻿@page "/definitions/category-list"
+@using DevExpress.Blazor
+@using InventoryManagement.Frontend.Common.Exceptions;
+@using InventoryManagement.Frontend.Constants;
+@using InventoryManagement.Frontend.DTOs;
+@using InventoryManagement.Frontend.DTOs.Category
+@using InventoryManagement.Frontend.DTOs.Company
+@using InventoryManagement.Frontend.Services;
+@using InventoryManagement.Frontend.Services.Authorization;
+@using InventoryManagement.Frontend.Common;
+
+@inject ApiService ApiService
+@inject IAuthorizationService AuthorizationService
+@inject NotificationService NotificationService
+@inject DialogService DialogService
+
+@if (categoryModel != null && categoryModel.data != null)
+{
+    @if (AuthorizationService.HasPermission("res:category", "scopes:read"))
+    {
+        <DxGrid @ref="GridCategory"
+                Data="categoryModel?.data"
+                PageSize="12"
+                ColumnResizeMode="GridColumnResizeMode.NextColumn"
+                ValidationEnabled="true"
+                CustomizeEditModel="GridCategory_CustomizeEditModel"
+                EditModelSaving="GridCategory_EditModelSaving"
+                DataItemDeleting="GridCategory_DataItemDeleting"
+                EditMode="GridEditMode.EditRow"
+                EditorRenderMode="GridEditorRenderMode.Integrated">
+            <Columns>
+                <DxGridCommandColumn Width="190px">
+                    <HeaderTemplate>
+                        @if (AuthorizationService.HasPermission("res:category", "scopes:create"))
+                        {
+                            <RadzenButton Icon="add" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => GridCategory.StartEditNewRowAsync()" />
+                        }
+                    </HeaderTemplate>
+                    <CellDisplayTemplate>
+                        @{
+                            @if (AuthorizationService.HasPermission("res:category", "scopes:update"))
+                            {
+                                <DxButton Click="() => GridCategory.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                            @if (AuthorizationService.HasPermission("res:category", "scopes:delete"))
+                            {
+                                <DxButton Click="() => GridCategory.ShowDataItemDeleteConfirmation(context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                                <DxButton Click="() => DeleteCategoryDialog((CategoryDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                        }
+                    </CellDisplayTemplate>
+                    <CellEditTemplate>
+                        @if (AuthorizationService.HasPermission("res:category", "scopes:create"))
+                        {
+                            <DxButton Click="() => GridCategory.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Link" />
+                            <DxButton Click="() => GridCategory.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Link" />
+                        }
+                    </CellEditTemplate>
+                </DxGridCommandColumn>
+                <DxGridDataColumn FieldName="Name" SortIndex="0" Caption="Kategori Adı" />
+            </Columns>
+
+
+            <DetailRowTemplate Context="detailItem">
+                @{
+                    var category = (CategoryDto)detailItem.DataItem;
+                    <div class="rz-shadow-8" style="width: 100%; height: 100%">
+                        <RadzenCard class="rz-p-3" style="width: 100%; height: 100%">
+                            <DxGrid @ref="GridCategorySub"
+                                    Data="@category.CategorySubs"
+                                    ColumnResizeMode="GridColumnResizeMode.NextColumn"
+                                    ValidationEnabled="true"
+                                    CustomizeEditModel="GridCategorySub_CustomizeEditModel"
+                                    EditModelSaving="GridCategorySub_EditModelSaving"
+                                    DataItemDeleting="GridCategorySub_DataItemDeleting"
+                                    EditMode="GridEditMode.EditRow"
+                                    EditorRenderMode="GridEditorRenderMode.Integrated">
+                                <Columns>
+                                    <DxGridCommandColumn Width="190px">
+                                        <HeaderTemplate>
+                                            @if (AuthorizationService.HasPermission("res:category", "scopes:create"))
+                                            {
+                                                <RadzenButton Click="() => {SelectedCategory= category; GridCategorySub.StartEditNewRowAsync();}" Icon="add" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" />
+                                            }
+                                        </HeaderTemplate>
+                                        <CellDisplayTemplate>
+                                            @{
+                                                @if (AuthorizationService.HasPermission("res:category", "scopes:update"))
+                                                {
+
+                                                    <DxButton Click="() => GridCategorySub.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
+                                                }
+                                                @if (AuthorizationService.HasPermission("res:category", "scopes:delete"))
+                                                {
+                                                    <DxButton Click="() => GridCategorySub.ShowDataItemDeleteConfirmation(context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                                                }
+                                            }
+                                        </CellDisplayTemplate>
+                                        <CellEditTemplate>
+                                            @if (AuthorizationService.HasPermission("res:category", "scopes:create"))
+                                            {
+                                                <DxButton Click="() => GridCategorySub.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Link" />
+                                                <DxButton Click="() => GridCategorySub.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Link" />
+                                            }
+                                        </CellEditTemplate>
+                                    </DxGridCommandColumn>
+                                    <DxGridDataColumn FieldName="Id" Caption="Alt Kategori Id No" />
+                                    <DxGridDataColumn FieldName="Name" Caption="Alt Kategori Adı" />
+                                </Columns>
+                            </DxGrid>
+                        </RadzenCard>
+                    </div>
+                }
+            </DetailRowTemplate>
+
+        </DxGrid>
+    }
+}
+else
+{
+    <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+}
+
+
+@code {
+    private IGrid? GridCategory { get; set; }
+    private IGrid? GridCategorySub { get; set; }
+    private PaginatedResult<CategoryDto>? categoryModel { get; set; }
+    private CategoryDto? SelectedCategory { get; set; }
+
+    protected override async void OnInitialized()
+    {
+        await GetCategoryList();
+    }
+
+
+
+    #region Category List
+    async Task GetCategoryList()
+    {
+        categoryModel = await ApiService.GetAsync<PaginatedResult<CategoryDto>>($"{ApiEndpointConstants.CategoryGetPostPutDelete}?PageNumber=1&PageSize=1000");
+        StateHasChanged();
+    }
+    #endregion
+
+
+
+    #region Category
+    void GridCategory_CustomizeEditModel(GridCustomizeEditModelEventArgs e)
+    {
+        if (e.IsNew)
+        {
+            var category = (CategoryDto)e.EditModel;
+            //category.CompanyId = 0; // CompanyId aktif, sadece null gonderiliyor
+            category.Name = null;
+        }
+    }
+    async Task GridCategory_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        if (e.IsNew)
+        {
+            var newCategory = (CategoryDto)e.EditModel;
+            var response = await ApiService.PostAsync(ApiEndpointConstants.CategoryGetPostPutDelete, newCategory);
+            if (response.IsSuccessStatusCode)
+            {
+                var insertedCategoryModel = await response.Content.ReadFromJsonAsync<CategoryDto>();
+                categoryModel?.data?.Add(insertedCategoryModel);
+                categoryModel.totalCount++;
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            var updatedCategory = (CategoryDto)e.EditModel;
+            var response = await ApiService.PutAsync($"{ApiEndpointConstants.CategoryGetPostPutDelete}", updatedCategory);
+            if (response.IsSuccessStatusCode)
+            {
+                var index = categoryModel.data.FindIndex(c => c.Id == updatedCategory.Id);
+                if (index != -1)
+                {
+                    categoryModel.data[index] = updatedCategory;
+                    StateHasChanged();
+                }
+            }
+        }
+    }
+    public async Task DeleteCategoryDialog(CategoryDto category)
+    {
+        var result = await DialogService.OpenAsync("Kategori Sil", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Silinecek Kategori : <b>@category.Name</b></p>
+
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.End" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="Kapat" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Sil" Click="() => ds.Close(false) " Style="width: 120px;" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+    );
+    }
+    async Task GridCategory_DataItemDeleting(GridDataItemDeletingEventArgs e)
+    {
+        var categoryToDelete = (CategoryDto)e.DataItem;
+        var response = await ApiService.DeleteAsync(ApiEndpointConstants.CategoryGetPostPutDelete, categoryToDelete.Id);
+        if (response.IsSuccessStatusCode)
+        {
+            categoryModel.data.Remove(categoryToDelete);
+
+            foreach (var parentCategory in categoryModel.data)
+            {
+                parentCategory.CategorySubs.RemoveAll(cs => cs.CategoryId == categoryToDelete.Id);
+            }
+
+            categoryModel.totalCount--;
+            StateHasChanged();
+            NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{categoryToDelete.Name} silme isteği gerçekleşti.");
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Başarısız", $"{categoryToDelete.Name} silme isteği gerçekleşti.");
+        }
+    }
+    #endregion
+
+
+    #region Category Sub
+    void GridCategorySub_CustomizeEditModel(GridCustomizeEditModelEventArgs e)
+    {
+        if (e.IsNew)
+        {
+            Console.WriteLine("yeni kayıt için");
+            var categorySub = (CategorySubModel)e.EditModel;
+            //category.CompanyId = 1; // CompanyId aktif, sadece blazor uzerinden null gonderiliyor
+            categorySub.CategoryId = SelectedCategory.Id;
+            categorySub.Name = null;
+        }
+    }
+    async Task GridCategorySub_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        var categorySub = (CategorySubModel)e.EditModel;
+
+        if (e.IsNew)
+        {
+            var response = await ApiService.PostAsync(ApiEndpointConstants.CategorySubGetPostPutDelete, categorySub);
+            if (response.IsSuccessStatusCode)
+            {
+                var insertedCategorySub = await response.Content.ReadFromJsonAsync<CategorySubModel>();
+                var parentCategory = categoryModel?.data?.FirstOrDefault(c => c.Id == categorySub.CategoryId);
+                if (parentCategory != null && insertedCategorySub != null)
+                {
+                    parentCategory.CategorySubs.Add(insertedCategorySub);
+                    StateHasChanged();
+                }
+            }
+        }
+        else
+        {
+            var response = await ApiService.PutAsync($"{ApiEndpointConstants.CategorySubGetPostPutDelete}", categorySub);
+            if (response.IsSuccessStatusCode)
+            {
+                var parentCategory = categoryModel?.data?.FirstOrDefault(c => c.Id == categorySub.CategoryId);
+                if (parentCategory != null)
+                {
+                    var index = parentCategory.CategorySubs.FindIndex(cs => cs.Id == categorySub.Id);
+                    if (index != -1)
+                    {
+                        parentCategory.CategorySubs[index] = categorySub;
+                        StateHasChanged();
+                    }
+                }
+            }
+        }
+    }
+    async Task GridCategorySub_DataItemDeleting(GridDataItemDeletingEventArgs e)
+    {
+        var categorySubToDelete = (CategorySubModel)e.DataItem;
+        var response = await ApiService.DeleteAsync(ApiEndpointConstants.CategorySubGetPostPutDelete, categorySubToDelete.Id);
+        if (response.IsSuccessStatusCode)
+        {
+            var parentCategory = categoryModel?.data?.FirstOrDefault(c => c.Id == categorySubToDelete.CategoryId);
+            if (parentCategory != null)
+            {
+                parentCategory.CategorySubs.Remove(categorySubToDelete);
+                StateHasChanged();
+            }
+
+            NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{categorySubToDelete.Name} silme isteği gerçekleşti.");
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Başarısız", $"{categorySubToDelete.Name} silme isteği gerçekleşti.");
+        }
+    }
+    #endregion
+}

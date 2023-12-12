@@ -1,0 +1,916 @@
+﻿@page "/company/company-details"
+
+@using InventoryManagement.Frontend.Common.Exceptions;
+@using InventoryManagement.Frontend.Common;
+@using InventoryManagement.Frontend.Constants;
+@using InventoryManagement.Frontend.Models;
+@using InventoryManagement.Frontend.Services;
+@using InventoryManagement.Frontend.Services.Authorization;
+
+@inject ApiService ApiService
+@inject CommunicationService communicationService
+@inject NavigationManager NavigationManager
+@inject NotificationService NotificationService
+@inject DialogService DialogService
+@inject IAuthorizationService AuthorizationService
+
+<div class="container-fluid">
+    
+    @if (brandModel != null && brandModel.data != null && categoryModel != null && categoryModel.data != null) {
+        <div class="row">
+            <RadzenTabs>
+                <Tabs>
+                    @if (AuthorizationService.HasPermission("res:category", "scopes:read"))
+                    {
+                        <RadzenTabsItem Text="Kategori/Alt Kategori">
+                            <div class="row">
+                                @if (AuthorizationService.HasPermission("res:category", "scopes:read"))
+                                {
+                                    <div class="col-md-6">
+                                        <div class="rz-shadow-4">
+                                            <RadzenCard Style="margin-bottom:20px">
+                                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                    <div>Ana Kategori</div>
+                                                    @if (AuthorizationService.HasPermission("res:category", "scopes:create"))
+                                                    {
+                                                        <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Kategori" Click="@((args) => InsertRowCategory(new CategoryModel()))" Disabled="@(categoryToInsert != null || categoryToUpdate != null)" />
+                                                    }
+                                                </div>
+                                                <RadzenDataGrid @ref="categoryGrid" ColumnWidth="200px" AllowFiltering="true" AllowSorting="true" RowUpdate="@OnUpdateRowCategory" RowCreate="@OnCreateRowCategory"
+                                                                Data="@categoryModel?.data" TItem="CategoryModel" @bind-Value="@SelectedCategory" EditMode="DataGridEditMode.Single" Style="max-height: 75vh;">
+                                                    <Columns>
+                                                        <RadzenDataGridColumn TItem="CategoryModel" Property="Id" Title="Id" Width="80px" />
+
+
+                                                        <RadzenDataGridColumn TItem="CategoryModel" Property="Name" Title="Kategori Adı" Width="100%">
+                                                            <EditTemplate Context="category">
+                                                                <RadzenTextBox @bind-Value="category.Name" style="width: 100%" Name="Name"></RadzenTextBox>
+                                                                <RadzenRequiredValidator style="display: grid" Component="Name" Text="Kategori adı zorunludur" Popup="true" />
+                                                            </EditTemplate>
+                                                        </RadzenDataGridColumn>
+
+                                                        <RadzenDataGridColumn TItem="CategoryModel" Context="category" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+                                                            <Template Context="category">
+                                                                @if (AuthorizationService.HasPermission("res:category", "scopes:update"))
+                                                                {
+                                                                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRowCategory(category))" @onclick:stopPropagation="true"></RadzenButton>
+                                                                }
+                                                                @if (AuthorizationService.HasPermission("res:category", "scopes:delete"))
+                                                                {
+                                                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowCategory(category))" @onclick:stopPropagation="true"></RadzenButton>
+                                                                }
+                                                            </Template>
+
+                                                            <EditTemplate Context="category">
+                                                                @if (AuthorizationService.HasPermission("res:category", "scopes:update"))
+                                                                {
+                                                                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRowCategory(category))"></RadzenButton>
+                                                                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEditCategory(category))"></RadzenButton>
+                                                                }
+                                                                @if (AuthorizationService.HasPermission("res:category", "scopes:delete"))
+                                                                {
+                                                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowCategory(category))"></RadzenButton>
+                                                                }
+                                                            </EditTemplate>
+
+                                                        </RadzenDataGridColumn>
+
+                                                    </Columns>
+                                                </RadzenDataGrid>
+                                            </RadzenCard>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="col-md-6">
+                                    <div class="rz-shadow-4">
+                                        <RadzenCard Style="margin-bottom:20px">
+                                            @if (SelectedCategory != null && SelectedCategory.Any() && SelectedCategory.First().Id != 0)
+                                            {
+                                                <RadzenCard Style="margin-bottom:20px">
+                                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                        <div>Seçilen Ana Kategori:</div>
+                                                        <div>
+                                                            @if (AuthorizationService.HasPermission("res:categorysub", "scopes:create"))
+                                                            {
+                                                                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Alt Kategori" Click="@((args) => InsertRowCategorySub(new CategorySubModel()))" Disabled="@(categorySubToInsert != null || categorySubToUpdate != null)" />
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <b>@SelectedCategory.First().Name</b>
+                                                </RadzenCard>
+
+                                                <RadzenTabs>
+                                                    <Tabs>
+                                                        <RadzenTabsItem Text="Alt Kategoriler">
+                                                            <RadzenDataGrid @ref="categorySubGrid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@(SelectedCategory?.FirstOrDefault()?.CategorySubs)" TItem="CategorySubModel"
+                                                                            RowUpdate="@OnUpdateRowCategorySub" RowCreate="@OnCreateRowCategorySub" EditMode="DataGridEditMode.Single">
+                                                                <Columns>
+                                                                    <RadzenDataGridColumn TItem="CategorySubModel" Property="Id" Title="Id" />
+                                                                    <RadzenDataGridColumn TItem="CategorySubModel" Property="Name" Title="Alt Kategori Adı">
+                                                                        <EditTemplate Context="categorySub">
+                                                                            <RadzenTextBox @bind-Value="categorySub.Name" style="width: 100%" Name="Name"></RadzenTextBox>
+                                                                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="Alt kategori adı zorunludur" Popup="true" />
+                                                                        </EditTemplate>
+                                                                    </RadzenDataGridColumn>
+
+                                                                    <RadzenDataGridColumn TItem="CategorySubModel" Property="CategoryId" Title="Kategori Id" />
+
+                                                                    <RadzenDataGridColumn TItem="CategorySubModel" Context="categorySub" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+                                                                        <Template Context="categorySub">
+                                                                            @if (AuthorizationService.HasPermission("res:categorysub", "scopes:update"))
+                                                                            {
+                                                                                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRowCategorySub(categorySub))" @onclick:stopPropagation="true"></RadzenButton>
+                                                                            }
+                                                                            @if (AuthorizationService.HasPermission("res:categorysub", "scopes:delete"))
+                                                                            {
+                                                                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowCategorySub(categorySub))" @onclick:stopPropagation="true"></RadzenButton>
+                                                                            }
+                                                                        </Template>
+
+                                                                        <EditTemplate Context="categorySub">
+                                                                            @if (AuthorizationService.HasPermission("res:categorysub", "scopes:update"))
+                                                                            {
+                                                                                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRowCategorySub(categorySub))"></RadzenButton>
+                                                                                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEditCategorySub(categorySub))"></RadzenButton>
+                                                                            }
+                                                                            @if (AuthorizationService.HasPermission("res:categorysub", "scopes:delete"))
+                                                                            {
+                                                                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowCategorySub(categorySub))"></RadzenButton>
+                                                                            }
+                                                                        </EditTemplate>
+
+                                                                    </RadzenDataGridColumn>
+                                                                </Columns>
+                                                            </RadzenDataGrid>
+                                                        </RadzenTabsItem>
+                                                    </Tabs>
+                                                </RadzenTabs>
+                                            }
+                                        </RadzenCard>
+                                    </div>
+                                </div>
+                            </div>
+                        </RadzenTabsItem>
+                    }
+
+
+
+
+                    @if (AuthorizationService.HasPermission("res:brand", "scopes:read"))
+                    {
+                        <RadzenTabsItem Text="Marka/Model">
+                            <div class="row">
+                                @if (AuthorizationService.HasPermission("res:brand", "scopes:read"))
+                                {
+                                    <div class="col-md-6">
+                                        <div class="rz-shadow-4">
+                                            <RadzenCard Style="margin-bottom:20px">
+                                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                    <div>Ana Kategori</div>
+                                                    @if (AuthorizationService.HasPermission("res:brand", "scopes:create"))
+                                                    {
+                                                        <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Marka" Click="@((args) => InsertRowBrand(new BrandModel()))" Disabled="@(brandToInsert != null || brandToUpdate != null)" />
+                                                    }
+                                                </div>
+                                                <RadzenDataGrid @ref="brandGrid" ColumnWidth="200px" AllowFiltering="true" AllowSorting="true" RowUpdate="@OnUpdateRowBrand" RowCreate="@OnCreateRowBrand"
+                                                                Data="@brandModel?.data" TItem="BrandModel" @bind-Value="@SelectedBrand" EditMode="DataGridEditMode.Single" Style="max-height: 75vh;">
+                                                    <Columns>
+                                                        <RadzenDataGridColumn TItem="BrandModel" Property="Id" Title="Id" Width="80px" />
+
+
+                                                        <RadzenDataGridColumn TItem="BrandModel" Property="Name" Title="Marka Adı" Width="100%">
+                                                            <EditTemplate Context="brand">
+                                                                <RadzenTextBox @bind-Value="brand.Name" style="width: 100%" Name="Name"></RadzenTextBox>
+                                                                <RadzenRequiredValidator style="display: grid" Component="Name" Text="Marka adı zorunludur" Popup="true" />
+                                                            </EditTemplate>
+                                                        </RadzenDataGridColumn>
+
+                                                        <RadzenDataGridColumn TItem="BrandModel" Context="brand" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+                                                            <Template Context="brand">
+                                                                @if (AuthorizationService.HasPermission("res:brand", "scopes:update"))
+                                                                {
+                                                                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRowBrand(brand))" @onclick:stopPropagation="true"></RadzenButton>
+                                                                }
+                                                                @if (AuthorizationService.HasPermission("res:brand", "scopes:delete"))
+                                                                {
+                                                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowBrand(brand))" @onclick:stopPropagation="true"></RadzenButton>
+                                                                }
+                                                            </Template>
+
+                                                            <EditTemplate Context="brand">
+                                                                @if (AuthorizationService.HasPermission("res:brand", "scopes:update"))
+                                                                {
+                                                                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRowBrand(brand))"></RadzenButton>
+                                                                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEditBrand(brand))"></RadzenButton>
+                                                                }
+                                                                @if (AuthorizationService.HasPermission("res:brand", "scopes:delete"))
+                                                                {
+                                                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowBrand(brand))"></RadzenButton>
+                                                                }
+                                                            </EditTemplate>
+
+                                                        </RadzenDataGridColumn>
+
+                                                    </Columns>
+                                                </RadzenDataGrid>
+                                            </RadzenCard>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="col-md-6">
+                                    <div class="rz-shadow-4">
+                                        <RadzenCard Style="margin-bottom:20px">
+                                            @if (SelectedBrand != null && SelectedBrand.Any() && SelectedBrand.First().Id != 0)
+                                            {
+                                                <RadzenCard Style="margin-bottom:20px">
+                                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                        <div>Seçilen Marka:</div>
+                                                        <div>
+                                                            @if (AuthorizationService.HasPermission("res:model", "scopes:create"))
+                                                            {
+                                                                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Model" Click="@((args) => InsertRowModel(new Model()))" Disabled="@(modelToInsert != null || modelToUpdate != null)" />
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <b>@SelectedBrand.First().Name</b>
+                                                </RadzenCard>
+
+                                                <RadzenTabs>
+                                                    <Tabs>
+                                                        <RadzenTabsItem Text="Modeller">
+                                                            <RadzenDataGrid @ref="modelGrid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@(SelectedBrand?.FirstOrDefault()?.Models)" TItem="Model"
+                                                                            RowUpdate="@OnUpdateRowModel" RowCreate="@OnCreateRowModel" EditMode="DataGridEditMode.Single">
+                                                                <Columns>
+                                                                    <RadzenDataGridColumn TItem="Model" Property="Id" Title="Id" />
+                                                                    <RadzenDataGridColumn TItem="Model" Property="Name" Title="Model Adı">
+                                                                        <EditTemplate Context="model">
+                                                                            <RadzenTextBox @bind-Value="model.Name" style="width: 100%" Name="Name"></RadzenTextBox>
+                                                                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="Model adı zorunludur" Popup="true" />
+                                                                        </EditTemplate>
+                                                                    </RadzenDataGridColumn>
+
+                                                                    <RadzenDataGridColumn TItem="Model" Property="BrandId" Title="Model Id" />
+
+                                                                    <RadzenDataGridColumn TItem="Model" Context="model" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+                                                                        <Template Context="model">
+                                                                            @if (AuthorizationService.HasPermission("res:model", "scopes:update"))
+                                                                            {
+                                                                                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRowModel(model))" @onclick:stopPropagation="true"></RadzenButton>
+                                                                            }
+                                                                            @if (AuthorizationService.HasPermission("res:model", "scopes:delete"))
+                                                                            {
+                                                                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowModel(model))" @onclick:stopPropagation="true"></RadzenButton>
+                                                                            }
+                                                                        </Template>
+
+                                                                        <EditTemplate Context="model">
+                                                                            @if (AuthorizationService.HasPermission("res:model", "scopes:update"))
+                                                                            {
+                                                                                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRowModel(model))"></RadzenButton>
+                                                                                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEditModel(model))"></RadzenButton>
+                                                                            }
+                                                                            @if (AuthorizationService.HasPermission("res:model", "scopes:delete"))
+                                                                            {
+                                                                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowModel(model))"></RadzenButton>
+                                                                            }
+                                                                        </EditTemplate>
+
+                                                                    </RadzenDataGridColumn>
+                                                                </Columns>
+                                                            </RadzenDataGrid>
+                                                        </RadzenTabsItem>
+                                                    </Tabs>
+                                                </RadzenTabs>
+                                            }
+                                        </RadzenCard>
+                                    </div>
+                                </div>
+                            </div>
+                        </RadzenTabsItem>
+                    }
+                </Tabs>
+            </RadzenTabs>
+        </div>
+    }
+    else
+    {
+        <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    }
+</div>
+
+
+
+
+@code {
+    private CompanyModel? SelectedCompany { get; set; }
+
+    #region Category-CategorySub
+    private PaginatedResult<CategoryModel>? categoryModel { get; set; }
+    private PaginatedResult<CategorySubModel>? categorySubModel { get; set; }
+    #endregion
+
+    #region Brand-Model
+    private PaginatedResult<BrandModel>? brandModel { get; set; }
+    private PaginatedResult<Model>? modelModel { get; set; }
+    #endregion
+
+
+    //Master Detail
+    IList<CategoryModel> SelectedCategory { get; set; }
+    IList<BrandModel> SelectedBrand { get; set; }
+
+
+
+    #region CategoryModel
+    //Table Edit, Clone
+    private Dictionary<int, CategoryModel> originalCategoryDataList = new Dictionary<int, CategoryModel>();//cache
+    IQueryable<CategoryModel> categories;
+    private CategoryModel categoryToInsert;
+    private CategoryModel categoryToUpdate;
+    private List<CategoryModel> categoriesToUpdate = new List<CategoryModel>();
+    private RadzenDataGrid<CategoryModel> categoryGrid;
+    #endregion
+
+    #region CategorySubModel
+    //Table Edit, Clone
+    private Dictionary<int, CategorySubModel> originalCategorySubDataList = new Dictionary<int, CategorySubModel>();//cache
+    IQueryable<CategorySubModel> categoriesSub;
+    private CategorySubModel categorySubToInsert;
+    private CategorySubModel categorySubToUpdate;
+    private List<CategorySubModel> categoriesSubToUpdate = new List<CategorySubModel>();
+    private RadzenDataGrid<CategorySubModel> categorySubGrid;
+    #endregion
+
+
+    #region BrandModel
+    //Table Edit, Clone
+    private Dictionary<int, BrandModel> originalBrandDataList = new Dictionary<int, BrandModel>();//cache
+    IQueryable<BrandModel> brands;
+    private BrandModel brandToInsert;
+    private BrandModel brandToUpdate;
+    private List<BrandModel> brandsToUpdate = new List<BrandModel>();
+    private RadzenDataGrid<BrandModel> brandGrid;
+    #endregion
+    #region BrandModelsModel
+    //Table Edit, Clone
+    private Dictionary<int, Model> originalModelDataList = new Dictionary<int, Model>();//cache
+    IQueryable<Model> modelsSub;
+    private Model modelToInsert;
+    private Model modelToUpdate;
+    private List<Model> modelsToUpdate = new List<Model>();
+    private RadzenDataGrid<Model> modelGrid;
+    #endregion
+
+
+
+
+    protected override async void OnInitialized()
+    {
+        SelectedCompany = communicationService.GetSelectedCompany();
+        communicationService.OnCompanySelected += SetSelectedCompany;
+
+        if (SelectedCompany == null)
+        {
+            NavigationManager.NavigateTo("/company");
+            return;
+        }
+
+        await GetCategoryList();
+        await GetBrandList();
+    }
+
+    #region Selected Company Information
+    private async Task SetSelectedCompany(CompanyModel selectedCompany)
+    {
+        SelectedCompany = selectedCompany;
+
+        await Task.Yield();
+        StateHasChanged();
+    }
+    public void Dispose()
+    {
+        communicationService.OnCompanySelected -= SetSelectedCompany;
+    }
+    #endregion
+
+    #region Category List
+    async Task GetCategoryList()
+    {
+        try
+        {
+            var jsonDocumentTask = ApiService.GetAsync<System.Text.Json.JsonDocument>($"{ApiEndpointConstants.CompanyGetPostPutDelete}/{SelectedCompany.Id}");
+            var jsonDocument = await jsonDocumentTask;
+
+            var dataElement = jsonDocument.RootElement.GetProperty("data");
+            var categoriesElement = dataElement.GetProperty("categories");
+            var categories = System.Text.Json.JsonSerializer.Deserialize<List<CategoryModel>>(categoriesElement);
+
+            categoryModel = new PaginatedResult<CategoryModel> { data = categories };
+
+            StateHasChanged();
+        }
+        catch (AggregateException ex)
+        {
+            foreach (var innerException in ex.InnerExceptions)
+            {
+                if (innerException is Exception exception)
+                {
+                    NotificationService.Notify(NotificationSeverity.Error, "Hata", $"Sorgulama hatası : {exception.Message}", duration: 6000);
+                }
+            }
+        }
+    }
+    #endregion
+    #region GetBrand List
+    async Task GetBrandList()
+    {
+        Console.WriteLine(SelectedCompany.Id);
+
+        try
+        {
+            var jsonDocumentTask = ApiService.GetAsync<System.Text.Json.JsonDocument>($"{ApiEndpointConstants.CompanyGetPostPutDelete}/{SelectedCompany.Id}");
+            var jsonDocument = await jsonDocumentTask;
+
+            Console.WriteLine(jsonDocument);
+
+            var dataElement = jsonDocument.RootElement.GetProperty("data");
+            var brandsElement = dataElement.GetProperty("brands");
+            var brands = System.Text.Json.JsonSerializer.Deserialize<List<BrandModel>>(brandsElement);
+
+            brandModel = new PaginatedResult<BrandModel> { data = brands };
+
+            StateHasChanged();
+        }
+        catch (AggregateException ex)
+        {
+            foreach (var innerException in ex.InnerExceptions)
+            {
+                if (innerException is Exception exception)
+                {
+                    NotificationService.Notify(NotificationSeverity.Error, "Hata", $"Sorgulama hatası : {exception.Message}", duration: 6000);
+                }
+            }
+        }
+    }
+    #endregion
+
+
+    #region DataTable Category
+    async Task EditRowCategory(CategoryModel category)
+    {
+        originalCategoryDataList[category.Id] = category.Clone();
+        categoriesToUpdate.Add(category);
+        category.CompanyId = SelectedCompany.Id;
+
+        Task editRowTask = categoryGrid.EditRow(category);
+        Task reloadTask = categoryGrid.Reload();
+
+        await Task.WhenAll(editRowTask, reloadTask);
+        StateHasChanged();
+    }
+    async void OnUpdateRowCategory(CategoryModel category)
+    {
+        if (category == categoryToInsert)
+        {
+            categoryToInsert = null;
+        }
+        categoryToUpdate = null;
+        var updatedCategory = await ApiService.PutAsync(ApiEndpointConstants.CategoryGetPostPutDelete, category);
+        if (updatedCategory.IsSuccessStatusCode)
+        {
+            NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{category.Name} isimli kategori güncellendi");
+        }
+        StateHasChanged();
+    }
+    async Task SaveRowCategory(CategoryModel category)
+    {
+        if (categoryGrid != null)
+        {
+            await categoryGrid.UpdateRow(category);
+        }
+    }
+    void CancelEditCategory(CategoryModel category)
+    {
+        if (category == categoryToInsert)
+        {
+            categoryToInsert = null;
+        }
+        else if (categoriesToUpdate.Contains(category))
+        {
+            if (originalCategoryDataList.TryGetValue(category.Id, out var originalCompany))
+            {
+                category.SetPropertiesFromJson(originalCompany);
+            }
+            categoriesToUpdate.Remove(category);
+        }
+        categoryGrid.CancelEditRow(category);
+        categoryGrid.Reload();
+        StateHasChanged();
+    }
+    async Task DeleteRowCategory(CategoryModel category)
+    {
+        if (category == categoryToInsert)
+        {
+            categoryToInsert = null;
+        }
+        else if (category == categoryToUpdate)
+        {
+            categoryToUpdate = null;
+        }
+        if (categoryModel.data.Contains(category))
+        {
+            categoryModel.data.Remove(category);
+            categoryModel.totalCount--;
+            //await companyGrid.Reload();
+        }
+
+        bool? confirmed = await DialogService.Confirm($"<b>{category.Name}</b> isimli kategori silinme işlemini onaylıyor musunuz?\n" +
+                                                      $"<br><li>Envantere bağlı tüm kayıtlar,\n" +
+                                                      $"<br><li> Kategori ve alt kategoriler silinecek",
+                                                       "Silme Onayı");
+        if (confirmed == true)
+        {
+            var response = await ApiService.DeleteAsync(ApiEndpointConstants.CategoryGetPostPutDelete, category.Id);
+            if (response.IsSuccessStatusCode)
+            {
+                await categoryGrid.Reload();
+                NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"Silme isteği gerçekleşti.");
+            }
+        }
+    }
+    async Task InsertRowCategory(CategoryModel category)
+    {
+        categoryToInsert = category;
+        category.CompanyId = SelectedCompany.Id;
+        await categoryGrid.InsertRow(categoryToInsert);
+        StateHasChanged();
+    }
+    async void OnCreateRowCategory(CategoryModel category)
+    {
+        try
+        {
+            var insertedCategory = await ApiService.PostAsync(ApiEndpointConstants.CategoryGetPostPutDelete, category);
+
+            if (insertedCategory.IsSuccessStatusCode)
+            {
+                var insertedCategoryModel = await insertedCategory.Content.ReadFromJsonAsync<CategoryModel>();
+                categoryModel.data?.Add(insertedCategoryModel);
+                categoryModel.totalCount++;
+            }
+        }
+        catch (ApiException ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hata", $"Kategori oluşturma hatası: {ex.Message}");
+        }
+        categoryToInsert = null;
+        await categoryGrid.Reload();
+        StateHasChanged();
+    }
+    #endregion
+    #region DataTable CategorySub
+    async Task EditRowCategorySub(CategorySubModel categorySub)
+    {
+        originalCategorySubDataList[categorySub.Id] = categorySub.Clone();
+        categoriesSubToUpdate.Add(categorySub);
+
+        Task editRowTask = categorySubGrid.EditRow(categorySub);
+        Task reloadTask = categorySubGrid.Reload();
+
+        await Task.WhenAll(editRowTask, reloadTask);
+        StateHasChanged();
+    }
+    async void OnUpdateRowCategorySub(CategorySubModel categorySub)
+    {
+        if (categorySub == categorySubToInsert)
+        {
+            categorySubToInsert = null;
+        }
+        categorySubToUpdate = null;
+        var updatedCategorySub = await ApiService.PutAsync(ApiEndpointConstants.CategorySubGetPostPutDelete, categorySub);
+        if (updatedCategorySub.IsSuccessStatusCode)
+        {
+            NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{categorySub.Name} isimli alt kategori güncellendi");
+        }
+        StateHasChanged();
+    }
+    async Task SaveRowCategorySub(CategorySubModel categorySub)
+    {
+        if (categorySubGrid != null)
+        {
+            await categorySubGrid.UpdateRow(categorySub);
+        }
+    }
+    void CancelEditCategorySub(CategorySubModel categorySub)
+    {
+        if (categorySub == categorySubToInsert)
+        {
+            categorySubToInsert = null;
+        }
+        else if (categoriesSubToUpdate.Contains(categorySub))
+        {
+            if (originalCategorySubDataList.TryGetValue(categorySub.Id, out var originalCompanySub))
+            {
+                categorySub.SetPropertiesFromJson(originalCompanySub);
+            }
+            categoriesSubToUpdate.Remove(categorySub);
+        }
+        categorySubGrid.CancelEditRow(categorySub);
+        categorySubGrid.Reload();
+        StateHasChanged();
+    }
+    async Task DeleteRowCategorySub(CategorySubModel categorySub)
+    {
+        if (categorySub == categorySubToInsert)
+        {
+            categorySubToInsert = null;
+        }
+        else if (categorySub == categorySubToUpdate)
+        {
+            categorySubToUpdate = null;
+        }
+
+        if (categoryModel?.data != null)
+        {
+            var categoryToRemove = categoryModel.data.FirstOrDefault(c => c.CategorySubs?.Contains(categorySub) == true);
+            if (categoryToRemove != null)
+            {
+                categoryToRemove.CategorySubs.Remove(categorySub);
+                categoryModel.totalCount--;
+            }
+        }
+
+        bool? confirmed = await DialogService.Confirm($"<b>{categorySub.Name}</b> isimli alt kategori silinme işlemini onaylıyor musunuz?\n" + "Silme Onayı");
+
+        if (confirmed == true)
+        {
+            var response = await ApiService.DeleteAsync(ApiEndpointConstants.CategorySubGetPostPutDelete, categorySub.Id);
+            if (response.IsSuccessStatusCode)
+            {
+                await categorySubGrid.Reload();
+                NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{categorySub.Name} silme isteği gerçekleşti.");
+            }
+        }
+    }
+    async Task InsertRowCategorySub(CategorySubModel categorySub)
+    {
+        categorySubToInsert = categorySub;
+        categorySub.CategoryId = SelectedCategory[0].Id;
+        await categorySubGrid.InsertRow(categorySubToInsert);
+        StateHasChanged();
+    }
+    async Task OnCreateRowCategorySub(CategorySubModel categorySub)
+    {
+        categorySub.CategoryId = SelectedCategory.First().Id;
+
+        var response = await ApiService.PostAsync(ApiEndpointConstants.CategorySubGetPostPutDelete, categorySub);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var createdCategorySub = await response.Content.ReadFromJsonAsync<CategorySubModel>();
+            if (createdCategorySub != null)
+            {
+                SelectedCategory.First().CategorySubs.Add(createdCategorySub);
+                NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"Yeni alt kategori oluşturuldu.");
+            }
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hata", $"Alt kategori oluşturma hatası: {response.StatusCode}");
+        }
+        categorySubToInsert = null;
+        await categorySubGrid.Reload();
+        StateHasChanged();
+    }
+    #endregion
+
+
+    #region DataTable Brand
+    async Task EditRowBrand(BrandModel brand)
+    {
+        originalBrandDataList[brand.Id] = brand.Clone();
+        brandsToUpdate.Add(brand);
+        brand.CompanyId = SelectedCompany.Id;
+
+        Task editRowTask = brandGrid.EditRow(brand);
+        Task reloadTask = brandGrid.Reload();
+
+        await Task.WhenAll(editRowTask, reloadTask);
+        StateHasChanged();
+    }
+    async void OnUpdateRowBrand(BrandModel brand)
+    {
+        if (brand == brandToInsert)
+        {
+            brandToInsert = null;
+        }
+        brandToUpdate = null;
+        var updatedBrand = await ApiService.PutAsync(ApiEndpointConstants.BrandGetPostPutDelete, brand);
+        if (updatedBrand.IsSuccessStatusCode)
+        {
+            NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{brand.Name} isimli marka güncellendi");
+        }
+        StateHasChanged();
+    }
+    async Task SaveRowBrand(BrandModel brand)
+    {
+        if (brandGrid != null)
+        {
+            await brandGrid.UpdateRow(brand);
+        }
+    }
+    void CancelEditBrand(BrandModel brand)
+    {
+        if (brand == brandToInsert)
+        {
+            brandToInsert = null;
+        }
+        else if (brandsToUpdate.Contains(brand))
+        {
+            if (originalBrandDataList.TryGetValue(brand.Id, out var originalCompany))
+            {
+                brand.SetPropertiesFromJson(originalCompany);
+            }
+            brandsToUpdate.Remove(brand);
+        }
+        brandGrid.CancelEditRow(brand);
+        brandGrid.Reload();
+        StateHasChanged();
+    }
+    async Task DeleteRowBrand(BrandModel brand)
+    {
+        if (brand == brandToInsert)
+        {
+            brandToInsert = null;
+        }
+        else if (brand == brandToUpdate)
+        {
+            brandToUpdate = null;
+        }
+        if (brandModel.data.Contains(brand))
+        {
+            brandModel.data.Remove(brand);
+            brandModel.totalCount--;
+            //await companyGrid.Reload();
+        }
+
+        bool? confirmed = await DialogService.Confirm($"<b>{brand.Name}</b> isimli marka silinme işlemini onaylıyor musunuz?\n" +
+                                                      $"<br><li>Envantere bağlı tüm kayıtlar,\n" +
+                                                      $"<br><li> Marka ve modeller de silinecek",
+                                                       "Silme Onayı");
+        if (confirmed == true)
+        {
+            var response = await ApiService.DeleteAsync(ApiEndpointConstants.BrandGetPostPutDelete, brand.Id);
+            if (response.IsSuccessStatusCode)
+            {
+                await brandGrid.Reload();
+                NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"Silme isteği gerçekleşti.");
+            }
+        }
+    }
+    async Task InsertRowBrand(BrandModel brand)
+    {
+        brandToInsert = brand;
+        brand.CompanyId = SelectedCompany.Id;
+        await brandGrid.InsertRow(brandToInsert);
+        StateHasChanged();
+    }
+    async void OnCreateRowBrand(BrandModel brand)
+    {
+        try
+        {
+            var insertedBrand = await ApiService.PostAsync(ApiEndpointConstants.BrandGetPostPutDelete, brand);
+
+            if (insertedBrand.IsSuccessStatusCode)
+            {
+                var insertedBrandModel = await insertedBrand.Content.ReadFromJsonAsync<BrandModel>();
+                brandModel.data?.Add(insertedBrandModel);
+                brandModel.totalCount++;
+            }
+        }
+        catch (ApiException ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hata", $"Marka oluşturma hatası: {ex.Message}");
+        }
+        brandToInsert = null;
+        await brandGrid.Reload();
+        StateHasChanged();
+    }
+    #endregion
+    #region DataTable Brand - Model
+    async Task EditRowModel(Model model)
+    {
+        originalModelDataList[model.Id] = model.Clone();
+        modelsToUpdate.Add(model);
+
+        Task editRowTask = modelGrid.EditRow(model);
+        Task reloadTask = modelGrid.Reload();
+
+        await Task.WhenAll(editRowTask, reloadTask);
+        StateHasChanged();
+    }
+    async void OnUpdateRowModel(Model model)
+    {
+        if (model == modelToInsert)
+        {
+            modelToInsert = null;
+        }
+        modelToUpdate = null;
+        var updatedModel = await ApiService.PutAsync(ApiEndpointConstants.ModelGetPostPutDelete, model);
+        if (updatedModel.IsSuccessStatusCode)
+        {
+            NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{model.Name} isimli model güncellendi");
+        }
+        StateHasChanged();
+    }
+    async Task SaveRowModel(Model model)
+    {
+        if (modelGrid != null)
+        {
+            await modelGrid.UpdateRow(model);
+        }
+    }
+    void CancelEditModel(Model model)
+    {
+        if (model == modelToInsert)
+        {
+            modelToInsert = null;
+        }
+        else if (modelsToUpdate.Contains(model))
+        {
+            if (originalModelDataList.TryGetValue(model.Id, out var originalCompanySub))
+            {
+                model.SetPropertiesFromJson(originalCompanySub);
+            }
+            modelsToUpdate.Remove(model);
+        }
+        modelGrid.CancelEditRow(model);
+        modelGrid.Reload();
+        StateHasChanged();
+    }
+    async Task DeleteRowModel(Model model)
+    {
+        if (model == modelToInsert)
+        {
+            modelToInsert = null;
+        }
+        else if (model == modelToUpdate)
+        {
+            modelToUpdate = null;
+        }
+
+        if (brandModel?.data != null)
+        {
+            var brandToRemove = brandModel.data.FirstOrDefault(c => c.Models?.Contains(model) == true);
+            if (brandToRemove != null)
+            {
+                brandToRemove.Models.Remove(model);
+                brandModel.totalCount--;
+            }
+        }
+
+        bool? confirmed = await DialogService.Confirm($"<b>{model.Name}</b> isimli alt kategori silinme işlemini onaylıyor musunuz?\n" + "Silme Onayı");
+
+        if (confirmed == true)
+        {
+            var response = await ApiService.DeleteAsync(ApiEndpointConstants.ModelGetPostPutDelete, model.Id);
+            if (response.IsSuccessStatusCode)
+            {
+                await modelGrid.Reload();
+                NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{model.Name} silme isteği gerçekleşti.");
+            }
+        }
+    }
+    async Task InsertRowModel(Model model)
+    {
+        modelToInsert = model;
+        model.BrandId = SelectedBrand[0].Id;
+        await modelGrid.InsertRow(modelToInsert);
+        StateHasChanged();
+    }
+    async Task OnCreateRowModel(Model model)
+    {
+        model.BrandId = SelectedBrand.First().Id;
+
+        var response = await ApiService.PostAsync(ApiEndpointConstants.ModelGetPostPutDelete, model);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var createdModel = await response.Content.ReadFromJsonAsync<Model>();
+            if (createdModel != null)
+            {
+                SelectedBrand.First().Models.Add(createdModel);
+                NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"Yeni model oluşturuldu.");
+            }
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hata", $"Model oluşturma hatası: {response.StatusCode}");
+        }
+        modelToInsert = null;
+        await modelGrid.Reload();
+        StateHasChanged();
+    }
+    #endregion
+}

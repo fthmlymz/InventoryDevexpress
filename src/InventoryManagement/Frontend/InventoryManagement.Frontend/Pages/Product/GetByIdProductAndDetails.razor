@@ -1,0 +1,499 @@
+﻿@page "/product/product-and-assigned-details"
+@using InventoryManagement.Frontend.DTOs.Keycloak
+@using InventoryManagement.Frontend.DTOs.Product
+@using InventoryManagement.Frontend.Services.Authorization
+@using SharedLibrary.Common
+@using SharedLibrary.DTOs
+
+
+@inherits ComponentBase
+
+<RadzenRow>
+    @foreach (var product in _productDetailModelDto?.data ?? new List<GetByIdProductAndDetailsDto>())
+    {
+
+        var transferOptions = _productDetailModelDto?.data
+        ?.SelectMany(product => product?.ProductTransfers)
+        ?.ToList();
+
+        bool isTransferInProgress = product?.Status?.Contains(GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Transfer]) == true;
+        bool isTransferReturned = product?.Status?.Contains(GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.ReturnIt]) == true;
+        bool isTransferRejected = product?.Status?.Contains(GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Rejected]) == true;
+        bool currentUserIsSender = transferOptions?.Any(transfer => transfer?.SenderUserName == ((KeycloakAuthenticationStateProvider)_authenticationStateProvider)?.UserInfo?.PreferredUsername) == true;
+        bool currentUserIsRecipient = transferOptions?.Any(transfer => transfer?.RecipientUserName == ((KeycloakAuthenticationStateProvider)_authenticationStateProvider)?.UserInfo?.PreferredUsername) == true;
+
+
+        <RadzenColumn>
+            <div class="rz-shadow-8">
+                <RadzenCard class="rz-p-4" style="width: 100%; height: 100%">
+
+                    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="1rem">
+                        <RadzenImage Path="@(GetUserPhoto())" Style="width: 100px; height: 100px; border-radius: 50%;" />
+                        <RadzenStack Gap="0">
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Kullanıcı Bilgisi</RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1"><b>@(product?.AssignedProducts?.FirstOrDefault()?.FullName + " " + product?.AssignedProducts?.FirstOrDefault()?.AssignedUserName)</b></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Şirket</RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1"><b>@product.CompanyName</b></RadzenText>
+                        </RadzenStack>
+                    </RadzenStack>
+
+
+                    <RadzenCard class="rz-background-color-primary-light rz-shadow-8 rz-border-radius-5 h-100 rz-p-8" style="margin: 1rem 0;">
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-color-on-primary-light"><strong>Ürün Bilgisi</strong></RadzenText>
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn SizeSM="4">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-on-primary-light rz-display-flex rz-mt-4 rz-mb-0">Barkod</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class="rz-color-on-primary-light"><b>@(product.Barcode)</b></RadzenText>
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-on-primary-light rz-display-flex rz-mt-4 rz-mb-0">Ürün Adı</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class="rz-color-on-primary-light"><b>@(product?.Name)</b></RadzenText>
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-on-primary-light rz-display-flex rz-mt-4 rz-mb-0">Seri No</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class="rz-color-on-primary-light"><b>@(product?.SerialNumber)</b></RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="8">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-on-primary-light rz-display-flex rz-mt-4 rz-mb-0">Durum</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class="rz-color-on-primary-light"><b>@(product?.Status)</b></RadzenText>
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-on-primary-light rz-display-flex rz-mt-4 rz-mb-0">Mac</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class="rz-color-on-primary-light"><b>@(product?.Mac)</b></RadzenText>
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-on-primary-light rz-display-flex rz-mt-4 rz-mb-0">Imei</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class="rz-color-on-primary-light"><b>@(product?.Imei)</b></RadzenText>
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenCard>
+                    <hr />
+
+                    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0">
+                        @if (!isTransferInProgress && !isTransferReturned && !isTransferRejected)
+                        {
+
+                            @if (product?.Status == GenericConstantDefinitions.Embezzled && (product?.AssignedProducts?.Count ?? 0) > 0)
+                            {
+                                bool approvalStatusFound = false;
+
+                                foreach (var res in product.AssignedProducts)
+                                {
+                                    if (res.ApprovalStatus == GenericConstantDefinitions.Accepted || res.ApprovalStatus == GenericConstantDefinitions.Rejected)
+                                    {
+                                        approvalStatusFound = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!approvalStatusFound)
+                                {
+                                    //Giriş yapan kullanıcı burası
+
+                                    if (((KeycloakAuthenticationStateProvider)_authenticationStateProvider)?.UserInfo?.PreferredUsername == _productDetailModelDto.data.FirstOrDefault().AssignedProducts.FirstOrDefault().AssignedUserName)
+                                    {
+                                        if (_assignedProductApproveRejectDto?.ApprovalStatus == null)
+                                        {
+                                            <RadzenButton Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Danger" class="rz-text-secondary-color" Text="İade Et" Click="@(() => { ShowEmbezzlementConfirmRejectDialog("İade Et"); })" />
+                                            <RadzenButton Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Success" Text="Teslim Al" Click="@(() => { ShowEmbezzlementConfirmRejectDialog("Teslim Al"); })" />
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //Console.WriteLine("AssignedProducts koleksiyonu null veya boş.");
+                            }
+                        }
+
+                    </RadzenStack>
+
+                </RadzenCard>
+            </div>
+        </RadzenColumn>
+
+        <RadzenColumn>
+            <div class="rz-shadow-8" style="width: 100%; height: 100%">
+                <RadzenCard class="rz-p-3" style="width: 100%; height: 100%">
+                    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="1">
+                        @if (_authorizationService.HasPermission("res:assignedproduct", "scopes:update"))
+                        {
+                            <RadzenSplitButton Click=@(args => ProcessMenu(args)) Text="Ürün İşlemleri">
+                                <ChildContent>
+                                    @if (product.Status == GenericConstantDefinitions.Embezzled)
+                                    {
+                                        <RadzenSplitButtonItem Text="Zimmet Formu Yazdır" Value="assignedUserForm" Icon="print" />
+                                    }
+                                    @if (product.Status == GenericConstantDefinitions.InStock)
+                                    {
+                                        <RadzenSplitButtonItem Text="Zimmetle" Value="assignedUser" Icon="person" />
+                                    }
+
+                                    @if (product.Status == GenericConstantDefinitions.Embezzled)
+                                    {
+                                        <RadzenSplitButtonItem Text="Depoya Al" Value="getStore" Icon="warehouse" />
+                                    }
+                                    @if (product.Status == GenericConstantDefinitions.InStock)
+                                    {
+                                        <RadzenSplitButtonItem Text="Transfer Et" Value="productTransfer" Icon="local_shipping" />
+                                    }
+                                </ChildContent>
+                            </RadzenSplitButton>
+                        }
+                    </RadzenStack>
+                    <hr />
+
+                    @if (product.Status != GenericConstantDefinitions.InStock && product.Status != GenericConstantDefinitions.Embezzled)
+                    {
+                        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Class="rz-p-4 rz-mb-6 rz-border-radius-1" Style="border: var(--rz-grid-cell-border); width: 100%">
+
+                            <div style="flex: 1;">
+                                <RadzenTimeline Orientation="Orientation.Horizontal" LinePosition="LinePosition.Start"
+                                                style="--rz-timeline-line-width: 3px;
+                                                --rz-timeline-line-color: var(--rz-info);
+                                                --rz-timeline-axis-size: 72px;
+                                                max-width: 600px;
+                                                margin: 0 auto;">
+                                    <Items>
+                                        <RadzenTimelineItem PointVariant="Variant.Outlined" PointStyle="PointStyle.Info" PointShadow="0"
+                                                            IsSelected="@((product.Status == GenericConstantDefinitions.Transfer))">
+                                            <PointContent><RadzenIcon Icon="airport_shuttle" /></PointContent>
+                                            <ChildContent>
+                                                <RadzenText TextStyle="TextStyle.Subtitle1" Class="rz-m-0">Transfer</RadzenText>
+                                                <RadzenText TextStyle="TextStyle.Body2" Class="rz-m-0">Ürün Transfer Edildi</RadzenText>
+                                            </ChildContent>
+                                        </RadzenTimelineItem>
+
+                                        <RadzenTimelineItem PointVariant="Variant.Outlined" PointStyle="PointStyle.Info" PointSize="PointSize.Large" PointShadow="0"
+                                                            IsSelected="@((product.Status == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Transfer]))">
+                                            <PointContent><RadzenIcon Icon="check_circle" /></PointContent>
+                                            <ChildContent>
+                                                <RadzenText TextStyle="TextStyle.Subtitle1" Class="rz-m-0">Onay Aşamasında</RadzenText>
+                                                <RadzenText TextStyle="TextStyle.Body2" Class="rz-m-0">Ürün Onay Bekliyor</RadzenText>
+                                            </ChildContent>
+                                        </RadzenTimelineItem>
+
+                                        <RadzenTimelineItem PointVariant="Variant.Outlined" PointSize="PointSize.Small" PointStyle="PointStyle.Info" PointShadow="0"
+                                                            IsSelected="@((product.Status == GenericConstantDefinitions.InStock))">
+                                            <PointContent><RadzenIcon Icon="mark_chat_read" /></PointContent>
+                                            <ChildContent>
+                                                <RadzenText TextStyle="TextStyle.Subtitle1" Class="rz-m-0 rz-color-info">Onay</RadzenText>
+                                                <RadzenText TextStyle="TextStyle.Body2" Class="rz-m-0 rz-color-info">Ürün Onay Durumu</RadzenText>
+                                            </ChildContent>
+                                        </RadzenTimelineItem>
+                                    </Items>
+                                </RadzenTimeline>
+
+                            </div>
+
+
+                            @if (transferOptions != null && transferOptions.Count > 0)
+                            {
+                                <RadzenSelectBar @bind-Value=@_selectedTransferButton TValue="int" class="mb-5">
+                                    <Items>
+                                        @if (isTransferReturned || isTransferRejected)
+                                        {
+                                            @if (currentUserIsSender)
+                                            {
+                                                <RadzenSelectBarItem Text="Kabul Et" Value="1" @onclick="() => ShowTransferAcceptRejectDialog(GenericConstantDefinitions.Accepted)" />
+                                            }
+                                            return;
+                                        }
+                                        else if (isTransferInProgress)
+                                        {
+                                            @if (currentUserIsRecipient)
+                                            {
+                                                <RadzenSelectBarItem Text="Kabul Et" Value="1" @onclick="() => ShowTransferAcceptRejectDialog(GenericConstantDefinitions.Accepted)" />
+                                                <RadzenSelectBarItem Text="Reddet" Value="2" @onclick="() => ShowTransferAcceptRejectDialog(GenericConstantDefinitions.Rejected)" />
+                                                <RadzenSelectBarItem Text="İade Et" Value="3" @onclick="() => ShowTransferAcceptRejectDialog(GenericConstantDefinitions.ReturnIt)" />
+                                            }
+                                            return;
+                                        }
+                                    </Items>
+                                </RadzenSelectBar>
+                            }
+                        </RadzenStack>
+                    }
+
+                    <RadzenCard Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="1">
+                        @if (_authorizationService.HasPermission("res:filetransfer", "scopes:read"))
+                        {
+                            if (_productDetailModelDto?.data?.FirstOrDefault()?.AssignedProducts?.Any() == true)
+                            {
+                                <CascadingValue Value="true" Name="ShowDeleteButtonForFileManager">
+                                    <CascadingValue Value="true" Name="ShowUploadAreaForFileManager">
+                                        <RadzenLabel><strong>Formun yükleneceği Klasör</strong></RadzenLabel>
+                                        <CascadingValue Value="true" Name="ExcludeHistoryFilesForFileManager">
+                                            <InventoryManagement.Frontend.Pages.FileManager.FileManager />
+                                        </CascadingValue>
+                                    </CascadingValue>
+                                </CascadingValue>
+                            }
+                        }
+                    </RadzenCard>
+                </RadzenCard>
+            </div>
+        </RadzenColumn>
+    }
+</RadzenRow>
+<br />
+
+
+
+<RadzenRow style="height: auto">
+    <div class="rz-shadow-5 rz-border-radius-2 h-100" style="width: 100%;">
+        <RadzenTabs>
+            <Tabs>
+                @if (_authorizationService.HasPermission("res:assignedproduct", "scopes:read"))
+                {
+                    <RadzenTabsItem Text="Ürün Hareketleri">
+                        @if (_productDetailModelDto != null && _productDetailModelDto.data != null && _productDetailModelDto.data.Any())
+                        {
+                            <RadzenDataGrid Data="@_productDetailModelDto.data" AllowColumnResize="true" TItem="GetByIdProductAndDetailsDto" FilterPopupRenderMode="PopupRenderMode.OnDemand">
+                                <Columns>
+                                    <RadzenDataGridColumn TItem="GetByIdProductAndDetailsDto" Title="Ürün Hareketleri">
+                                        <Template Context="product">
+                                            @if (product.ProductMovements != null && product.ProductMovements.Any())
+                                            {
+                                                <div style="height: 400px; overflow-y: auto">
+                                                    <RadzenDataGrid AllowColumnResize="true" Data="@product.ProductMovements" TItem="ProductMovementQueryDto">
+                                                        <Columns>
+                                                            <RadzenDataGridColumn TItem="ProductMovementQueryDto" Property="Id" Title="Id" Width="9%" Filterable="false" Visible="false" />
+                                                            <RadzenDataGridColumn TItem="ProductMovementQueryDto" Property="ProductId" Title="Ürün Id" Width="9%" Filterable="false" Visible="false" />
+                                                            <RadzenDataGridColumn TItem="ProductMovementQueryDto" Property="MovementDate" Title="Hareket Tarihi" Width="10%" Filterable="false" />
+                                                            <RadzenDataGridColumn TItem="ProductMovementQueryDto" Property="Description" Title="Açıklama" Width="35%" Filterable="false" />
+                                                            <RadzenDataGridColumn TItem="ProductMovementQueryDto" Property="CreatedBy" Title="Oluşturan" Width="15%" Filterable="false" />
+                                                            <RadzenDataGridColumn TItem="ProductMovementQueryDto" Property="CreatedDate" Title="Oluşturulma Tarihi" Width="10%" Filterable="false" />
+                                                            <RadzenDataGridColumn TItem="ProductMovementQueryDto" Property="UpdatedBy" Title="Güncelleyen" Width="25%" Filterable="false" />
+                                                            <RadzenDataGridColumn TItem="ProductMovementQueryDto" Property="UpdatedDate" Title="Güncelleme Tarihi" Width="10%" Filterable="false" />
+                                                        </Columns>
+                                                    </RadzenDataGrid>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <p>Ürün hareket verisi bulunamadı.</p>
+                                            }
+                                        </Template>
+                                    </RadzenDataGridColumn>
+                                </Columns>
+                            </RadzenDataGrid>
+                        }
+                        else
+                        {
+                            <p>Ürün verisi bulunamadı.</p>
+                        }
+                    </RadzenTabsItem>
+                    <RadzenTabsItem Text="Formlar">
+                        @if (_authorizationService.HasPermission("res:filetransfer", "scopes:read"))
+                        {
+                            @if (!string.IsNullOrEmpty(_productDetailModelDto?.data?.FirstOrDefault()?.AssignedProducts?.FirstOrDefault()?.AssignedUserName))
+                            {
+                                <CascadingValue Value="false" Name="ShowDeleteButtonForFileManager">
+                                    <CascadingValue Value="false" Name="ShowUploadAreaForFileManager">
+                                        <CascadingValue Value="false" Name="ExcludeHistoryFilesForFileManager">
+                                            <InventoryManagement.Frontend.Pages.FileManager.FileManager />
+                                        </CascadingValue>
+                                    </CascadingValue>
+                                </CascadingValue>
+                            }
+                        }
+                    </RadzenTabsItem>
+                }
+            </Tabs>
+        </RadzenTabs>
+    </div>
+</RadzenRow>
+
+
+
+@code {
+    #region Product Assigned User
+    async Task ShowUsersDialog()
+    {
+        var result = await _dialogService.OpenAsync("Ürünü Zimmetle", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Zimmetlenecek Personel : <b>@_selectedUser?.FirstName @_selectedUser?.LastName</b></p>
+
+        <RadzenDropDownDataGrid TValue="KeycloakUsersModel"
+                                Value="@_selectedUser"
+                                LoadData=@LoadDropDownData
+                                AllowFiltering="true"
+                                Data=@_users
+                                TextProperty="Username"
+                                Change="@(args => OnUserSelectionChanged((KeycloakUsersModel)args))">
+            <Columns>
+                <RadzenDropDownDataGridColumn Property="Id" Title="Id" Width="80px" />
+                <RadzenDropDownDataGridColumn Property="FirstName" Title="Adı" Width="80px" />
+                <RadzenDropDownDataGridColumn Property="LastName" Title="Soyadı" Width="80px" />
+                <RadzenDropDownDataGridColumn Property="Email" Title="Email" Width="80px" />
+                <RadzenDropDownDataGridColumn Property="Username" Title="Kullanıcı Adı" Width="80px" />
+            </Columns>
+        </RadzenDropDownDataGrid>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.End" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal Et" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Zimmetle" Click="() => AssignedProductCreate()" Style="width: 80px;" />
+            </RadzenStack>
+        </RadzenStack>
+
+    </RadzenStack>
+        );
+    }
+
+
+    async Task ShowEmbezzlementFormDialog()
+    {
+        await _dialogService.OpenAsync($"Zimmet Formu Yazdır", ds =>
+    @<RadzenStack Gap="1.5rem">
+        @if (_report.DataMember != null)
+    {
+        <DxReportViewer @ref="@_reportViewer" Report="@_report" Zoom="0.8" />
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <RadzenButton Text="Kapat" Click="() => { ds.Close(true); _dialogService.Dispose();}" Style="width: 80px;" />
+        </RadzenStack>
+    }
+    else
+    {
+        <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    }
+
+
+    </RadzenStack>, new DialogOptions() { Width = "1240px", Height = "750px" });
+    }
+
+
+
+
+    // async Task ShowEmbezzlementFormDialog()
+    // {
+    //     await _dialogService.OpenAsync($"Zimmet Formu Yazdır", ds =>
+
+    // @<RadzenStack Gap="1.5rem" style="width: 1200px;">
+
+    //     <DxReportViewer @ref="@_reportViewer" Report="@_report" Zoom="1.5" />
+
+    //     <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+    //         <RadzenButton Text="Kapat" Click="() => { ds.Close(true); _dialogService.Dispose();}" Style="width: 80px;" />
+    //     </RadzenStack>
+    // </RadzenStack>,
+    // new DialogOptions()
+    //         {
+    //             Width = "1200px",
+    //             Height = "1200px"
+    //         });
+    //     //  <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    // }
+
+    async Task ShowEmbezzlementConfirmRejectDialog(string value)
+    {
+        var result = await _dialogService.OpenAsync("Zimmet Onay/İade", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Ürün bilgisi : <b></b>@_productDetailModelDto.data.FirstOrDefault().Barcode - @_productDetailModelDto.data.FirstOrDefault().Name</p>
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+
+                @if (value == "Teslim Al")
+            {
+                <RadzenButton Text="Onayla" Click="() => { AssignedProductApproveReject(GenericConstantDefinitions.Accepted);  }" Style="width: 110px;" />
+            }
+            else if (value == "İade Et")
+            {
+                <RadzenButton Text="Reddet" Click="() => { AssignedProductApproveReject(GenericConstantDefinitions.Rejected);  }" Style="width: 110px;" />
+            }
+
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+        );
+    }
+    #endregion
+
+
+    #region Show Get Store
+    async Task ShowGetStoreDialog()
+    {
+        var result = await _dialogService.OpenAsync("Depoya Al", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Depoya alınacak ürün <b></b>@_productDetailModelDto.data.FirstOrDefault().Barcode - @_productDetailModelDto.data.FirstOrDefault().Name</p>
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Depoya Al" Click="() => {ProductGetStore();   }" Style="width: 110px;" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+    );
+    }
+    #endregion
+
+
+    #region Transfer
+    async Task ShowProductTransferDialog()
+    {
+        var result = await _dialogService.OpenAsync("Transfer Et", ds =>
+    @<RadzenStack Gap="0">
+        <p>Transfer Edilecek Ürün   : <b>@_productDetailModelDto.data.FirstOrDefault()?.Name - @_productDetailModelDto.data.FirstOrDefault()?.Barcode</b></p>
+        <p>Transfer Edilecek Şirket : <b>@(_selectedTransferCenter != null ? _selectedTransferCenter[0]?.CompanyName + " - " + _selectedTransferCenter[0]?.UserName : "Seçilmedi")</b></p>
+
+        <RadzenDataGrid @ref=_transferCenterGrid
+                        AllowFiltering="true"
+                        AllowColumnResize="true"
+                        FilterMode="FilterMode.Simple"
+                        AllowPaging="true"
+                        AllowSorting="true"
+                        Data="@_getAllCompanyAndTransferList?.data"
+                        TItem="GetAllCompanyAndTransferOfficerDto"
+                        ColumnWidth="65%"
+                        SelectionMode="DataGridSelectionMode.Single"
+                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        LogicalFilterOperator="LogicalFilterOperator.And"
+                        RowSelect="@SetSelectProductTransfer"
+                        @bind-Value="_selectedTransferCenter">
+            <Columns>
+                <RadzenDataGridColumn TItem="GetAllCompanyAndTransferOfficerDto" Property="CompanyId" Title="Şirket Id" />
+                <RadzenDataGridColumn TItem="GetAllCompanyAndTransferOfficerDto" Property="CompanyName" Title="Şirket Adı" />
+                <RadzenDataGridColumn TItem="GetAllCompanyAndTransferOfficerDto" Property="UserName" Title="Kullanıcı Adı" />
+                <RadzenDataGridColumn TItem="GetAllCompanyAndTransferOfficerDto" Property="FullName" Title="Transfer Sorumlusu" />
+                <RadzenDataGridColumn TItem="GetAllCompanyAndTransferOfficerDto" Property="Email" Title="Email" />
+            </Columns>
+        </RadzenDataGrid>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.End" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal Et" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Transfer Et" Click="() => ProductTransfer()" Style="width: 120px;" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+        ,
+    new DialogOptions()
+            {
+                Width = "950px",
+                Height = "600px"
+            });
+    }
+
+    async Task ShowTransferAcceptRejectDialog(string value)
+    {
+        var result = await _dialogService.OpenAsync("Transfer Onay/Red", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Ürün bilgisi : <b></b>@_productDetailModelDto.data.FirstOrDefault().Barcode - @_productDetailModelDto.data.FirstOrDefault().Name</p>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                @if (value == GenericConstantDefinitions.Accepted)
+            {
+                <RadzenButton Text="Onayla" Click="() => { ProductTransfer(value);  }" Style="width: 110px;" />
+            }
+            else if (value == GenericConstantDefinitions.Rejected)
+            {
+                <RadzenButton Text="Reddet" Click="() => { ProductTransfer(value);  }" Style="width: 110px;" />
+            }
+            else if (value == GenericConstantDefinitions.ReturnIt)
+            {
+                <RadzenButton Text="İade Et" Click="() => {  ProductTransfer(value);  }" Style="width: 110px;" />
+            }
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+    );
+    }
+    #endregion
+}

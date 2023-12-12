@@ -1,0 +1,85 @@
+﻿@inherits ComponentBase
+
+
+<!-- FolderType -->
+@if (ShowUploadArea)
+{
+    <select @onchange="OnFolderTypeChanged">
+        @foreach (var type in folderTypes)
+        {
+            <option value="@type">@type</option>
+        }
+    </select>
+}
+
+
+@if (_authorizationService.HasPermission("res:filetransfer", "scopes:read"))
+{
+    @if (files != null && files.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Dosya Adı</th>
+                    <th>Boyut (Byte)</th>
+                    <th>Klasör Adı</th>
+                    <th>Oluşturulma Tarihi</th>
+                    <th>Güncelleme Tarihi</th>
+                    <th>Dosya Tipi</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var file in files)
+                {
+                    <!-- HistoryFiles klasöründeki dosyaları isteğe bağlı olarak listelememe şartı -->
+                    if (!(ExcludeHistoryFiles && file.FolderName == "HistoryFiles"))
+                    {
+                        <tr>
+                            <td>@file.FileName</td>
+                            <td>@file.Size</td>
+                            <td>@file.FolderName</td>
+                            <td>@file.CreationTime</td>
+                            <td>@file.LastModifiedTime</td>
+                            <td>@file.FileType</td>
+                            <td class="button-group">
+                                <RadzenButton Click="() => DownloadFile(file.FileName)" ButtonStyle="ButtonStyle.Primary" Icon="save" Style="margin-right: 10px;">İndir</RadzenButton>
+                                @if (_authorizationService.HasPermission("res:filetransfer", "scopes:delete") && ShowDeleteButton)
+                                {
+                                    <RadzenButton Click="() => DeleteFile(file.FileName)" ButtonStyle="ButtonStyle.Danger" Icon="delete">Sil</RadzenButton>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <style>
+            .button-group {
+                display: flex;
+                align-items: center;
+            }
+        </style>
+    }
+}
+
+
+@if (_authorizationService.HasPermission("res:filetransfer", "scopes:create"))
+{
+    @if (ShowUploadArea)
+    {
+        <div @ref="fileDropContainer" class="file-drop-zone @HoverClass" @ondragenter="OnDragEnter" @ondragleave="OnDragLeave" @ondragover="OnDragEnter">
+            <InputFile OnChange="@OnChange" @ref="inputFile" multiple />
+        </div>
+        <div class="error-message-container">
+            <p>@ErrorMessage</p>
+        </div>
+    }
+    @if (uploadInProgress)
+    {
+        <div>
+            <RadzenLabel>Dosya Yükleniyor, lütfen bekleyiniz... (@progressValue%)</RadzenLabel>
+            <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        </div>
+    }
+}

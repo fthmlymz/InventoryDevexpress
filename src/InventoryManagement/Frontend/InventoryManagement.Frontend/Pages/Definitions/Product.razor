@@ -1,0 +1,736 @@
+﻿@using InventoryManagement.Frontend.Common.Exceptions;
+@using InventoryManagement.Frontend.Common;
+@using InventoryManagement.Frontend.Constants;
+@using InventoryManagement.Frontend.DTOs;
+@using InventoryManagement.Frontend.DTOs.Brand
+@using InventoryManagement.Frontend.DTOs.Category
+@using InventoryManagement.Frontend.DTOs.Company
+@using InventoryManagement.Frontend.DTOs.Product
+@using InventoryManagement.Frontend.Services;
+@using InventoryManagement.Frontend.Services.Authorization;
+
+@inject ApiService ApiService
+@inject NotificationService NotificationService
+@inject IAuthorizationService AuthorizationService
+@inject DialogService DialogService
+@page "/definitions/product-list"
+
+
+@if (AuthorizationService.HasPermission("res:product", "scopes:read"))
+{
+    @if (productModel != null && productModel.data != null)
+    {
+        <RadzenRow Gap="1rem">
+            <RadzenColumn>
+                <RadzenStack Orientation="Orientation.Horizontal"
+                             Gap="0.5rem"
+                             AlignItems="AlignItems.Center" Class="rz-p-4 rz-border-radius-1"
+                             Style="border: var(--rz-grid-cell-border);">
+                    <RadzenDataFilter @ref="dataFilter"
+                                      Data="@products" TItem="ProductModel"
+                                      ViewChanged=@(view => filteredProducts= view)
+                                      ApplyFilterText="Uygula"
+                                      AndOperatorText="ve"
+                                      OrOperatorText="veya"
+                                      ClearFilterText="Tümünü temizle"
+                                      AddFilterText="Filtre ekle"
+                                      RemoveFilterText="Filtre Sil"
+                                      AddFilterGroupText="Filtre Grubu Ekle"
+                                      EqualsText="Eşittir"
+                                      NotEqualsText="Eşit değil"
+                                      EndsWithText="ile biter"
+                                      ContainsText="içerir"
+                                      DoesNotContainText="içermiyor"
+                                      StartsWithText="ile başlar"
+                                      IsNotNullText="null değil"
+                                      IsNullText="null"
+                                      IsEmptyText="boş"
+                                      IsNotEmptyText="boş değil">
+                        <Properties>
+
+                            <RadzenDataFilterProperty TItem="ProductModel" Property="Name" Title="Ürün Adı">
+                                <FilterTemplate>
+                                    <RadzenTextBox @bind-Value="@filterValues[nameof(ProductModel.Name)]" />
+                                </FilterTemplate>
+                            </RadzenDataFilterProperty>
+
+                            <RadzenDataFilterProperty TItem="ProductModel" Property="Barcode" Title="Barkod">
+                                <FilterTemplate>
+                                    <RadzenTextBox @bind-Value="@filterValues[nameof(ProductModel.Barcode)]" />
+                                </FilterTemplate>
+                            </RadzenDataFilterProperty>
+
+                            <RadzenDataFilterProperty TItem="ProductModel" Property="CompanyId" Title="Şirket">
+                                <FilterTemplate>
+                                    <RadzenDropDownDataGrid TValue="CompanyAllModel"
+                                                            Value=@selectedCompany
+                                                            Data=@companies?.data
+                                                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                                            Change=@(args => OnDropDownValueChanged((CompanyAllModel)args))
+                                                            TextProperty="Name" style="margin-right: 25px;" />
+                                </FilterTemplate>
+                            </RadzenDataFilterProperty>
+
+                            <RadzenDataFilterProperty TItem="ProductModel" Property="CreatedBy" Title="Oluşturan">
+                                <FilterTemplate>
+                                    <RadzenTextBox @bind-Value="@filterValues[nameof(ProductModel.CreatedBy)]" />
+                                </FilterTemplate>
+                            </RadzenDataFilterProperty>
+
+                            <RadzenDataFilterProperty TItem="ProductModel" Property="UpdatedBy" Title="Güncelleyen">
+                                <FilterTemplate>
+                                    <RadzenTextBox @bind-Value="@filterValues[nameof(ProductModel.UpdatedBy)]" />
+                                </FilterTemplate>
+                            </RadzenDataFilterProperty>
+
+                            <RadzenDataFilterProperty TItem="ProductModel" Property="SerialNumber" Title="SerialNumber">
+                                <FilterTemplate>
+                                    <RadzenTextBox @bind-Value="@filterValues[nameof(ProductModel.SerialNumber)]" />
+                                </FilterTemplate>
+                            </RadzenDataFilterProperty>
+
+                            <RadzenDataFilterProperty TItem="ProductModel" Property="Imei" Title="Imei">
+                                <FilterTemplate>
+                                    <RadzenTextBox @bind-Value="@filterValues[nameof(ProductModel.Imei)]" />
+                                </FilterTemplate>
+                            </RadzenDataFilterProperty>
+
+                            <RadzenDataFilterProperty TItem="ProductModel" Property="Mac" Title="Mac Adresi">
+                                <FilterTemplate>
+                                    <RadzenTextBox @bind-Value="@filterValues[nameof(ProductModel.Mac)]" />
+                                </FilterTemplate>
+                            </RadzenDataFilterProperty>
+
+                            <RadzenDataFilterProperty TItem="ProductModel" Property="Status" Title="Durum">
+                                <FilterTemplate>
+                                    <RadzenTextBox @bind-Value="@filterValues[nameof(ProductModel.Status)]" />
+                                </FilterTemplate>
+                            </RadzenDataFilterProperty>
+
+                        </Properties>
+                    </RadzenDataFilter>
+                </RadzenStack>
+            </RadzenColumn>
+            <RadzenColumn class="rz-text-align-right" Style="max-width: 67px;">
+                <RadzenButton Text="Filtrele" Click="@(args => ProductFiltering())" Size="ButtonSize.Small" Style="display: flex; justify-content: flex-end;" />
+            </RadzenColumn>
+        </RadzenRow>
+
+        @if (AuthorizationService.HasPermission("res:product", "scopes:create"))
+        {
+            <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Ürün" Click="@((args) => InsertRowProduct(new ProductModel()))" Disabled="@(productToInsert != null || productToUpdate != null)" />
+        }
+
+        <RadzenDataGrid @ref="productGrid"
+                        AllowColumnResize="true"
+                        ColumnWidth="200px"
+                        AllowFiltering="true"
+                        AllowSorting="true"
+                        AllowPaging="true"
+                        Data="@productModel?.data"
+                        TItem="ProductModel"
+                        RowUpdate="@OnUpdateRowProduct"
+                        RowCreate="@OnCreateRowProduct"
+                        Sort="@Reset"
+                        Filter="@Reset"
+                        Page="@Reset"
+                        EditMode="DataGridEditMode.Multiple"
+                        Density="Density.Default"
+                        style="width: 100%; height: 63%">
+            <Columns>
+                <RadzenDataGridColumn TItem="ProductModel" Property="Id" Title="Id" Width="55px" Filterable="false" />
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="Name" Title="Ürün Adı" Width="160px">
+                    <EditTemplate Context="product">
+                        <RadzenTextBox @bind-Value="product.Name" style="width: 100%" Name="Name" Placeholder="Ürün adı"></RadzenTextBox>
+                        <RadzenRequiredValidator style="display: grid" Component="Name" Text="Ürün adı zorunludur" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="Barcode" Title="Barkod" Width="100px">
+                    <EditTemplate Context="product">
+                        <RadzenNumeric @bind-Value=product.Barcode style="width: 100%" Placeholder="Barkod" />
+                        <RadzenRequiredValidator Component="Name" Text="Barkod kodu zorunludur" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="CompanyId" Title="Şirket" Width="300px">
+                    <Template Context="product">
+                        @{
+                            var companyName = companies?.data?.FirstOrDefault(c => c.Id == product.CompanyId)?.Name;
+                            if (!string.IsNullOrEmpty(companyName))
+                            {
+                                @companyName
+                            }
+                        }
+                    </Template>
+                    <EditTemplate Context="product">
+                        @if (productToInsert != null || productToUpdate != null)
+                        {
+                            <RadzenDropDown @bind-Value="product.CompanyId" Data="@companies?.data" TextProperty="Name" Placeholder="Şirket" ValueProperty="Id" Style="width:100%; display: block;" />
+                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="Şirket adı zorunludur" Popup="true" />
+                        }
+                        else
+                        {
+                            var companyName = companies?.data?.FirstOrDefault(c => c.Id == product.CompanyId)?.Name;
+                            if (!string.IsNullOrEmpty(companyName))
+                            {
+                                @companyName
+                            }
+                        }
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="CategoryId" Title="Kategori" Width="160px">
+                    <Template Context="product">
+                        @{
+                            var categoryName = categories?.data?.FirstOrDefault(c => c.Id == product.CategoryId)?.Name;
+                            if (!string.IsNullOrEmpty(categoryName))
+                            {
+                                @categoryName
+                            }
+                        }
+                    </Template>
+                    <EditTemplate Context="product">
+                        <RadzenDropDown @bind-Value="product.CategoryId" Data="@categories?.data" TextProperty="Name" Placeholder="Kategori" ValueProperty="Id" Style="width:100%; display: block;" />
+                        <RadzenRequiredValidator style="display: grid" Component="Name" Text="Kategori zorunludur" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="CategorySubId" Title="Alt Kategori" Width="160px">
+                    <Template Context="product">
+                        @{
+                            if (product.CategorySubId != null)
+                            {
+                                var categorySubName = categories?.data?.FirstOrDefault(c => c.Id == product.CategoryId)?.SubCategories?.FirstOrDefault(s => s.Id == product.CategorySubId)?.Name;
+
+                                if (!string.IsNullOrEmpty(categorySubName))
+                                {
+                                    @categorySubName
+                                }
+                            }
+                        }
+                    </Template>
+                    <EditTemplate Context="product">
+                        @if (product.CategoryId != null)
+                        {
+                            <RadzenDropDown @bind-Value="product.CategorySubId" Data="GetSubCategories(product.CategoryId.Value)" Placeholder="Alt kategori" TextProperty="Name" ValueProperty="Id" Style="width:100%; display: block;" />
+                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="Alt kategori zorunludur" Popup="true" />
+                        }
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="BrandId" Title="Marka" Width="150px">
+                    <Template Context="product">
+                        @{
+                            var brandName = brands?.data?.FirstOrDefault(c => c.Id == product.BrandId)?.Name;
+                            if (!string.IsNullOrEmpty(brandName))
+                            {
+                                @brandName
+                            }
+                        }
+                    </Template>
+                    <EditTemplate Context="product">
+                        <RadzenDropDown @bind-Value="product.BrandId" Data="@brands?.data" TextProperty="Name" Placeholder="Marka" ValueProperty="Id" Style="width:100%; display: block;" />
+                        <RadzenRequiredValidator style="display: grid" Component="Name" Text="Marka zorunludur" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="ModelId" Title="Model" Width="180px">
+                    <Template Context="product">
+                        @{
+                            if (product.ModelId != null)
+                            {
+                                var subModelName = brands?.data?.FirstOrDefault(c => c.Id == product.BrandId)?.SubModels?.FirstOrDefault(s => s.Id == product.ModelId)?.Name;
+
+                                if (!string.IsNullOrEmpty(subModelName))
+                                {
+                                    @subModelName
+                                }
+                            }
+                        }
+                    </Template>
+                    <EditTemplate Context="product">
+                        @if (product.BrandId != null)
+                        {
+                            <RadzenDropDown @bind-Value="product.ModelId" Data="GetSubModels(product.BrandId.Value)" Placeholder="Model" TextProperty="Name" ValueProperty="Id" Style="width:100%; display: block;" />
+                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="Model zorunludur" Popup="true" />
+                        }
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="Status" Title="Durum" Width="110px">
+                    <Template Context="product">
+                        @product.Status
+                    </Template>
+                    <EditTemplate Context="product">
+                        @if (productToInsert != null || productToUpdate != null)
+                        {
+                            <RadzenDropDown TValue="string" @bind-Value="product.Status" Placeholder="Durum" Data="@statusList" Style="width:100%; display: block;"></RadzenDropDown>
+                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="Durum alanı zorunludur" Popup="true" />
+                        }
+                        else
+                        {
+                            @product.Status
+                        }
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="DataClass" Title="Veri Sınıfı" Width="110px">
+                    <Template Context="product">
+                        @product.DataClass
+                    </Template>
+                    <EditTemplate Context="product">
+                        @if (productToInsert != null || productToUpdate != null)
+                        {
+                            <RadzenDropDown TValue="string" @bind-Value="product.DataClass" Placeholder="Veri Sınıfı" Data="@dataClassList" Style="width:100%; display: block;"></RadzenDropDown>
+                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="Veri sınıfı zorunludur" Popup="true" />
+                        }
+                        else
+                        {
+                            @product.DataClass
+                        }
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="Imei" Title="İmei" Width="140px">
+                    <EditTemplate Context="product">
+                        <RadzenTextBox @bind-Value=product.Imei style="width: 100%" MaxLength="25" Placeholder="Imei"></RadzenTextBox>
+                        <RadzenRequiredValidator style="display: grid" Component="Name" Text="Imei zorunludur" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="Mac" Title="Mac Adresi" Width="140px">
+                    <EditTemplate Context="product">
+                        <RadzenTextBox @bind-Value=product.Mac style="width: 100%" MaxLength="25" Placeholder="Mac"></RadzenTextBox>
+                        <RadzenRequiredValidator style="display: grid" Component="Name" Text="Mac adresi zorunludur" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+                <RadzenDataGridColumn TItem="ProductModel" Property="SerialNumber" Title="Seri Numarası" Width="150px">
+                    <EditTemplate Context="product">
+                        <RadzenTextBox @bind-Value=product.SerialNumber style="width: 100%" MaxLength="25" Placeholder="Seri No"></RadzenTextBox>
+                        <RadzenRequiredValidator style="display: grid" Component="Name" Text="Seri numarası zorunludur" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+
+                <RadzenDataGridColumn TItem="ProductModel" Context="product" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+                    <Template Context="product">
+
+                        @if (AuthorizationService.HasPermission("res:product", "scopes:update"))
+                        {
+                            <RadzenButton Icon="edit"
+                                          ButtonStyle="ButtonStyle.Light"
+                                          Style="border-radius: 50%;"
+                                          Variant="Variant.Flat"
+                                          Size="ButtonSize.Medium"
+                                          Disabled="@IsSaveDisabled(product)"
+                                          Click="@(args => EditRowProduct(product))" @onclick:stopPropagation="true">
+                            </RadzenButton>
+                        }
+                        @if (AuthorizationService.HasPermission("res:product", "scopes:delete"))
+                        {
+                            <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                          Style="border-radius: 50%;"
+                                          Icon="delete"
+                                          Variant="Variant.Flat"
+                                          Shade="Shade.Lighter"
+                                          Size="ButtonSize.Medium" class="my-1 ms-1"
+                                          Disabled="@IsSaveDisabled(product)"
+                                          Click="@(args => DeleteRowProduct(product))" @onclick:stopPropagation="true">
+                            </RadzenButton>
+                        }
+                        @if (AuthorizationService.HasPermission("res:category", "scopes:create"))
+                        {
+                            @*                            <RadzenButton Icon="line_style" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => CompanyDetail(company))" @onclick:stopPropagation="true"></RadzenButton>
+                *@  }
+                    </Template>
+
+                    <EditTemplate Context="product">
+                        @if (AuthorizationService.HasPermission("res:product", "scopes:update"))
+                        {
+                            <RadzenButton Icon="check" Disabled="@IsSaveDisabled(product)" ButtonStyle="ButtonStyle.Success" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRowProduct(product))"></RadzenButton>
+                            <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEditProduct(product))"></RadzenButton>
+                        }
+
+                        @if (AuthorizationService.HasPermission("res:product", "scopes:delete"))
+                        {
+                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Disabled="@IsSaveDisabled(product)" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowProduct(product))"></RadzenButton>
+                        }
+                    </EditTemplate>
+
+                </RadzenDataGridColumn>
+
+
+            </Columns>
+        </RadzenDataGrid>
+
+        <RadzenPager HorizontalAlign="HorizontalAlign.Center"
+                     ShowPagingSummary="true"
+                     PagingSummaryFormat="@pagingSummaryFormat"
+                     Count="@productModel.totalCount"
+                     PageSize="@productModel.pageSize"
+                     PageNumbersCount="4"
+                     PageChanged="@ChangePage"
+                     PageSizeOptions="@pageSizeOptions"
+                     PageSizeText="sayfa başına"
+                     PageSizeChanged="@(args => PageSizeOptionsChanged(args))" />
+    }
+    else
+    {
+        <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    }
+}
+
+
+@code {
+    #region ProductModel Table
+    private PaginatedResult<ProductModel>? productModel;
+    private RadzenDataGrid<ProductModel>? productGrid;
+    private Dictionary<int, ProductModel> originalProductDataList = new Dictionary<int, ProductModel>(); //DataGrid row cache
+    private List<ProductModel> productsToUpdate = new List<ProductModel>();
+    private ProductModel? productToInsert;
+    private ProductModel? productToUpdate;
+    private int pageNumber = 1;
+    private int pageSize = 10;
+    #endregion
+
+
+
+    #region Category Dropdown
+    private PaginatedResult<CategoryAllListModel>? categories;
+    private CategoryAllListModel? selectedCategory;
+    private List<SubCategoryModel>? GetSubCategories(int? categoryId)
+    {
+        if (categoryId.HasValue)
+        {
+            return categories?.data?.FirstOrDefault(c => c.Id == categoryId.Value)?.SubCategories;
+        }
+        return null;
+    }
+    #endregion
+
+    #region Brand Dropdown
+    private PaginatedResult<BrandAllListModel>? brands;
+    private BrandAllListModel? selectedBrand;
+    private List<SubModel>? GetSubModels(int? brandId)
+    {
+        if (brandId.HasValue)
+        {
+            return brands?.data?.FirstOrDefault(c => c.Id == brandId.Value)?.SubModels;
+        }
+        return null;
+    }
+    #endregion
+
+
+    private bool IsSaveDisabled(ProductModel product)
+    {
+        return string.IsNullOrWhiteSpace(product.Imei)
+            || string.IsNullOrWhiteSpace(product.Barcode)
+            || string.IsNullOrWhiteSpace(product.CompanyId.ToString())
+            || string.IsNullOrWhiteSpace(product.CategoryId.ToString())
+            || string.IsNullOrWhiteSpace(product.CategorySubId.ToString())
+            || string.IsNullOrWhiteSpace(product.BrandId.ToString())
+            || string.IsNullOrWhiteSpace(product.ModelId.ToString())
+            || string.IsNullOrWhiteSpace(product.Name)
+            || string.IsNullOrWhiteSpace(product.Status)
+            || string.IsNullOrWhiteSpace(product.DataClass)
+            || string.IsNullOrWhiteSpace(product.SerialNumber);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            productModel = await ApiService.GetAsync<PaginatedResult<ProductModel>>($"{ApiEndpointConstants.ProductGetPostPutDelete}?PageNumber={pageNumber}&PageSize={pageSize}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Bağlantı hatası", $"İstek gerçekleştirilemedi {ex.Message}", duration: 6000);
+        }
+        try
+        {
+            var companyAllModel = await ApiService.GetAsync<PaginatedResult<CompanyAllModel>>($"{ApiEndpointConstants.CompanyGetAllList}");
+            companies = companyAllModel;
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Bağlantı hatası", $"İstek gerçekleştirilemedi {ex.Message}", duration: 6000);
+        }
+        try
+        {
+            categories = await ApiService.GetAsync<PaginatedResult<CategoryAllListModel>>($"{ApiEndpointConstants.CategoryAllList}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Bağlantı hatası", $"İstek gerçekleştirilemedi {ex.Message}", duration: 6000);
+        }
+        try
+        {
+            brands = await ApiService.GetAsync<PaginatedResult<BrandAllListModel>>($"{ApiEndpointConstants.BrandAllList}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Bağlantı hatası", $"İstek gerçekleştirilemedi {ex.Message}", duration: 6000);
+        }
+    }
+
+
+    List<string> statusList = new List<string>
+    {
+        "Depoda",
+        "Hurda",
+    };
+    List<string> dataClassList = new List<string>
+    {
+        "Gizli",
+        "Çok Gizli",
+        "Hizmete Özel",
+        "Kurum İçi",
+        "Kamuya Açık"
+    };
+
+
+    #region Filtering Company
+    RadzenDataFilter<ProductModel>? dataFilter;
+    IQueryable<ProductModel>? filteredProducts;
+    IQueryable<ProductModel>? products;
+    Dictionary<string, string> filterValues = typeof(ProductModel).GetProperties().ToDictionary(p => p.Name, _ => string.Empty);
+
+
+
+    #region Company Dropdown
+    private PaginatedResult<CompanyAllModel>? companies;
+    private CompanyAllModel? selectedCompany;
+    void OnDropDownValueChanged(object item)
+    {
+        selectedCompany = (CompanyAllModel)item;
+        filterValues[nameof(ProductModel.CompanyId)] = selectedCompany.Id.ToString();
+    }
+    #endregion
+
+
+
+
+    void ProductFiltering()
+    {
+        FilteringParameters filtreleme = new FilteringParameters();
+        foreach (var property in typeof(FilteringParameters).GetProperties())
+        {
+            if (filterValues.ContainsKey(property.Name))
+            {
+                if (property.PropertyType == typeof(int?))
+                {
+                    int? value = null;
+                    if (int.TryParse(filterValues[property.Name], out int parsedValue))
+                    {
+                        value = parsedValue;
+                    }
+                    property.SetValue(filtreleme, value);
+                }
+                else
+                {
+                    property.SetValue(filtreleme, filterValues[property.Name]);
+                }
+            }
+        }
+        pageNumber = 1;
+        pageSize = 10;
+        ProductFiltering(pageNumber, pageSize, filtreleme);
+    }
+    async void ProductFiltering(int pageNumber, int pageSize, FilteringParameters filtreleme)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "PageNumber", pageNumber.ToString() }, { "PageSize", pageSize.ToString() }
+        };
+        var propertyInfos = filtreleme.GetType().GetProperties();
+        foreach (var propertyInfo in propertyInfos)
+        {
+            var value = propertyInfo.GetValue(filtreleme)?.ToString();
+            if (!string.IsNullOrEmpty(value))
+            {
+                parameters.Add(propertyInfo.Name, value);
+            }
+        }
+        var filteredParameters = parameters.Where(p => p.Value != null).Select(p => $"{p.Key}={p.Value}");
+        var url = $"{ApiEndpointConstants.ProductSearch}?{string.Join("&", filteredParameters)}";
+
+        try
+        {
+            productModel = await ApiService.GetAsync<PaginatedResult<ProductModel>>(url);
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Bağlantı hatası", $"API sunucusuna bağlanılamıyor {ex.Message}", duration: 6000);
+        }
+
+        StateHasChanged();
+    }
+    #endregion
+
+
+
+    #region Product Pagination
+    string pagingSummaryFormat = "Gösterilen sayfa {0} - {1} (toplam {2} kayıt)";
+    IEnumerable<int> pageSizeOptions = new int[] { 5, 10, 20, 30, 50, 100, 500, 1000, 5000 };
+
+    public Product()
+    {
+    }
+
+    async void ChangePage(PagerEventArgs args)
+    {
+        pageNumber = args.PageIndex + 1;
+        pageSize = productModel.pageSize;
+        StateHasChanged();
+    }
+    void PageSizeOptionsChanged(int pageSize)
+    {
+        productModel.pageSize = pageSize;
+        ChangePage(new PagerEventArgs() { PageIndex = productGrid.CurrentPage });
+    }
+    #endregion
+
+    void Reset()
+    {
+        productToInsert = null;
+        productToUpdate = null;
+    }
+
+    #region DataTable Product
+    async Task EditRowProduct(ProductModel product)
+    {
+        if (!originalProductDataList.ContainsKey(product.Id))
+        {
+            originalProductDataList.Add(product.Id, product.Clone());
+        }
+        productsToUpdate.Add(product);
+        await Task.WhenAll(productGrid.EditRow(product), productGrid.Reload());
+        StateHasChanged();
+    }
+    async void OnUpdateRowProduct(ProductModel product)
+    {
+        if (product == productToInsert)
+        {
+            productToInsert = null;
+        }
+        productToUpdate = null;
+        var updateResponse = await ApiService.PutAsync(ApiEndpointConstants.ProductGetPostPutDelete, product);
+        if (updateResponse.IsSuccessStatusCode)
+        {
+            NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{product.Name} isimli ürün kaydı güncellendi");
+        }
+        StateHasChanged();
+    }
+    async Task SaveRowProduct(ProductModel product)
+    {
+        if (productGrid != null)
+        {
+            await productGrid.UpdateRow(product);
+            StateHasChanged();
+        }
+    }
+    void CancelEditProduct(ProductModel product)
+    {
+        if (product == productToInsert)
+        {
+            productToInsert = null;
+        }
+        else if (productsToUpdate.Remove(product))
+        {
+            if (originalProductDataList.TryGetValue(product.Id, out var originalCompany))
+            {
+                product.SetPropertiesFromJson(originalCompany);
+            }
+        }
+        productGrid?.CancelEditRow(product);
+        productGrid?.Reload();
+        StateHasChanged();
+    }
+
+    async Task DeleteRowProduct(ProductModel product)
+    {
+        if (product == productToInsert)
+        {
+            productToInsert = null;
+        }
+        else if (product == productToUpdate)
+        {
+            productToUpdate = null;
+        }
+        if (productModel.data.Contains(product))
+        {
+            productModel.data.Remove(product);
+            productModel.totalCount--;
+        }
+        bool? confirmed = await DialogService.Confirm($"<b>{product.Name}</b> isimli ürün silinme işlemini onaylıyor musunuz?\n" +
+                                                      $"<br><li>Bu ürüne bağlı tüm kayıtlar,\n" +
+                                                      $"<br><li> Ürün ve tüm bilgileri silinecek",
+                                                       "Silme Onayı");
+        if (confirmed == true)
+        {
+            var response = await ApiService.DeleteAsync(ApiEndpointConstants.ProductGetPostPutDelete, product.Id);
+            if (response.IsSuccessStatusCode)
+            {
+                await productGrid.Reload();
+                NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"Silme isteği gerçekleşti.");
+            }
+        }
+    }
+    async Task InsertRowProduct(ProductModel product)
+    {
+        productToInsert = product;
+        if (statusList.Count > 0 && string.IsNullOrEmpty(product.Status))
+        {
+            product.Status = null; //statusList[-1];
+        }
+
+        if (categories?.data?.Count > 0 && product.CategoryId == null)
+        {
+            product.CategoryId = null;//categories.data[-1].Id;
+        }
+
+        if (brands?.data?.Count > 0 && product.BrandId == null)
+        {
+            product.BrandId = null;//brands.data[-1].Id;
+        }
+
+        product.DataClass = dataClassList.First();
+        await productGrid.InsertRow(productToInsert);
+        StateHasChanged();
+    }
+    async Task OnCreateRowProduct(ProductModel product)
+    {
+        try
+        {
+            var insertedProduct = await ApiService.PostAsync(ApiEndpointConstants.ProductGetPostPutDelete, product);
+
+            if (insertedProduct.IsSuccessStatusCode)
+            {
+                var insertedProductModel = await insertedProduct.Content.ReadFromJsonAsync<ProductModel>();
+                productModel?.data?.Add(insertedProductModel);
+                productModel.totalCount++;
+            }
+        }
+        catch (ApiException ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hata", $"Ürün oluşturma hatası: {ex.Message}");
+        }
+        productToInsert = null;
+        await productGrid.Reload();
+        StateHasChanged();
+    }
+    #endregion
+}

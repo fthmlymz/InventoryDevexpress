@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="23.1.5.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="ZimmetFormu" Margins="36, 55, 99.4783, 100" PageWidth="850" PageHeight="1100" Version="23.1" DataSource="#Ref-0" Font="Arial, 9.75pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="TopMarginBand" Name="TopMargin" HeightF="99.4783">
+      <Controls>
+        <Item1 Ref="3" ControlType="XRPictureBox" Name="xrPictureBox2" ImageSource="img,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5Y0GAccV5l+wV/yaf4G/7fv/AEvuK9l8H+HpfCfhnT9Hl1jUtfazi8kalrEiSXcygnaZHRFDMBgbiMnALFmJJx/hH8L9L+DPw90nwdotxeXWmab53ky37o8x8yV5W3FVVeGkIGAOAOvWsua8Wnvf/MDr5I1mjZHUMjAqysMgjuK/PHxHa614T8N6h+ykkt21xqniy1i0e+eyedl8PTyG5adCixiRoZI280t8vzyqpxGSn6JV81eE9Jtfil+2p4s8YC3hlsPAOkQeHbS7jlaVZr6XzJZmVlwoaJZZYXjJYguCcHgaUpct7/0+gF39sfzdD+BOneF9GdPDWg6zq2n+Hr/VLWMxQaLpsj7XlYIyqsICJEVYqhWXbkZFd7p/7Nnwn0vT7Wzh+G/hV4beJIUa40iCeUqowC0jqWduOWYkk8kk12HjDwfo3xA8M6h4e8Q6dDqujahF5VxaTg7XXIIIIOVYEBlZSCpAIIIBrxDT/wBjO20jT7awsPjB8WbKxtYlggtrbxMI44o1AVURRCAqgAAADgDipUly2vYCDRNB0zwz+3NDp2j6daaVp8PwzxFaWMCwxRj+1OiooAH4CvpGvJfhL+zZ4X+EviXUvE9vf674k8WajEba517xFqT3V28B8rERICqVBhTBKlhjG7GBXrVTOXM9ACiiioAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAQ81z3g/wDoXgP+2v7CsfsP9s6nPrF/wDvpJPOu5seZJ87HbnavyrhRjgCuiooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//Z" Sizing="StretchImage" SizeF="133.9564,82.82957" LocationFloat="6.999969,8.843057" />
+        <Item2 Ref="4" ControlType="XRPictureBox" Name="xrPictureBox1" ImageSource="svg,77u/PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4NCjxzdmcgd2lkdGg9IjI1MHB4IiBoZWlnaHQ9IjU4cHgiIHZpZXdCb3g9IjAgMCAyNTAgNTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogIDxkZWZzPg0KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjOGI4MTcyOwogICAgICAgIGZpbGwtcnVsZTogZXZlbm9kZDsKICAgICAgfQogICAgPC9zdHlsZT4NCiAgPC9kZWZzPg0KICA8cGF0aCBkPSJNNzQuNDM4LDEyNS43OTN2LTEuMDFhMTEuODUyLDExLjg1MiwwLDAsMCwzLjAxNi0uMjkzLDEuODU3LDEuODU3LDAsMCwwLDEuNDA5LTEuOTA2LDYuMjU1LDYuMjU1LDAsMCwwLS41LTIuMDUycS0wLjUtMS4zMTgtMS44NzYtNC4zNzhMNjcuMjU2LDk1LjU4bC04LjM3NywyMi4yNzJxLTAuNTU1LDEuNDc2LS44NDMsMi41YTYuNSw2LjUsMCwwLDAtLjI4OCwxLjY3LDIuMzEzLDIuMzEzLDAsMCwwLDEuNDY3LDIuMzQ2LDguOTMxLDguOTMxLDAsMCwwLDIuODQ1LjQxMXYxLjAxSDUwdi0xLjAxYTUuNDQ2LDUuNDQ2LDAsMCwwLDIuNzY0LTEuMDEsMTEuNDQ4LDExLjQ0OCwwLDAsMCwyLjY3Ny00LjUzMkw2OC41LDg2aDAuODg3bDE0LjU3MSwzMi40ODNxMS44NDMsNC4xMzIsMi45NTEsNS4xNDRhNS4yLDUuMiwwLDAsMCwzLjIzOSwxLjE1NnYxLjAxSDc0LjQzOFptMTMyLjk4My0zOS4xaDMzLjMzNmwwLjMxNywxMC4wNDJoLTEuNDEycS0xLjAzNS00LjczMi0yLjYzNC02LjE2MXQtNi43MjEtMS40MjhoLTMuMjgxdjMwLjI0MnEwLDMuNDE0LDEuMDY0LDQuMjMzdDQuNjY0LDEuMDc2djEuMUgyMTUuNTY4di0xLjFxMy43NDEtLjI4Nyw0LjY2My0xLjIzNXQwLjkyMi00Ljc2N1Y4OS4xNDVoLTMuMzExcS00Ljg5NSwwLTYuNjY0LDEuNDE0dC0yLjY2Miw2LjE3NWgtMS40NFptNjMuMjQ2LDAuMjZhMzIuMzQ4LDMyLjM0OCwwLDAsMCwzLjc3MS45NTIsMi45NjUsMi45NjUsMCwwLDAsMS41ODItLjQ2MkEyLjQwOCwyLjQwOCwwLDAsMCwyNzcuMDU3LDg2SDI3OC4zbDAuNTQ3LDEzLjI3M2gtMS4zNTNhMTkuMTU4LDE5LjE1OCwwLDAsMC0zLjA4MS02LjM3NywxMS44MTksMTEuODE5LDAsMCwwLTkuNzU4LTQuNTU5LDEyLjM4NSwxMi4zODUsMCwwLDAtMTAuMTE5LDQuOTA2cS0zLjkzLDQuOTA1LTMuOTI5LDEzLjUsMCw3LjksNC4xMzEsMTIuNjI0YTEzLjMwNiwxMy4zMDYsMCwwLDAsMTAuNDY0LDQuNzE5LDE2Ljc2MSwxNi43NjEsMCwwLDAsOC40MzQtMi4xOTQsMjUuMywyNS4zLDAsMCwwLDQuODY2LTMuNzUybDEuMDkzLDEuMWExOS43NDEsMTkuNzQxLDAsMCwxLTQuODY1LDQuMzU2LDE5LjUwOSwxOS41MDksMCwwLDEtMTAuNzM3LDMuMTc2cS05LjUsMC0xNS4wODQtNi4wODlhMjAuMDE4LDIwLjAxOCwwLDAsMS01LjE1Mi0xNC4wNTQsMjAuNDgxLDIwLjQ4MSwwLDAsMSw1LjQzOS0xNC40ODZRMjU0LjkyMSw4NiwyNjQuMSw4NkEyNC4wNDMsMjQuMDQzLDAsMCwxLDI3MC42NjcsODYuOTUzWk0yODIuNTU2LDEyNC43cTMuNi0uMjU4LDQuNjYyLTEuMDc2dDEuMDY1LTQuMjMzVjkzLjFxMC0zLjI2LTEuMDY1LTQuMnQtNC42NjItMS4xMTF2LTEuMUgzMDB2MS4xcS0zLjYuMTczLTQuNjY0LDEuMTExdC0xLjA2NCw0LjJ2MjYuMjg4cTAsMy40MTQsMS4wNjQsNC4yMzNUMzAwLDEyNC43djEuMUgyODIuNTU2di0xLjFaTTkyLjIsMTI0LjdxMy42LS4yNTgsNC42NjItMS4wNzZ0MS4wNjYtNC4yMzNWOTMuMXEwLTMuMjYtMS4wNjUtNC4yVDkyLjIsODcuNzg5di0xLjFoMTcuNDQ0djEuMXEtMy42LjE3My00LjY2NCwxLjExMXQtMS4wNjUsNC4ydjI2LjI4OHEwLDMuNDE0LDEuMDY1LDQuMjMzdDQuNjY0LDEuMDc2djEuMUg5Mi4ydi0xLjFabTIzLjk3NywwcTMuNi0uMjU4LDQuNjYzLTEuMDc2dDEuMDY1LTQuMjMzVjkzLjFxMC0zLjI2LTEuMDY1LTQuMnQtNC42NjMtMS4xMTF2LTEuMWgxNy40NDV2MS4xcS0zLjYuMTczLTQuNjY0LDEuMTExdC0xLjA2NSw0LjJ2MjYuMjg4cTAsMy40MTQsMS4wNjUsNC4yMzN0NC42NjQsMS4wNzZ2MS4xSDExNi4xNzZ2LTEuMVptNzcuNzIzLDEuMXYtMS4wMWExMS44NTUsMTEuODU1LDAsMCwwLDMuMDE3LS4yOTMsMS44NTcsMS44NTcsMCwwLDAsMS40MDktMS45MDYsNi4yODcsNi4yODcsMCwwLDAtLjUtMi4wNTJxLTAuNS0xLjMxOC0xLjg3Ni00LjM3OEwxODYuNzE3LDk1LjU4bC04LjM3NiwyMi4yNzJxLTAuNTU1LDEuNDc2LS44NDMsMi41YTYuNTE2LDYuNTE2LDAsMCwwLS4yODcsMS42NywyLjMxMiwyLjMxMiwwLDAsMCwxLjQ2NSwyLjM0Niw4LjkzNiw4LjkzNiwwLDAsMCwyLjg0NS40MTF2MS4wMUgxNjkuNDYydi0xLjAxYTUuNDQ3LDUuNDQ3LDAsMCwwLDIuNzYzLTEuMDEsMTEuNDQ0LDExLjQ0NCwwLDAsMCwyLjY3Ny00LjUzMkwxODcuOTU4LDg2aDAuODg3bDE0LjU3MSwzMi40ODNxMS44NDIsNC4xMzIsMi45NTEsNS4xNDRhNS4yLDUuMiwwLDAsMCwzLjIzOCwxLjE1NnYxLjAxSDE5My45Wk01OC4yNjksMTE0Ljc2MXYxLjg2MWM2LjY3NCwwLjA0NSw3LjU3MS4wNDcsOC44NTUtLjA1NGExNC41LDE0LjUsMCwwLDAsMy40NTItMi4wMkM2OS42NjYsMTE0LjgsNjcuNTI4LDExNC44MzgsNTguMjY5LDExNC43NjFabTExOS42MjksMHYxLjg2MWM2LjY3MywwLjA0NSw3LjU2OS4wNDcsOC44NTUtLjA1NGExNC41MjYsMTQuNTI2LDAsMCwwLDMuNDUxLTIuMDJDMTg5LjMsMTE0LjgsMTg3LjE1NiwxMTQuODM4LDE3Ny45LDExNC43NjFabS03NS40LTguMzA2djEuODYyYzYuNjc0LDAuMDQ1LDExLjc0Ni4wOSwxMy4wMzEtLjAxM2ExNC40NjMsMTQuNDYzLDAsMCwwLDMuNDUyLTIuMDE5QzExOC4wNywxMDYuNTM4LDExMS43NTUsMTA2LjUzMiwxMDIuNSwxMDYuNDU1Wm01Mi45MzMsMTYuOTU2cS0xLjU3OS4wNzItMy40NDMsMC4wNzQtMi4wMTcsMC0yLjc1My0uMDNjLTAuNDktLjAxOS0wLjk1NS0wLjA1Ny0xLjQtMC4xMTRhMS44NjEsMS44NjEsMCwwLDEtMS40NTUtLjcwOCwzLjA0NSwzLjA0NSwwLDAsMS0uMzMxLTEuNTQ0VjkyLjY5NHEwLTIuOTQyLDEuMTA4LTMuODM4dDQuMzYxLTEuMDY3di0xLjFIMTM0Ljg4djEuMXEzLjI4MSwwLjIzMSw0LjIzMSwxLjJ0MC45NSw0LjExMnYyNi4yODhxMCwzLjMyOC0uOTY0LDQuMTQ2VDEzNC44OCwxMjQuN3YxLjFoMjAuNTQ5di0yLjM4MlptMjkuMTY4LDEuNTM1Yy03LjA1OS0xLjk0Mi0xNi45MzgtMi40MjgtMjkuNDI4LTEuNS0zLjYyMS4yNjktOC41ODQsMC41MDYtMTIuNDc3LDAuNjA2bC0wLjMyNCwxLjczOGMyLjctLjAyMSw4Ljc1NC0wLjA3NiwxMS40NzMsMCw5LjY4LDAuMjcxLDE0Ljk0LjUzNiwyMS4xNCwyLjI0LDcuODUxLDIuMTYsMTEuNjQ0LDUuNDc1LDEwLjcsOS42MzgtMC40NjgsMi4wNi0yLjA1MSw0LjE4MS00LjcyMyw2LjMyOWw0LjUyNi0yLjc5NWM0LjYzLTIuOTIzLDcuMjcxLTUuNyw3Ljg1MS04LjIzOUMxOTQuMTA5LDEyOS41NTgsMTkxLjAwNywxMjYuNzA4LDE4NC42LDEyNC45NDZabTYwLjA3OCwxMS44MjRhMS4zMzQsMS4zMzQsMCwwLDAsLjcwNy0wLjIsMS4xODEsMS4xODEsMCwwLDAsLjE0MS0wLjczM3YtMy45NjhhMC45MTQsMC45MTQsMCwwLDAtLjE1OC0wLjY0MSwxLjIyMiwxLjIyMiwwLDAsMC0uNjktMC4xODJ2LTAuMTdoMi42NzN2MC4xN2ExLjIyNSwxLjIyNSwwLDAsMC0uNjg4LjE4MiwwLjkwOCwwLjkwOCwwLDAsMC0uMTU5LjY0MXYxLjc4NWgyLjkyN3YtMS43ODVhMC45MjEsMC45MjEsMCwwLDAtLjE1Ni0wLjY0MSwxLjIxMiwxLjIxMiwwLDAsMC0uNjkxLTAuMTgydi0wLjE3aDIuNjczdjAuMTdhMS4yMjIsMS4yMjIsMCwwLDAtLjY5LjE4MiwwLjkxNCwwLjkxNCwwLDAsMC0uMTU4LjY0MXY0LjA3NWEwLjg5LDAuODksMCwwLDAsLjE1OC42MzksMS4zMDUsMS4zMDUsMCwwLDAsLjY5LjE4NXYwLjE2OWgtMi42NzNWMTM2Ljc3YTEuMjcxLDEuMjcxLDAsMCwwLC43MDgtMC4yLDEuMiwxLjIsMCwwLDAsLjEzOS0wLjczNHYtMS43OEgyNDYuNXYxLjg4N2EwLjg5LDAuODksMCwwLDAsLjE1OS42NDEsMS4yNjYsMS4yNjYsMCwwLDAsLjY4OC4xODN2MC4xNjloLTIuNjczVjEzNi43N1ptOS45ODgtNS4yMTJhMy4zNTksMy4zNTksMCwwLDEsNC4zOCwwLDMuMzI5LDMuMzI5LDAsMCwxLS4wMzIsNC43MiwzLjE1OCwzLjE1OCwwLDAsMS0yLjE2MS43ODgsMy4wNDYsMy4wNDYsMCwwLDEtMy4xNTYtMy4xNkEzLjAyOCwzLjAyOCwwLDAsMSwyNTQuNjYzLDEzMS41NThabTAuNzIsNC40ODlhMS44NywxLjg3LDAsMCwwLDEuNDcuNjkxLDEuODkyLDEuODkyLDAsMCwwLDEuNDU4LS42NzMsNC4xMzIsNC4xMzIsMCwwLDAtLjAwNy00LjMyLDEuOTA5LDEuOTA5LDAsMCwwLTEuNDUxLS42NjYsMS44NzEsMS44NzEsMCwwLDAtMS40NjcuNjkyQTQuMTEyLDQuMTEyLDAsMCwwLDI1NS4zODMsMTM2LjA0N1ptNy4wMTgsMC43MjNhMS40OTEsMS40OTEsMCwwLDAsLjY4OS0wLjE4LDAuODcxLDAuODcxLDAsMCwwLC4xNTgtMC42NDR2LTQuMDc1YTAuOTE0LDAuOTE0LDAsMCwwLS4xNTYtMC42MzcsMS4xNzgsMS4xNzgsMCwwLDAtLjY5MS0wLjE4NnYtMC4xN2gyLjcxOXYwLjE3YTEuMzU5LDEuMzU5LDAsMCwwLS43MTIuMTY2LDAuNzMsMC43MywwLDAsMC0uMTgyLjU5NHY0LjRhMC40NjksMC40NjksMCwwLDAsLjA1NC4yNCwwLjMxNiwwLjMxNiwwLDAsMCwuMjM4LjExYzAuMDcyLDAuMDA4LjE0OSwwLjAxNCwwLjIyOSwwLjAxNnMwLjIzLDAuMDA2LjQ1LDAuMDA2YTQuOTQ2LDQuOTQ2LDAsMCwwLDEuNzM4LS4yLDIuMTMyLDIuMTMyLDAsMCwwLC44NzYtMS4wMjloMC4yNDVsLTAuNDcxLDEuNTg3SDI2Mi40VjEzNi43N1ptNy44NiwwYTEuNSwxLjUsMCwwLDAsLjY4Ny0wLjE4LDAuODY1LDAuODY1LDAsMCwwLC4xNi0wLjY0NHYtNC4wNzVhMC45MTgsMC45MTgsMCwwLDAtLjE1NS0wLjY0NCwxLjIzMiwxLjIzMiwwLDAsMC0uNjkyLTAuMTc5di0wLjE3aDIuNmE1LjM1Myw1LjM1MywwLDAsMSwyLjIyLjQxMiwyLjY1NCwyLjY1NCwwLDAsMSwxLjYzNywyLjYzOSwyLjk5NCwyLjk5NCwwLDAsMS0uMjk0LDEuMywyLjcsMi43LDAsMCwxLS44ODcsMS4wNDIsMy4wNDksMy4wNDksMCwwLDEtLjc4LjQwNyw1LjUzMyw1LjUzMywwLDAsMS0xLjgxNy4yNTloLTIuNjc3VjEzNi43N1ptMS45NDEtLjI0MmExLjAzMSwxLjAzMSwwLDAsMCwuNDc3LjA3MiwzLjY0NiwzLjY0NiwwLDAsMCwxLjg1OS0uNDI2LDIuMzcyLDIuMzcyLDAsMCwwLDEuMTItMi4yMzQsMi41MTYsMi41MTYsMCwwLDAtLjkyMi0yLjEyMiwzLjM0MSwzLjM0MSwwLDAsMC0yLjA5NS0uNjA5LDAuOTcyLDAuOTcyLDAsMCwwLS40MzkuMDY3LDAuMzE2LDAuMzE2LDAsMCwwLS4xMTUuM3Y0LjY2QTAuMzIzLDAuMzIzLDAsMCwwLDI3Mi4yLDEzNi41MjhabTYuOTQ1LDAuMjQyYTEuNjcsMS42NywwLDAsMCwuNzYyLTAuMTY3LDAuODMyLDAuODMyLDAsMCwwLC4xNzQtMC42NTd2LTQuMDc1YTAuODU3LDAuODU3LDAsMCwwLS4xNzQtMC42NTEsMS40MTgsMS40MTgsMCwwLDAtLjc2Mi0wLjE3MnYtMC4xN0gyODJ2MC4xN2ExLjQyLDEuNDIsMCwwLDAtLjc2My4xNzIsMC44NjIsMC44NjIsMCwwLDAtLjE3NC42NTF2NC4wNzVhMC44MzYsMC44MzYsMCwwLDAsLjE3NC42NTcsMS42NzEsMS42NzEsMCwwLDAsLjc2My4xNjd2MC4xNjloLTIuODUyVjEzNi43N1ptMS43NjctNi42MjFhMC41LDAuNSwwLDAsMS0uNjgsMCwwLjQzOCwwLjQzOCwwLDAsMSwwLS42NDQsMC41LDAuNSwwLDAsMSwuNjgsMEEwLjQ0NSwwLjQ0NSwwLDAsMSwyODAuOTE0LDEzMC4xNDlabTMuMzIyLDYuNjIxYTEuMiwxLjIsMCwwLDAsLjc2Ny0wLjI1NywxLjYxMSwxLjYxMSwwLDAsMCwuMTY5LTAuOTI0di00LjAzNmwtMC4xMzEtLjE0N2ExLjA0NCwxLjA0NCwwLDAsMC0uMzYtMC4yOTMsMS40MSwxLjQxLDAsMCwwLS40NDUtMC4wNjV2LTAuMTdoMS42NDRsMy43Miw0LjM4NHYtMy4wNDVhMS40MTIsMS40MTIsMCwwLDAtLjIzNi0wLjk3OCwxLjIyMywxLjIyMywwLDAsMC0uNjg3LTAuMTkxdi0wLjE3aDIuMjY0djAuMTdhMS4xNDQsMS4xNDQsMCwwLDAtLjczNC4yNTUsMS41LDEuNSwwLDAsMC0uMTg0LjkyMnY0LjgyMmgtMC4xNjVsLTQuMjYyLTUuMDI0djMuNTY3YTEuNDM4LDEuNDM4LDAsMCwwLC4yMy45NzgsMS4yMTIsMS4yMTIsMCwwLDAsLjY3My4ydjAuMTY5aC0yLjI2M1YxMzYuNzdabTEzLjQ0NS01Ljg1MmE0LjY3OSw0LjY3OSwwLDAsMCwuNjIxLjE0OCwwLjQ0OCwwLjQ0OCwwLDAsMCwuMjk1LTAuMDc3LDAuNjEzLDAuNjEzLDAsMCwwLC4xNDgtMC4yMTloMC4yMTFsMC4wNzYsMS45MjlIMjk4LjgxYTMuNDgxLDMuNDgxLDAsMCwwLS42MTEtMC45OTQsMiwyLDAsMCwwLTEuNDgyLS41NzIsMi4zLDIuMywwLDAsMC0xLjYzMS42NjgsMi45NCwyLjk0LDAsMCwwLS43LDIuMiwyLjcsMi43LDAsMCwwLC43LDEuOTc3LDIuMzM4LDIuMzM4LDAsMCwwLDEuNzMyLjcxMiwzLjMyNywzLjMyNywwLDAsMCwuNDA5LTAuMDMxLDIuODA1LDIuODA1LDAsMCwwLC40NDctMC4xLDEuMzM2LDEuMzM2LDAsMCwwLC40MjgtMC4xODUsMC4zLDAuMywwLDAsMCwuMDg1LTAuMjNWMTM0LjY5YTAuOTEzLDAuOTEzLDAsMCwwLS4xNTgtMC42NjIsMS4zMjMsMS4zMjMsMCwwLDAtLjY4OS0wLjE2MlYxMzMuN2gyLjQ1NnYwLjE3YTAuOTYxLDAuOTYxLDAsMCwwLS40NzYuMTEyLDAuNywwLjcsMCwwLDAtLjIuNTkxdjEuOGExLjMsMS4zLDAsMCwxLS44MzEuNDMsNS4xNzgsNS4xNzgsMCwwLDEtMS42LjI2OSwzLjY3MiwzLjY3MiwwLDAsMS0yLjM4MS0uNzg0LDIuODI0LDIuODI0LDAsMCwxLTEuMDY4LTIuMzE3LDMuMSwzLjEsMCwwLDEsLjg1Mi0yLjE5MiwzLjIzNSwzLjIzNSwwLDAsMSwyLjQ4NC0xLjAwN0E0LjE4LDQuMTgsMCwwLDEsMjk3LjY4MSwxMzAuOTE4WiIgaWQ9ImxvZ28iIGNsYXNzPSJjbHMtMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTUwLCAtODYpIiAvPg0KPC9zdmc+" Sizing="ZoomImage" SizeF="231.5878,79.67262" LocationFloat="517.412,10.00001" />
+        <Item3 Ref="5" ControlType="XRPageInfo" Name="pageInfo1" PageInfo="DateTime" TextFormatString="{0:d MMMM yyyy dddd HH:mm}" TextAlignment="TopRight" SizeF="224.3378,17" LocationFloat="524.662,82.4783">
+          <StylePriority Ref="6" UseTextAlignment="false" />
+        </Item3>
+      </Controls>
+    </Item1>
+    <Item2 Ref="7" ControlType="BottomMarginBand" Name="BottomMargin" />
+    <Item3 Ref="8" ControlType="DetailBand" Name="Detail" HeightF="186.4583">
+      <Controls>
+        <Item1 Ref="9" ControlType="XRTable" Name="xrTable6" SizeF="742.0404,180" LocationFloat="6.959475,5" Font="Arial, 9pt" Padding="2,2,0,0,96" Borders="All">
+          <Rows>
+            <Item1 Ref="10" ControlType="XRTableRow" Name="xrTableRow13" Weight="1">
+              <Cells>
+                <Item1 Ref="11" ControlType="XRTableCell" Name="xrTableCell22" Weight="2.2754899965817388" Multiline="true" Text="İşe Girişlerde Teslim ederken doldurulacak bölüm" TextAlignment="MiddleCenter">
+                  <StylePriority Ref="12" UseTextAlignment="false" />
+                </Item1>
+                <Item2 Ref="13" ControlType="XRTableCell" Name="xrTableCell24" Weight="2.4593535464809824" Multiline="true" Text="İşten Ayrılma/Değişikliklerde doldurulacak bölüm" TextAlignment="MiddleCenter">
+                  <StylePriority Ref="14" UseTextAlignment="false" />
+                </Item2>
+              </Cells>
+            </Item1>
+            <Item2 Ref="15" ControlType="XRTableRow" Name="xrTableRow16" Weight="1">
+              <Cells>
+                <Item1 Ref="16" ControlType="XRTableCell" Name="xrTableCell34" Weight="1.0997366366115366" Multiline="true" Text="Teslim Eden" TextAlignment="MiddleCenter" Font="Arial, 9pt, style=Bold" ForeColor="White" BackColor="Black">
+                  <StylePriority Ref="17" UseFont="false" UseForeColor="false" UseBackColor="false" UseTextAlignment="false" />
+                </Item1>
+                <Item2 Ref="18" ControlType="XRTableCell" Name="xrTableCell35" Weight="0.90026336338846336" Multiline="true" Text="Teslim Alan" TextAlignment="MiddleCenter" Font="Arial, 9pt, style=Bold" ForeColor="White" BackColor="Black">
+                  <StylePriority Ref="19" UseFont="false" UseForeColor="false" UseBackColor="false" UseTextAlignment="false" />
+                </Item2>
+                <Item3 Ref="20" ControlType="XRTableCell" Name="xrTableCell36" Weight="1.4808744991651683" Multiline="true" Text="Teslim Eden" TextAlignment="MiddleCenter" Font="Arial, 9pt, style=Bold" ForeColor="White" BackColor="Black">
+                  <StylePriority Ref="21" UseFont="false" UseForeColor="false" UseBackColor="false" UseTextAlignment="false" />
+                </Item3>
+                <Item4 Ref="22" ControlType="XRTableCell" Name="xrTableCell37" Weight="1.2539690438975528" Multiline="true" Text="Teslim Alan" TextAlignment="MiddleCenter" Font="Arial, 9pt, style=Bold" ForeColor="White" BackColor="Black">
+                  <StylePriority Ref="23" UseFont="false" UseForeColor="false" UseBackColor="false" UseTextAlignment="false" />
+                </Item4>
+              </Cells>
+            </Item2>
+            <Item3 Ref="24" ControlType="XRTableRow" Name="xrTableRow17" Weight="1">
+              <Cells>
+                <Item1 Ref="25" ControlType="XRTableCell" Name="xrTableCell39" Weight="2.2754899965817388" Multiline="true" Text="Adı Soyadı" TextAlignment="MiddleCenter">
+                  <StylePriority Ref="26" UseTextAlignment="false" />
+                </Item1>
+                <Item2 Ref="27" ControlType="XRTableCell" Name="xrTableCell40" Weight="2.4593535464809824" Multiline="true" Text="Adı Soyadı" TextAlignment="MiddleCenter">
+                  <StylePriority Ref="28" UseTextAlignment="false" />
+                </Item2>
+              </Cells>
+            </Item3>
+            <Item4 Ref="29" ControlType="XRTableRow" Name="xrTableRow15" Weight="1">
+              <Cells>
+                <Item1 Ref="30" ControlType="XRTableCell" Name="xrTableCell31" Weight="2.2754899965817388" Multiline="true" Text="Tarih" TextAlignment="MiddleCenter">
+                  <StylePriority Ref="31" UseTextAlignment="false" />
+                </Item1>
+                <Item2 Ref="32" ControlType="XRTableCell" Name="xrTableCell32" Weight="2.4593535464809824" Multiline="true" Text="Tarih" TextAlignment="MiddleCenter">
+                  <StylePriority Ref="33" UseTextAlignment="false" />
+                </Item2>
+              </Cells>
+            </Item4>
+            <Item5 Ref="34" ControlType="XRTableRow" Name="xrTableRow14" Weight="1">
+              <Cells>
+                <Item1 Ref="35" ControlType="XRTableCell" Name="xrTableCell27" Weight="2.2754899965817388" Multiline="true" Text="İmza" TextAlignment="MiddleCenter">
+                  <StylePriority Ref="36" UseTextAlignment="false" />
+                </Item1>
+                <Item2 Ref="37" ControlType="XRTableCell" Name="xrTableCell28" Weight="2.4593535464809824" Multiline="true" Text="İmza" TextAlignment="MiddleCenter">
+                  <StylePriority Ref="38" UseTextAlignment="false" />
+                </Item2>
+              </Cells>
+            </Item5>
+          </Rows>
+          <StylePriority Ref="39" UseFont="false" UseBorders="false" />
+        </Item1>
+      </Controls>
+    </Item3>
+    <Item4 Ref="40" ControlType="ReportHeaderBand" Name="ReportHeader" HeightF="122.085">
+      <Controls>
+        <Item1 Ref="41" ControlType="XRLabel" Name="xrLabel1" Multiline="true" Text="Adı Soyadı" SizeF="112.875,25" LocationFloat="4.999924,5.999979" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="42" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item1>
+        <Item2 Ref="43" ControlType="XRLabel" Name="xrLabel2" Multiline="true" Text="xrTableCell2" SizeF="385.7916,25" LocationFloat="116.8749,5.999979" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <ExpressionBindings>
+            <Item1 Ref="44" EventName="BeforePrint" PropertyName="Text" Expression="[AssignedProducts].[FullName]" />
+          </ExpressionBindings>
+          <StylePriority Ref="45" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item2>
+        <Item3 Ref="46" ControlType="XRLabel" Name="xrLabel3" Multiline="true" Text="Barkod" TextAlignment="MiddleCenter" SizeF="249.3333,24" LocationFloat="501.6666,6" Font="Arial, 14pt, style=Bold" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="47" UseFont="false" UsePadding="false" UseBorders="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="48" ControlType="XRLabel" Name="xrLabel4" Multiline="true" Text="Şirket" SizeF="112.875,25" LocationFloat="4.999924,29.99998" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="Left, Right, Bottom">
+          <StylePriority Ref="49" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item4>
+        <Item5 Ref="50" ControlType="XRLabel" Name="xrLabel5" Multiline="true" Text="xrTableCell5" SizeF="385.7916,25" LocationFloat="116.8749,29.99998" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="Left, Right, Bottom">
+          <ExpressionBindings>
+            <Item1 Ref="51" EventName="BeforePrint" PropertyName="Text" Expression="[CompanyName]" />
+          </ExpressionBindings>
+          <StylePriority Ref="52" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item5>
+        <Item6 Ref="53" ControlType="XRLabel" Name="xrLabel6" Multiline="true" TextAlignment="MiddleCenter" SizeF="249.3333,73.14672" LocationFloat="501.6665,29.99998" Font="Arial, 22pt, style=Bold" Padding="2,2,0,0,100" Borders="Left, Right, Bottom">
+          <ExpressionBindings>
+            <Item1 Ref="54" EventName="BeforePrint" PropertyName="Text" Expression="[Barcode]" />
+          </ExpressionBindings>
+          <StylePriority Ref="55" UseFont="false" UsePadding="false" UseBorders="false" UseTextAlignment="false" />
+        </Item6>
+        <Item7 Ref="56" ControlType="XRLabel" Name="xrLabel7" Multiline="true" Text="Birimi" SizeF="112.875,25" LocationFloat="4.999924,54.99998" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="Left, Right, Bottom">
+          <StylePriority Ref="57" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item7>
+        <Item8 Ref="58" ControlType="XRLabel" Name="xrLabel8" Multiline="true" SizeF="385.7916,25" LocationFloat="116.8749,54.99998" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="Left, Right, Bottom">
+          <StylePriority Ref="59" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item8>
+        <Item9 Ref="60" ControlType="XRLabel" Name="xrLabel10" Multiline="true" Text="Görevi" SizeF="112.875,25" LocationFloat="4.999924,77.99998" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="Left, Right, Bottom">
+          <StylePriority Ref="61" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item9>
+        <Item10 Ref="62" ControlType="XRLabel" Name="xrLabel11" Multiline="true" SizeF="385.7916,25" LocationFloat="116.8749,77.99998" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="Left, Right, Bottom">
+          <StylePriority Ref="63" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item10>
+        <Item11 Ref="64" ControlType="XRShape" Name="xrShape1" LineWidth="2" SizeF="758.9999,111.1467" LocationFloat="0,0" ForeColor="SteelBlue" BorderColor="Transparent" Borders="All">
+          <Shape Ref="65" ShapeName="Rectangle" />
+          <StylePriority Ref="66" UseForeColor="false" UseBorderColor="false" UseBorders="false" />
+        </Item11>
+      </Controls>
+    </Item4>
+    <Item5 Ref="67" ControlType="GroupHeaderBand" Name="GroupHeader1" Level="1" HeightF="200.9783">
+      <Controls>
+        <Item1 Ref="68" ControlType="XRLabel" Name="xrLabel23" Multiline="true" Text="Fatura Tarihi" SizeF="112.875,25" LocationFloat="6.000046,153" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="69" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item1>
+        <Item2 Ref="70" ControlType="XRLabel" Name="xrLabel24" Multiline="true" Text="xrTableCell2" SizeF="632.1252,25" LocationFloat="117.8749,153" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="Top, Right, Bottom">
+          <ExpressionBindings>
+            <Item1 Ref="71" EventName="BeforePrint" PropertyName="Text" Expression="[InvoiceDate]" />
+          </ExpressionBindings>
+          <StylePriority Ref="72" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item2>
+        <Item3 Ref="73" ControlType="XRLabel" Name="xrLabel21" Multiline="true" Text="Imei" SizeF="112.875,25" LocationFloat="6.000046,129" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="74" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item3>
+        <Item4 Ref="75" ControlType="XRLabel" Name="xrLabel22" Multiline="true" Text="xrTableCell2" SizeF="632.1252,25" LocationFloat="117.8749,129" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <ExpressionBindings>
+            <Item1 Ref="76" EventName="BeforePrint" PropertyName="Text" Expression="[Imei]" />
+          </ExpressionBindings>
+          <StylePriority Ref="77" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item4>
+        <Item5 Ref="78" ControlType="XRLabel" Name="xrLabel19" Multiline="true" Text="Mac" SizeF="112.875,25" LocationFloat="6.000046,106" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="79" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item5>
+        <Item6 Ref="80" ControlType="XRLabel" Name="xrLabel20" Multiline="true" Text="xrTableCell2" SizeF="632.1252,25" LocationFloat="117.8749,106" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <ExpressionBindings>
+            <Item1 Ref="81" EventName="BeforePrint" PropertyName="Text" Expression="[Mac]" />
+          </ExpressionBindings>
+          <StylePriority Ref="82" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item6>
+        <Item7 Ref="83" ControlType="XRLabel" Name="xrLabel13" Multiline="true" Text="Seri No" SizeF="112.875,25" LocationFloat="6.000046,81.99998" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="84" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item7>
+        <Item8 Ref="85" ControlType="XRLabel" Name="xrLabel16" Multiline="true" Text="xrTableCell2" SizeF="632.1252,25" LocationFloat="117.8749,81.99998" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <ExpressionBindings>
+            <Item1 Ref="86" EventName="BeforePrint" PropertyName="Text" Expression="[SerialNumber]" />
+          </ExpressionBindings>
+          <StylePriority Ref="87" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item8>
+        <Item9 Ref="88" ControlType="XRLabel" Name="xrLabel17" Multiline="true" Text="Model" SizeF="112.875,25" LocationFloat="6.000046,57.99998" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="89" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item9>
+        <Item10 Ref="90" ControlType="XRLabel" Name="xrLabel18" Multiline="true" Text="xrTableCell2" SizeF="632.1252,25" LocationFloat="117.8749,57.99997" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <ExpressionBindings>
+            <Item1 Ref="91" EventName="BeforePrint" PropertyName="Text" Expression="[ModelName]" />
+          </ExpressionBindings>
+          <StylePriority Ref="92" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item10>
+        <Item11 Ref="93" ControlType="XRLabel" Name="xrLabel14" Multiline="true" Text="Marka" SizeF="112.875,25" LocationFloat="6.000046,33.99998" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="94" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item11>
+        <Item12 Ref="95" ControlType="XRLabel" Name="xrLabel15" Multiline="true" Text="xrTableCell2" SizeF="632.1252,25" LocationFloat="117.8749,33.99998" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <ExpressionBindings>
+            <Item1 Ref="96" EventName="BeforePrint" PropertyName="Text" Expression="[BrandName]" />
+          </ExpressionBindings>
+          <StylePriority Ref="97" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item12>
+        <Item13 Ref="98" ControlType="XRLabel" Name="xrLabel9" Multiline="true" Text="Cihaz" SizeF="112.875,25" LocationFloat="5.999924,9.999979" Font="Arial, 12pt, style=Bold" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="99" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item13>
+        <Item14 Ref="100" ControlType="XRLabel" Name="xrLabel12" Multiline="true" Text="xrTableCell2" SizeF="632.1252,25" LocationFloat="117.8749,9.999979" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <ExpressionBindings>
+            <Item1 Ref="101" EventName="BeforePrint" PropertyName="Text" Expression="[Name]" />
+          </ExpressionBindings>
+          <StylePriority Ref="102" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item14>
+        <Item15 Ref="103" ControlType="XRShape" Name="xrShape2" LineWidth="2" SizeF="756.9999,181" LocationFloat="1,3" ForeColor="SteelBlue" BorderColor="Transparent" Borders="All">
+          <Shape Ref="104" ShapeName="Rectangle" />
+          <StylePriority Ref="105" UseForeColor="false" UseBorderColor="false" UseBorders="false" />
+        </Item15>
+      </Controls>
+    </Item5>
+    <Item6 Ref="106" ControlType="GroupHeaderBand" Name="GroupHeader2" HeightF="256.5834">
+      <Controls>
+        <Item1 Ref="107" ControlType="XRLabel" Name="xrLabel25" Multiline="true" Text="Açıklama" SizeF="375,25" LocationFloat="5.999959,0" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="108" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item1>
+        <Item2 Ref="109" ControlType="XRLabel" Name="xrLabel26" Multiline="true" Text="xrTableCell2" SizeF="375,25" LocationFloat="381,0" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <ExpressionBindings>
+            <Item1 Ref="110" EventName="BeforePrint" PropertyName="Text" Expression="[AssignedProducts].[ProductName]" />
+          </ExpressionBindings>
+          <StylePriority Ref="111" UseFont="false" UsePadding="false" UseBorders="false" />
+        </Item2>
+        <Item3 Ref="112" ControlType="XRLabel" Name="xrLabel27" Multiline="true" Text="ÇALIŞAN tarafından üstlenilen işin ifa gereklerine istinaden İŞVEREN tarafından ÇALIŞAN’ a yalnızca görevin ifası esnasında ve bu amaç ile kullanılmak üzere aşağıda tablo ile bildirilen cihaz tesliminin gerçekleştirildiğini çalışan kabul ve taahhüt eder. ÇALIŞAN’a iş sözleşmesine istinaden sözleşmenin yürürlüğü süresince kullanılmak üzere teslim edilen zimmetli malı işin ifa gereklerine göre kullanmak üzere teslim almayı, ÇALIŞAN kabul ve taahhüt eder. ÇALIŞAN kendisine teslim edilen zimmetli malın işveren tarafından her zaman kendisinden iade alınabileceğini, bunun iş koşullarında esaslı değişiklik yaratmayacağını kabul ve taahhüt eder. ÇALIŞAN işveren tarafından talep olunduğu an itibari ile İŞVEREN’e iade ile mükellef olduğu zimmetli malın zarara uğramasından bizzat ve şahsen sorumlu olduğunu kabul ve taahhüt eder. ÇALIŞAN, işveren tarafından talep olunduğu an itibari ile İŞVEREN’ e iade ile mükellef olduğu zimmetli malın mesai saatleri içinde veya dışında herhangi bir nedenle telef olması halinde, bundan kaynaklanan her türlü zarar ve ziyandan ve cihaz kullanımı sureti ile 3. kişilere verdiği zararlardan sorumlu olmayı kabul ve taahhüt eder. ÇALIŞAN, kendisine teslim edilen cihazları, herhangi bir nedenle iş akdinin sona ermesi ile İŞVEREN’ e iade eder ve bu durum yukarıda yer alan teslim tablosuna işveren imzası ile derç olunur.ÇALIŞAN, işveren tarafından talep olunduğu an itibari ile İŞVEREN’ e iade ile mükellef olduğu zimmetli malı, işverene talebi üzerine teslim etmemesi halinde, rayiç bedel üzerinden belirlenen meblağı koşulsuz ve itirazsız olarak ödemeyi gayrikabili rücu kabul ve taahhüt eder." TextAlignment="MiddleJustify" SizeF="750,222.8334" LocationFloat="5.999883,24.00001" Font="Arial, 9.75pt" Padding="2,2,0,0,100" Borders="All">
+          <StylePriority Ref="113" UseFont="false" UsePadding="false" UseBorders="false" UseTextAlignment="false" />
+        </Item3>
+      </Controls>
+    </Item6>
+  </Bands>
+  <ComponentStorage>
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.Json.JsonDataSource,DevExpress.DataAccess.v23.1" Name="jsonDataSource1" Base64="PEpzb25EYXRhU291cmNlIE5hbWU9Impzb25EYXRhU291cmNlMSI+PFNvdXJjZSBTb3VyY2VUeXBlPSJEZXZFeHByZXNzLkRhdGFBY2Nlc3MuSnNvbi5DdXN0b21Kc29uU291cmNlIiBKc29uPSJbJiN4RDsmI3hBOyAgeyYjeEQ7JiN4QTsgICAgJnF1b3Q7TmFtZSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICZxdW90O0JhcmNvZGUmcXVvdDs6IG51bGwsJiN4RDsmI3hBOyAgICAmcXVvdDtTZXJpYWxOdW1iZXImcXVvdDs6IG51bGwsJiN4RDsmI3hBOyAgICAmcXVvdDtJbWVpJnF1b3Q7OiBudWxsLCYjeEQ7JiN4QTsgICAgJnF1b3Q7TWFjJnF1b3Q7OiBudWxsLCYjeEQ7JiN4QTsgICAgJnF1b3Q7RGF0YUNsYXNzJnF1b3Q7OiBudWxsLCYjeEQ7JiN4QTsgICAgJnF1b3Q7U3RhdHVzJnF1b3Q7OiBudWxsLCYjeEQ7JiN4QTsgICAgJnF1b3Q7UHJvZHVjdERhdGUmcXVvdDs6IG51bGwsJiN4RDsmI3hBOyAgICAmcXVvdDtJbnZvaWNlRGF0ZSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICZxdW90O0NvbXBhbnlJZCZxdW90OzogMiwmI3hEOyYjeEE7ICAgICZxdW90O0NvbXBhbnlOYW1lJnF1b3Q7OiBudWxsLCYjeEQ7JiN4QTsgICAgJnF1b3Q7Q2F0ZWdvcnlJZCZxdW90OzogMSwmI3hEOyYjeEE7ICAgICZxdW90O0NhdGVnb3J5U3ViSWQmcXVvdDs6IDYsJiN4RDsmI3hBOyAgICAmcXVvdDtCcmFuZElkJnF1b3Q7OiAzLCYjeEQ7JiN4QTsgICAgJnF1b3Q7TW9kZWxJZCZxdW90OzogNCwmI3hEOyYjeEE7ICAgICZxdW90O0JyYW5kTmFtZSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICZxdW90O01vZGVsTmFtZSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICZxdW90O1Byb2R1Y3RNb3ZlbWVudHMmcXVvdDs6IFtdLCYjeEQ7JiN4QTsgICAgJnF1b3Q7QXNzaWduZWRQcm9kdWN0cyZxdW90OzogWyYjeEQ7JiN4QTsgICAgICB7JiN4RDsmI3hBOyAgICAgICAgJnF1b3Q7QXNzaWduZWRVc2VyTmFtZSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICAgICAmcXVvdDtBc3NpZ25lZFVzZXJJZCZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICAgICAmcXVvdDtBc3NpZ25lZFVzZXJQaG90byZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICAgICAmcXVvdDtGdWxsTmFtZSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICAgICAmcXVvdDtFbWFpbCZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICAgICAmcXVvdDtCYXJjb2RlJnF1b3Q7OiBudWxsLCYjeEQ7JiN4QTsgICAgICAgICZxdW90O1Byb2R1Y3ROYW1lJnF1b3Q7OiBudWxsLCYjeEQ7JiN4QTsgICAgICAgICZxdW90O1Byb2R1Y3RJZCZxdW90OzogMSwmI3hEOyYjeEE7ICAgICAgICAmcXVvdDtBcHByb3ZhbFN0YXR1cyZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICAgICAmcXVvdDtBc3NpZ25lZFByb2R1Y3RNb3ZlbWVudHMmcXVvdDs6IG51bGwsJiN4RDsmI3hBOyAgICAgICAgJnF1b3Q7SWQmcXVvdDs6IDEwMDIsJiN4RDsmI3hBOyAgICAgICAgJnF1b3Q7Q3JlYXRlZEJ5JnF1b3Q7OiBudWxsLCYjeEQ7JiN4QTsgICAgICAgICZxdW90O0NyZWF0ZWRVc2VySWQmcXVvdDs6IG51bGwsJiN4RDsmI3hBOyAgICAgICAgJnF1b3Q7Q3JlYXRlZERhdGUmcXVvdDs6IG51bGwsJiN4RDsmI3hBOyAgICAgICAgJnF1b3Q7VXBkYXRlZEJ5JnF1b3Q7OiBudWxsLCYjeEQ7JiN4QTsgICAgICAgICZxdW90O1VwZGF0ZWRVc2VySWQmcXVvdDs6ICZxdW90OyZxdW90OywmI3hEOyYjeEE7ICAgICAgICAmcXVvdDtVcGRhdGVkRGF0ZSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICAgICAmcXVvdDtEb21haW5FdmVudHMmcXVvdDs6IFtdJiN4RDsmI3hBOyAgICAgIH0mI3hEOyYjeEE7ICAgIF0sJiN4RDsmI3hBOyAgICAmcXVvdDtQcm9kdWN0VHJhbnNmZXJzJnF1b3Q7OiBbJiN4RDsmI3hBOyAgICAgIG51bGwmI3hEOyYjeEE7ICAgIF0sJiN4RDsmI3hBOyAgICAmcXVvdDtJZCZxdW90OzogMSwmI3hEOyYjeEE7ICAgICZxdW90O0NyZWF0ZWRCeSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICZxdW90O0NyZWF0ZWRVc2VySWQmcXVvdDs6IG51bGwsJiN4RDsmI3hBOyAgICAmcXVvdDtDcmVhdGVkRGF0ZSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICZxdW90O1VwZGF0ZWRCeSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICZxdW90O1VwZGF0ZWRVc2VySWQmcXVvdDs6IG51bGwsJiN4RDsmI3hBOyAgICAmcXVvdDtVcGRhdGVkRGF0ZSZxdW90OzogbnVsbCwmI3hEOyYjeEE7ICAgICZxdW90O0RvbWFpbkV2ZW50cyZxdW90OzogW10mI3hEOyYjeEE7ICB9JiN4RDsmI3hBO10iIC8+PFNjaGVtYT48Tm9kZSBOYW1lPSJyb290IiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IkFycmF5Ij48Tm9kZSBOYW1lPSJOYW1lIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IkJhcmNvZGUiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iU2VyaWFsTnVtYmVyIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IkltZWkiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iTWFjIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IkRhdGFDbGFzcyIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJTdGF0dXMiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iUHJvZHVjdERhdGUiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iSW52b2ljZURhdGUiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iQ29tcGFueUlkIiBUeXBlPSJTeXN0ZW0uTnVsbGFibGVgMVtTeXN0ZW0uSW50NjRdIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IkNvbXBhbnlOYW1lIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IkNhdGVnb3J5SWQiIFR5cGU9IlN5c3RlbS5OdWxsYWJsZWAxW1N5c3RlbS5JbnQ2NF0iIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iQ2F0ZWdvcnlTdWJJZCIgVHlwZT0iU3lzdGVtLk51bGxhYmxlYDFbU3lzdGVtLkludDY0XSIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJCcmFuZElkIiBUeXBlPSJTeXN0ZW0uTnVsbGFibGVgMVtTeXN0ZW0uSW50NjRdIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9Ik1vZGVsSWQiIFR5cGU9IlN5c3RlbS5OdWxsYWJsZWAxW1N5c3RlbS5JbnQ2NF0iIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iQnJhbmROYW1lIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9Ik1vZGVsTmFtZSIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJQcm9kdWN0TW92ZW1lbnRzIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IkFycmF5IiAvPjxOb2RlIE5hbWU9IkFzc2lnbmVkUHJvZHVjdHMiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iQXJyYXkiPjxOb2RlIE5hbWU9IkFzc2lnbmVkVXNlck5hbWUiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iQXNzaWduZWRVc2VySWQiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iQXNzaWduZWRVc2VyUGhvdG8iIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iRnVsbE5hbWUiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iRW1haWwiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iQmFyY29kZSIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJQcm9kdWN0TmFtZSIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJQcm9kdWN0SWQiIFR5cGU9IlN5c3RlbS5OdWxsYWJsZWAxW1N5c3RlbS5JbnQ2NF0iIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iQXBwcm92YWxTdGF0dXMiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iQXNzaWduZWRQcm9kdWN0TW92ZW1lbnRzIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IklkIiBUeXBlPSJTeXN0ZW0uTnVsbGFibGVgMVtTeXN0ZW0uSW50NjRdIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IkNyZWF0ZWRCeSIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJDcmVhdGVkVXNlcklkIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IkNyZWF0ZWREYXRlIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IlVwZGF0ZWRCeSIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJVcGRhdGVkVXNlcklkIiBUeXBlPSJTeXN0ZW0uU3RyaW5nIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IlVwZGF0ZWREYXRlIiBTZWxlY3RlZD0idHJ1ZSIgTm9kZVR5cGU9IlByb3BlcnR5IiAvPjxOb2RlIE5hbWU9IkRvbWFpbkV2ZW50cyIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJBcnJheSIgLz48L05vZGU+PE5vZGUgTmFtZT0iUHJvZHVjdFRyYW5zZmVycyIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJBcnJheSIgLz48Tm9kZSBOYW1lPSJJZCIgVHlwZT0iU3lzdGVtLk51bGxhYmxlYDFbU3lzdGVtLkludDY0XSIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJDcmVhdGVkQnkiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iQ3JlYXRlZFVzZXJJZCIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJDcmVhdGVkRGF0ZSIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJVcGRhdGVkQnkiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iUHJvcGVydHkiIC8+PE5vZGUgTmFtZT0iVXBkYXRlZFVzZXJJZCIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJVcGRhdGVkRGF0ZSIgU2VsZWN0ZWQ9InRydWUiIE5vZGVUeXBlPSJQcm9wZXJ0eSIgLz48Tm9kZSBOYW1lPSJEb21haW5FdmVudHMiIFNlbGVjdGVkPSJ0cnVlIiBOb2RlVHlwZT0iQXJyYXkiIC8+PC9Ob2RlPjwvU2NoZW1hPjwvSnNvbkRhdGFTb3VyY2U+" />
+  </ComponentStorage>
+</XtraReportsLayoutSerializer>

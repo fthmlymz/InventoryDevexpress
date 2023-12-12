@@ -1,0 +1,200 @@
+﻿@page "/definitions/brand-list"
+@using InventoryManagement.Frontend.Common.Exceptions;
+@using InventoryManagement.Frontend.Common;
+@using InventoryManagement.Frontend.Constants;
+@using InventoryManagement.Frontend.DTOs;
+@using InventoryManagement.Frontend.DTOs.Brand
+@using InventoryManagement.Frontend.DTOs.Company
+@using InventoryManagement.Frontend.Services;
+@using InventoryManagement.Frontend.Services.Authorization;
+
+
+
+@inherits ComponentBase
+
+@if (brandModel != null && brandModel.data != null)
+{
+    <div class="rz-shadow-2" style="margin-bottom: 10px; display: flex; align-items: center;">
+        <label>Şirket Seç : </label>
+
+        <RadzenDropDownDataGrid TValue="CompanyModel"
+                                Value=@selectedCompany
+                                Data=@companies?.data
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                Change=@(args => OnDropDownValueChanged((CompanyModel)args))
+                                TextProperty="Name" style="margin-right: 25px;" />
+
+        <div style="margin-left: inherit;">
+            @if (!string.IsNullOrEmpty(selectedCompany?.Name))
+            {
+                <div><strong>@selectedCompany?.Name</strong> şirketi altına markalar kayıt edilecektir.</div>
+            }
+        </div>
+    </div>
+
+    @if (selectedCompany == null || string.IsNullOrEmpty(selectedCompany.Id.ToString()))
+    {
+        <div><strong>Öncelikle şirket seçmelisiniz !</strong></div>
+    }
+    else
+    {
+        <div class="row">
+            @if (AuthorizationService.HasPermission("res:brand", "scopes:read"))
+            {
+                <div class="col-md-6">
+                    <div class="rz-shadow-4">
+                        <RadzenCard Style="margin-bottom:20px">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>Ana Marka</div>
+                                @if (AuthorizationService.HasPermission("res:brand", "scopes:create"))
+                                {
+                                    <RadzenButton ButtonStyle="ButtonStyle.Success"
+                                                  Icon="add_circle_outline" class="mt-2 mb-4"
+                                                  Text="Yeni Marka"
+                                                  Click="@((args) => InsertRowBrand(new BrandModel()))"
+                                                  Disabled="@(brandToInsert != null || brandToUpdate != null)" />
+                                }
+                            </div>
+                            <RadzenDataGrid @ref="brandGrid" 
+                                            @bind-Value="@SelectedBrand"
+                                            ColumnWidth="200px"
+                                            AllowFiltering="true"
+                                            AllowSorting="true"
+                                            RowUpdate="@OnUpdateRowBrand"
+                                            RowCreate="@OnCreateRowBrand"
+                                            Data="@brandModel?.data"
+                                            TItem="BrandModel"
+                                            EditMode="DataGridEditMode.Single"
+                                            Style="max-height: 75vh;">
+                                <Columns>
+                                    <RadzenDataGridColumn TItem="BrandModel" Property="Id" Title="Id" Width="80px" />
+
+                                    <RadzenDataGridColumn TItem="BrandModel" Property="Name" Title="Marka Adı" Width="100%">
+                                        <EditTemplate Context="brand">
+                                            <RadzenTextBox @bind-Value="brand.Name" style="width: 100%" Name="Name"></RadzenTextBox>
+                                            <RadzenRequiredValidator style="display: grid" Component="Name" Text="Marka adı zorunludur" Popup="true" />
+                                        </EditTemplate>
+                                    </RadzenDataGridColumn>
+
+                                    <RadzenDataGridColumn TItem="BrandModel"
+                                                          Context="brand"
+                                                          Filterable="false"
+                                                          Sortable="false"
+                                                          TextAlign="TextAlign.Right"
+                                                          Width="156px">
+                                        <Template Context="brand">
+                                            @if (AuthorizationService.HasPermission("res:brand", "scopes:update"))
+                                            {
+                                                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRowBrand(brand))" @onclick:stopPropagation="true"></RadzenButton>
+                                            }
+                                            @if (AuthorizationService.HasPermission("res:brand", "scopes:delete"))
+                                            {
+                                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowBrand(brand))" @onclick:stopPropagation="true"></RadzenButton>
+                                            }
+                                        </Template>
+
+                                        <EditTemplate Context="brand">
+                                            @if (AuthorizationService.HasPermission("res:brand", "scopes:update"))
+                                            {
+                                                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRowBrand(brand))"></RadzenButton>
+                                                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEditBrand(brand))"></RadzenButton>
+                                            }
+                                            @if (AuthorizationService.HasPermission("res:brand", "scopes:delete"))
+                                            {
+                                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowBrand(brand))"></RadzenButton>
+                                            }
+                                        </EditTemplate>
+                                    </RadzenDataGridColumn>
+                                </Columns>
+                            </RadzenDataGrid>
+                        </RadzenCard>
+                    </div>
+                </div>
+            }
+
+            <div class="col-md-6">
+                <div class="rz-shadow-4">
+                    <RadzenCard Style="margin-bottom:20px">
+                        @if (SelectedBrand!= null && SelectedBrand.Any() && SelectedBrand.First().Id != 0)
+                        {
+                            <RadzenCard Style="margin-bottom:20px">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>Seçilen markaya ait modeller:</div>
+                                    <div>
+                                        @if (AuthorizationService.HasPermission("res:model", "scopes:create"))
+                                        {
+                                            <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Model" Click="@((args) => InsertRowModel(new Model()))" Disabled="@(modelToInsert != null || modelToUpdate != null)" />
+                                        }
+                                    </div>
+                                </div>
+                                <b>@SelectedBrand.First().Name</b>
+                            </RadzenCard>
+
+                            <RadzenTabs>
+                                <Tabs>
+                                    <RadzenTabsItem Text="Model Bilgileri">
+                                        <RadzenDataGrid @ref="modelGrid"
+                                                        AllowFiltering="true"
+                                                        AllowPaging="true"
+                                                        AllowSorting="true"
+                                                        Data="@(SelectedBrand?.FirstOrDefault()?.Models)"
+                                                        TItem="Model"
+                                                        RowUpdate="@OnUpdateRowModel"
+                                                        RowCreate="@OnCreateRowModel"
+                                                        EditMode="DataGridEditMode.Single">
+                                            <Columns>
+                                                <RadzenDataGridColumn TItem="Model" Property="Id" Title="Id" />
+                                                <RadzenDataGridColumn TItem="Model" Property="Name" Title="Model Adı">
+                                                    <EditTemplate Context="model">
+                                                        <RadzenTextBox @bind-Value="model.Name" style="width: 100%" Name="Name"></RadzenTextBox>
+                                                        <RadzenRequiredValidator style="display: grid" Component="Name" Text="Model adı zorunludur" Popup="true" />
+                                                    </EditTemplate>
+                                                </RadzenDataGridColumn>
+
+                                                <RadzenDataGridColumn TItem="Model" Property="Id" Title="Model Id" />
+
+                                                <RadzenDataGridColumn TItem="Model" Context="model" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+                                                    <Template Context="model">
+                                                        @if (AuthorizationService.HasPermission("res:model", "scopes:update"))
+                                                        {
+                                                            <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRowModel(model))" @onclick:stopPropagation="true"></RadzenButton>
+                                                        }
+                                                        @if (AuthorizationService.HasPermission("res:categorysub", "scopes:delete"))
+                                                        {
+                                                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowModel(model))" @onclick:stopPropagation="true"></RadzenButton>
+                                                        }
+                                                    </Template>
+
+                                                    <EditTemplate Context="model">
+                                                        @if (AuthorizationService.HasPermission("res:model", "scopes:update"))
+                                                        {
+                                                            <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRowModel(model))"></RadzenButton>
+                                                            <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEditModel(model))"></RadzenButton>
+                                                        }
+                                                        @if (AuthorizationService.HasPermission("res:model", "scopes:delete"))
+                                                        {
+                                                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRowModel(model))"></RadzenButton>
+                                                        }
+                                                    </EditTemplate>
+                                                </RadzenDataGridColumn>
+                                            </Columns>
+                                        </RadzenDataGrid>
+                                    </RadzenTabsItem>
+                                </Tabs>
+                            </RadzenTabs>
+                        }
+                    </RadzenCard>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+}
+
+
+@code {
+   
+}

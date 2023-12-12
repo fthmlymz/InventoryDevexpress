@@ -1,0 +1,58 @@
+Ports
+
+Keycloak
+		- http://localhost:4000;
+Gateway
+		- http://localhost:4001;
+InventoryManagement.API
+		- http://localhost:4002;
+InventoryManagement.Frontend
+		- https://localhost:4003;
+EmailService.API
+		- http://localhost:4004;
+FileTransferManager.Service
+		- http://localhost:4005;
+
+
+
+____________________________ DOCKER - Requirements ____________________________
+Docker Serilog      :
+docker run --name Serilog.Seq -d --restart unless-stopped -e ACCEPT_EULA=Y -p 5341:80 datalust/seq:latest
+
+
+Docker RabbitMQ     :
+docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+
+
+Docker MsSql Server :
+docker pull mcr.microsoft.com/mssql/server
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Aa123456789*-+" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+
+
+Docker Redis        :
+docker pull redis
+docker run --name Redis -p 6379:6379 -d redis
+
+
+
+Docker Keycloak     :
+
+
+____________________________ DOCKER ____________________________
+
+
+
+
+Genel Bilgi: 
+Persistence katman�nda bir kere migrations �al��t�r�lacak, 
+Migrate: dotnet ef migrations add InitialCreate --context ApplicationDbContext
+Update : dotnet ef database update --context ApplicationDbContext
+Remove : dotnet ef migrations remove --force --context ApplicationDbContext
+
+
+
+Test Dockerfile run
+InventoryManagement.Frontend
+Command: docker build -t inventory.management-frontend .
+Command: docker run -d -p 4004:4004 inventory.management.frontend
+Command: docker-compose up --build

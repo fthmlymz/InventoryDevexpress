@@ -1,0 +1,906 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="customJsonSource1.Json" xml:space="preserve">
+    <value>{
+  "data": [
+    {
+      "CategoryId": 1,
+      "CategoryName": "Bilgisayar",
+      "CategorySubId": 0,
+      "CategorySubName": "Server",
+      "BrandId": 20,
+      "BrandName": "DELL",
+      "ModelId": 582,
+      "ModelName": "POWER EDGE 230",
+      "ProductCount": 1
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "ClickShare",
+      "BrandId": 151,
+      "BrandName": "ClickShare",
+      "ModelId": 923,
+      "ModelName": "C3010S",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Scanner",
+      "BrandId": 9,
+      "BrandName": "CANON",
+      "ModelId": 371,
+      "ModelName": "P-215 II",
+      "ProductCount": 128
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Televizyon",
+      "BrandId": 90,
+      "BrandName": "HI-LEVEL",
+      "ModelId": 813,
+      "ModelName": "39HL50039",
+      "ProductCount": 26
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "Server/Blade",
+      "BrandId": 1,
+      "BrandName": "HP",
+      "ModelId": 152,
+      "ModelName": "ProLiant DL380 G10",
+      "ProductCount": 39
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "Storage",
+      "BrandId": 1,
+      "BrandName": "HP",
+      "ModelId": 203,
+      "ModelName": "HSV 300",
+      "ProductCount": 4
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "Tape Storage",
+      "BrandId": 1,
+      "BrandName": "HP",
+      "ModelId": 146,
+      "ModelName": "1/8 G2 AUTOLOADER",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 1,
+      "CategoryName": "Bilgisayar",
+      "CategorySubId": 0,
+      "CategorySubName": "Notebook",
+      "BrandId": 21,
+      "BrandName": "LENOVO",
+      "ModelId": 599,
+      "ModelName": "Thinkpad E15",
+      "ProductCount": 1001
+    },
+    {
+      "CategoryId": 1,
+      "CategoryName": "Bilgisayar",
+      "CategorySubId": 0,
+      "CategorySubName": "Think Client",
+      "BrandId": 4,
+      "BrandName": "ASUS",
+      "ModelId": 297,
+      "ModelName": "VM62",
+      "ProductCount": 72
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Amfi",
+      "BrandId": 48,
+      "BrandName": "MITO",
+      "ModelId": 693,
+      "ModelName": "AV240",
+      "ProductCount": 1
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Kalem",
+      "BrandId": 3,
+      "BrandName": "APPLE",
+      "ModelId": 255,
+      "ModelName": "Apple Pencil A1603",
+      "ProductCount": 5
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "MOUSE",
+      "BrandId": 85,
+      "BrandName": "LOGITECH",
+      "ModelId": 791,
+      "ModelName": "M171",
+      "ProductCount": 155
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "POS CİHAZI",
+      "BrandId": 109,
+      "BrandName": "PIDION",
+      "ModelId": 847,
+      "ModelName": "MT360E",
+      "ProductCount": 28
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Projeksiyon",
+      "BrandId": 29,
+      "BrandName": "EPSON",
+      "ModelId": 624,
+      "ModelName": "EB-W28",
+      "ProductCount": 29
+    },
+    {
+      "CategoryId": 8,
+      "CategoryName": "Hurdaya Ayrılacak Kategoriler",
+      "CategorySubId": 0,
+      "CategorySubName": "Harici Medya",
+      "BrandId": 23,
+      "BrandName": "SEAGATE",
+      "ModelId": 610,
+      "ModelName": "1 TB Backup Plus Ultra Slim",
+      "ProductCount": 18
+    },
+    {
+      "CategoryId": 8,
+      "CategoryName": "Hurdaya Ayrılacak Kategoriler",
+      "CategorySubId": 0,
+      "CategorySubName": "Kamera",
+      "BrandId": 39,
+      "BrandName": "A4TECH",
+      "ModelId": 664,
+      "ModelName": "PK-910H",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 8,
+      "CategoryName": "Hurdaya Ayrılacak Kategoriler",
+      "CategorySubId": 0,
+      "CategorySubName": "Ses Kayıt Cihazı",
+      "BrandId": 33,
+      "BrandName": "TEKNİKOM",
+      "ModelId": 655,
+      "ModelName": "VR-32C",
+      "ProductCount": 10
+    },
+    {
+      "CategoryId": 1,
+      "CategoryName": "Bilgisayar",
+      "CategorySubId": 0,
+      "CategorySubName": "Desktop",
+      "BrandId": 1,
+      "BrandName": "HP",
+      "ModelId": 106,
+      "ModelName": "Pro 400 G2 MT",
+      "ProductCount": 432
+    },
+    {
+      "CategoryId": 2,
+      "CategoryName": "Yazıcı",
+      "CategorySubId": 0,
+      "CategorySubName": "Mobil Yazıcılar",
+      "BrandId": 141,
+      "BrandName": "UROVO",
+      "ModelId": 910,
+      "ModelName": "K329",
+      "ProductCount": 373
+    },
+    {
+      "CategoryId": 2,
+      "CategoryName": "Yazıcı",
+      "CategorySubId": 0,
+      "CategorySubName": "Plotter",
+      "BrandId": 1,
+      "BrandName": "HP",
+      "ModelId": 214,
+      "ModelName": "DesingJet T630",
+      "ProductCount": 1
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "BT_Kamera",
+      "BrandId": 146,
+      "BrandName": "HIKVISION",
+      "ModelId": 916,
+      "ModelName": "DS-7108NI",
+      "ProductCount": 1
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Firewall",
+      "BrandId": 86,
+      "BrandName": "FORTINET",
+      "ModelId": 804,
+      "ModelName": "FG-60E",
+      "ProductCount": 104
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Hub",
+      "BrandId": 44,
+      "BrandName": "TP-LINK",
+      "ModelId": 685,
+      "ModelName": "TL-SF1016D",
+      "ProductCount": 18
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Switch",
+      "BrandId": 145,
+      "BrandName": "Aruba",
+      "ModelId": 915,
+      "ModelName": "JL681A",
+      "ProductCount": 220
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Voip Access Point",
+      "BrandId": 12,
+      "BrandName": "ASCOM",
+      "ModelId": 404,
+      "ModelName": "IPBS2-A3/1C",
+      "ProductCount": 12
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "E-İmza Modülü",
+      "BrandId": 139,
+      "BrandName": "ACS",
+      "ModelId": 908,
+      "ModelName": "ACR3901T-W1",
+      "ProductCount": 14
+    },
+    {
+      "CategoryId": 2,
+      "CategoryName": "Yazıcı",
+      "CategorySubId": 0,
+      "CategorySubName": "FOTOKOPİ",
+      "BrandId": 2,
+      "BrandName": "TOSHIBA",
+      "ModelId": 236,
+      "ModelName": "2010 AC",
+      "ProductCount": 1
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Access Point",
+      "BrandId": 15,
+      "BrandName": "CISCO",
+      "ModelId": 498,
+      "ModelName": "AIR-CAP3602I-E-K9",
+      "ProductCount": 27
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Router",
+      "BrandId": 149,
+      "BrandName": "TINAX",
+      "ModelId": 919,
+      "ModelName": "HGW-START-100DF HOTSPOT",
+      "ProductCount": 42
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "SAN Switch",
+      "BrandId": 95,
+      "BrandName": "EMC",
+      "ModelId": 825,
+      "ModelName": "Brocade Connectrix DS300",
+      "ProductCount": 4
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Disk Okuyucu",
+      "BrandId": 38,
+      "BrandName": "DARK",
+      "ModelId": 663,
+      "ModelName": "DK-AC-DSEM5",
+      "ProductCount": 7
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Fotoğraf Makinesi",
+      "BrandId": 31,
+      "BrandName": "NİKON",
+      "ModelId": 641,
+      "ModelName": "COLLPIX S2800",
+      "ProductCount": 28
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Konferans Cihazı",
+      "BrandId": 89,
+      "BrandName": "POLYCOM",
+      "ModelId": 812,
+      "ModelName": "TRIO 8800",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "FCT",
+      "BrandId": 47,
+      "BrandName": "MOBIX",
+      "ModelId": 692,
+      "ModelName": "Mobix-60",
+      "ProductCount": 3
+    },
+    {
+      "CategoryId": 3,
+      "CategoryName": "Telefon",
+      "CategorySubId": 0,
+      "CategorySubName": "Uydu Telefon",
+      "BrandId": 127,
+      "BrandName": "INMARSAT",
+      "ModelId": 896,
+      "ModelName": "ISD2LITE",
+      "ProductCount": 9
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "AP Controller",
+      "BrandId": 15,
+      "BrandName": "CISCO",
+      "ModelId": 517,
+      "ModelName": "AIR-CT2504-K9",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Nas",
+      "BrandId": 96,
+      "BrandName": "QNAP",
+      "ModelId": 826,
+      "ModelName": "TS-463U-RP",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Voip Controller",
+      "BrandId": 5,
+      "BrandName": "MITEL",
+      "ModelId": 342,
+      "ModelName": "3300 MXe-III",
+      "ProductCount": 11
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Kulaklık",
+      "BrandId": 121,
+      "BrandName": "KAREL",
+      "ModelId": 883,
+      "ModelName": "KLK215",
+      "ProductCount": 20
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "Enclosures/Chassis",
+      "BrandId": 1,
+      "BrandName": "HP",
+      "ModelId": 135,
+      "ModelName": "BladeSystem c7000 Enclosure G3",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 8,
+      "CategoryName": "Hurdaya Ayrılacak Kategoriler",
+      "CategorySubId": 0,
+      "CategorySubName": "Anons Cihazı",
+      "BrandId": 33,
+      "BrandName": "TEKNİKOM",
+      "ModelId": 654,
+      "ModelName": "AN-4S",
+      "ProductCount": 6
+    },
+    {
+      "CategoryId": 8,
+      "CategoryName": "Hurdaya Ayrılacak Kategoriler",
+      "CategorySubId": 0,
+      "CategorySubName": "Sunum Kumandası",
+      "BrandId": 85,
+      "BrandName": "LOGITECH",
+      "ModelId": 775,
+      "ModelName": "Spotlight Presentation Remote",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 2,
+      "CategoryName": "Yazıcı",
+      "CategorySubId": 0,
+      "CategorySubName": "Laser Renkli",
+      "BrandId": 1,
+      "BrandName": "HP",
+      "ModelId": 130,
+      "ModelName": "DESKJET 6980",
+      "ProductCount": 56
+    },
+    {
+      "CategoryId": 2,
+      "CategoryName": "Yazıcı",
+      "CategorySubId": 0,
+      "CategorySubName": "Laser S/B",
+      "BrandId": 29,
+      "BrandName": "EPSON",
+      "ModelId": 634,
+      "ModelName": "L6290",
+      "ProductCount": 130
+    },
+    {
+      "CategoryId": 3,
+      "CategoryName": "Telefon",
+      "CategorySubId": 0,
+      "CategorySubName": "Cep Telefonu",
+      "BrandId": 13,
+      "BrandName": "SAMSUNG",
+      "ModelId": 494,
+      "ModelName": "SM-A235F 128 GB",
+      "ProductCount": 1595
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Bağlantı Aparatları",
+      "BrandId": 38,
+      "BrandName": "DARK",
+      "ModelId": 662,
+      "ModelName": "STOREX D220C",
+      "ProductCount": 6
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Barkod Okuyucu",
+      "BrandId": 30,
+      "BrandName": "ZEBEX",
+      "ModelId": 639,
+      "ModelName": "Z-3191BT",
+      "ProductCount": 97
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Etiket Makinesi",
+      "BrandId": 40,
+      "BrandName": "BRADY",
+      "ModelId": 676,
+      "ModelName": "BMP 41",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "KLAVYE",
+      "BrandId": 1,
+      "BrandName": "HP",
+      "ModelId": 171,
+      "ModelName": "PR110U",
+      "ProductCount": 157
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Navigasyon Cihazı",
+      "BrandId": 8,
+      "BrandName": "TOMTOM",
+      "ModelId": 367,
+      "ModelName": "4EN52 Z1230",
+      "ProductCount": 19
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "Kabinet",
+      "BrandId": 14,
+      "BrandName": "LADOX",
+      "ModelId": 497,
+      "ModelName": "16U 19 KABINET",
+      "ProductCount": 20
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "MailGateway",
+      "BrandId": 86,
+      "BrandName": "FORTINET",
+      "ModelId": 797,
+      "ModelName": "FortiMail 200F",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 2,
+      "CategoryName": "Yazıcı",
+      "CategorySubId": 0,
+      "CategorySubName": "Tarayıcı",
+      "BrandId": 125,
+      "BrandName": "KODAK",
+      "ModelId": 892,
+      "ModelName": "i2420",
+      "ProductCount": 5
+    },
+    {
+      "CategoryId": 3,
+      "CategoryName": "Telefon",
+      "CategorySubId": 0,
+      "CategorySubName": "Telsiz Telefon",
+      "BrandId": 10,
+      "BrandName": "PANASONIC",
+      "ModelId": 392,
+      "ModelName": "KX-TGA161EX",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Dock Statiton",
+      "BrandId": 4,
+      "BrandName": "ASUS",
+      "ModelId": 335,
+      "ModelName": "HZ-3B DOCKING STATION",
+      "ProductCount": 5
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "El Terminali",
+      "BrandId": 11,
+      "BrandName": "INTERMEC",
+      "ModelId": 395,
+      "ModelName": "CN 50",
+      "ProductCount": 81
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "External Hard Disk",
+      "BrandId": 56,
+      "BrandName": "WD",
+      "ModelId": 706,
+      "ModelName": "My Passport 1TB",
+      "ProductCount": 1
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Monitör",
+      "BrandId": 43,
+      "BrandName": "Viewsonic",
+      "ModelId": 682,
+      "ModelName": "VG2456",
+      "ProductCount": 677
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "DataDomain",
+      "BrandId": 95,
+      "BrandName": "EMC",
+      "ModelId": 820,
+      "ModelName": "DD640",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "NVR &amp; DVR",
+      "BrandId": 13,
+      "BrandName": "SAMSUNG",
+      "ModelId": 457,
+      "ModelName": "SRD-1650D",
+      "ProductCount": 94
+    },
+    {
+      "CategoryId": 1,
+      "CategoryName": "Bilgisayar",
+      "CategorySubId": 0,
+      "CategorySubName": "All-in-One PC",
+      "BrandId": 21,
+      "BrandName": "LENOVO",
+      "ModelId": 604,
+      "ModelName": "S500Z",
+      "ProductCount": 2
+    },
+    {
+      "CategoryId": 1,
+      "CategoryName": "Bilgisayar",
+      "CategorySubId": 0,
+      "CategorySubName": "Tablet",
+      "BrandId": 3,
+      "BrandName": "APPLE",
+      "ModelId": 280,
+      "ModelName": "MP223TU/A İPAD PRO 512GB",
+      "ProductCount": 488
+    },
+    {
+      "CategoryId": 2,
+      "CategoryName": "Yazıcı",
+      "CategorySubId": 0,
+      "CategorySubName": "AllinOne",
+      "BrandId": 51,
+      "BrandName": "KYOCERA",
+      "ModelId": 697,
+      "ModelName": "FS-1135 MFP",
+      "ProductCount": 13
+    },
+    {
+      "CategoryId": 2,
+      "CategoryName": "Yazıcı",
+      "CategorySubId": 0,
+      "CategorySubName": "Nokta Vuruşlu",
+      "BrandId": 29,
+      "BrandName": "EPSON",
+      "ModelId": 623,
+      "ModelName": "LX300+II",
+      "ProductCount": 41
+    },
+    {
+      "CategoryId": 3,
+      "CategoryName": "Telefon",
+      "CategorySubId": 0,
+      "CategorySubName": "Analog Telefon",
+      "BrandId": 100,
+      "BrandName": "TELMAX",
+      "ModelId": 830,
+      "ModelName": "CI-2525",
+      "ProductCount": 1
+    },
+    {
+      "CategoryId": 3,
+      "CategoryName": "Telefon",
+      "CategorySubId": 0,
+      "CategorySubName": "IP PHONE",
+      "BrandId": 5,
+      "BrandName": "MITEL",
+      "ModelId": 344,
+      "ModelName": "6910",
+      "ProductCount": 751
+    },
+    {
+      "CategoryId": 4,
+      "CategoryName": "Ağ Bileşenleri",
+      "CategorySubId": 0,
+      "CategorySubName": "SUPERBOX",
+      "BrandId": 143,
+      "BrandName": "ZTE",
+      "ModelId": 912,
+      "ModelName": "MF286R",
+      "ProductCount": 6
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "Sıramatik",
+      "BrandId": 81,
+      "BrandName": "Q-SMART",
+      "ModelId": 770,
+      "ModelName": "Q-smart D2H",
+      "ProductCount": 8
+    },
+    {
+      "CategoryId": 5,
+      "CategoryName": "Çevre Birimleri",
+      "CategorySubId": 0,
+      "CategorySubName": "UPS",
+      "BrandId": 16,
+      "BrandName": "MAKELSAN",
+      "ModelId": 526,
+      "ModelName": "Powerpack Plus 3-1 kVA",
+      "ProductCount": 81
+    },
+    {
+      "CategoryId": 7,
+      "CategoryName": "Infrastructure",
+      "CategorySubId": 0,
+      "CategorySubName": "RecoveryPoint",
+      "BrandId": 95,
+      "BrandName": "EMC",
+      "ModelId": 821,
+      "ModelName": "Unisphere for RecoveryPoint",
+      "ProductCount": 4
+    }
+  ],
+  "currentPage": 0,
+  "totalPages": 0,
+  "totalCount": 0,
+  "pageSize": 0,
+  "hasPreviousPage": false,
+  "hasNextPage": false,
+  "messages": [],
+  "succedded": false,
+  "exception": null,
+  "code": 0
+}</value>
+  </data>
+</root>

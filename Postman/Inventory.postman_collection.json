@@ -1,0 +1,420 @@
+{
+	"info": {
+		"_postman_id": "163bd863-b8ec-459d-9513-1f740972207a",
+		"name": "Inventory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8650688"
+	},
+	"item": [
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Enerya Ereğli120 ccc\",\r\n  \"description\": \"erg açıklama\",\r\n  \"createdBy\": \"malfx0011\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/Company",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkV3RJZUFfaE5oaEh0TXdyMV9jSVJkV0RYMExaNEFyVlRmdFMxX21xTHZFIn0.eyJleHAiOjE2ODY2NjEwOTUsImlhdCI6MTY4NjY2MDc5NSwianRpIjoiZDBmYTM0YjktOWIxNy00OGQ0LTgyYWEtNmE1ZTVjNWI3NDZjIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy90ZXN0LXYyIiwiYXVkIjoiYXBwLWNsaWVudCIsInN1YiI6IjU0ODA2YWExLTA4OTgtNGY5Ny05OTQzLTdmZDI4ZmU2OTYzMCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFwcC1jbGllbnQiLCJzZXNzaW9uX3N0YXRlIjoiM2QzOWRhOTktZDk2ZC00ZmZiLWE0YTktYTI1MThlNTFmNGE1IiwiYWxsb3dlZC1vcmlnaW5zIjpbIioiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiYWRtaW4iLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtdGVzdC12MiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sImF1dGhvcml6YXRpb24iOnsicGVybWlzc2lvbnMiOlt7InNjb3BlcyI6WyJzY29wZXM6cmVhZCJdLCJyc2lkIjoiN2IxMzM3ZjEtNzUzZC00NTRlLThhMjktZjNjNjkwMDI1YjExIiwicnNuYW1lIjoicmVzOmNhdGVnb3J5c3ViIn0seyJzY29wZXMiOlsic2NvcGVzOnJlYWQiXSwicnNpZCI6IjRiZTQ2ZWEwLTViMWMtNGY1Ni1iNmJjLTFjMDJlMzUyY2VhNyIsInJzbmFtZSI6InJlczpicmFuZG1vZGVsIn0seyJzY29wZXMiOlsic2NvcGVzOnJlYWQiXSwicnNpZCI6ImE4MDE0ZjZhLTA3MjctNDgwMi1iOGVmLTI1ODdlMDFiOTcyMCIsInJzbmFtZSI6InJlczpjb21wYW55In0seyJzY29wZXMiOlsic2NvcGVzOnJlYWQiXSwicnNpZCI6ImIwNzE5YTg0LWM3YTctNDZmNy1iMGMzLWY0ZjM2MjUzYjk5ZiIsInJzbmFtZSI6InJlczpjYXRlZ29yeSJ9LHsic2NvcGVzIjpbInNjb3BlczpyZWFkIl0sInJzaWQiOiI5MWY0YTlhNC1iMzYxLTQzNTktOWM5Yi0wZWM0NTQ5NDU2Y2YiLCJyc25hbWUiOiJyZXM6aW52ZW50b3J5In1dfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiM2QzOWRhOTktZDk2ZC00ZmZiLWE0YTktYTI1MThlNTFmNGE1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYWxmeDAwMSIsImdpdmVuX25hbWUiOiIiLCJmYW1pbHlfbmFtZSI6IiJ9.iuJSLCIDXI2Kq944dsuMM_oqV2b72A9Wuu6HlMuKGBjHit7hPgFiUDGzviNkxZ8BhoI0KZXuZ9xUsLhzVhtKWE1ij8TQzr50QvIEiV2pjIVfwPYIvo6Bt--kBRR0NsSH9HaIkRbMh315spaHkLPFPAlZs4LM38ZJxT6LEzOtQkt0OnaeoBbMMYe2iGDYSHmsM5fG8HGq1gEWmMFL21wYkZD92SMCtji9hyFQ_6j6CVlK0FeKFpqi4POdDTjv2FjNNZ5IUUvddy9dWQrT2Itm34FjlLdA95MLPz-Lgk3WmJcMeIDIsjbPbLa1K855PN9h-_1_nDq4nN7NLuaQ78PgHw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/Company/search?PageNumber=1&PageSize=3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Company",
+								"search"
+							],
+							"query": [
+								{
+									"key": "PageNumber",
+									"value": "1"
+								},
+								{
+									"key": "PageSize",
+									"value": "3"
+								},
+								{
+									"key": "Name",
+									"value": "kon",
+									"disabled": true
+								},
+								{
+									"key": "Description",
+									"value": "kn",
+									"disabled": true
+								},
+								{
+									"key": "CreatedBy",
+									"value": "malfx",
+									"disabled": true
+								},
+								{
+									"key": "UpdatedBy",
+									"value": "malfx",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 4007,\r\n  \"name\": \"1025 güncel\",\r\n  \"description\": \"ereğli\",\r\n  \"updatedBy\": \"malfx002\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/Company",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkUTR2aV9XeFItSXFvY2FFVDdZQU1DZzBaWmJjQmE3X2tQTHRseHFZbVEwIn0.eyJleHAiOjE2ODY1Njc3MDksImlhdCI6MTY4NjU2NzQwOSwianRpIjoiMmM0OTVhMmQtN2RmNy00YTRhLWI0YTAtOWI4NGNlYzViMDdmIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9FbmVyeWFJbnZlbnRvcnkiLCJhdWQiOlsicmVhbG0tbWFuYWdlbWVudCIsImFjY291bnQiXSwic3ViIjoiNTMwZDA2ZGEtMjhiNS00OTcyLWE4ZmUtY2VlMDM1YmJiMGIzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZW5lcnlhX2ludmVudG9yeSIsInNlc3Npb25fc3RhdGUiOiI5ZmYwNTVjZS02MDMxLTRmYTktOGVmYy00ODk1YmNlYzg2MWUiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtZW5lcnlhaW52ZW50b3J5IiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWFsbS1tYW5hZ2VtZW50Ijp7InJvbGVzIjpbInZpZXctdXNlcnMiLCJxdWVyeS1ncm91cHMiLCJxdWVyeS11c2VycyJdfSwiZW5lcnlhX2ludmVudG9yeSI6eyJyb2xlcyI6WyJDb21wYW55UmVhZFJvbGUiXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJzaWQiOiI5ZmYwNTVjZS02MDMxLTRmYTktOGVmYy00ODk1YmNlYzg2MWUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJmYXRpaCBtYWx5ZW1leiIsInByZWZlcnJlZF91c2VybmFtZSI6Im1hbGZ4MDAxIiwiZ2l2ZW5fbmFtZSI6ImZhdGloIiwiZmFtaWx5X25hbWUiOiJtYWx5ZW1leiJ9.kiVceA5kVcd2kPLoduSAebwRZ5QIq1NnV4YM4MZU52ib8IQmxVzQqdEy9TeB-x04MNJRldjzV5-YESyZiuGim18IuMRzyjt6BtkBKZ0_kgrqC9zvqbYrD3e30MB44S2DDalRzJ07qv_yDGreLZ7KAaLScSguTwYEIqbhM2oG3pn283E-RYGMiz9uxUWSTYIm4bj475dzt8QUpvSdxcYEg08cQ_cGb5f7aMGNObMRT9tpdc8knYd0u7lNVG-vsMHB_eSq6wGYqaOSSIqv1U6YXwiubi8T1zm5ucc1zicktSdAFpJ7y6bn2wOY6WboIVRMt4WxSZQZIT-4NMWur4Uqhw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 119,\r\n  \"name\": \"sad\",\r\n  \"description\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/Company/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCompanyByIdQuery",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/Company/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"category name2\",\r\n  \"companyId\": 2,\r\n  \"createdBy\": \"created by\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/Category",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": 2,\r\n    \"name\": \"tarayıcı 100302211\",\r\n    \"updatedBy\": \"malfx001\",\r\n    \"companyId\": 2\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/Category",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/Category/1003",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Category",
+								"1003"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoryWithPaginationQuery",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/Category?pageNumber=1&pageSize=5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Category"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CategoryWithCategorySub",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/Category/CategoryWithCategorySub?id=1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Category",
+								"CategoryWithCategorySub"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CategorySub",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"ikinci postman\",\r\n  \"categoryId\": 1,\r\n  \"createdBy\": \"created by\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/CategorySub",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"CategorySub"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1008,\r\n  \"name\": \"Updated name23\",\r\n  \"categoryId\": 18,\r\n  \"updatedBy\": \"updated by\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/CategorySub",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"CategorySub"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/CategorySub/12",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"CategorySub",
+								"12"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

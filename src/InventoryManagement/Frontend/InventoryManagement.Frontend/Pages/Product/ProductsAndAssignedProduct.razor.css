@@ -1,0 +1,4 @@
+﻿.custom-dropdown .rz-dropdown-panel {
+    max-height: 50px;
+    overflow-y: auto; /* Kaydırma çubuğunu etkinleştirir */
+}

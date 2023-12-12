@@ -1,0 +1,296 @@
+﻿@page "/definitions/transfer-officiers"
+
+@using InventoryManagement.Frontend.Common;
+@using InventoryManagement.Frontend.Constants;
+@using InventoryManagement.Frontend.DTOs;
+@using InventoryManagement.Frontend.DTOs.Company
+@using InventoryManagement.Frontend.DTOs.Keycloak
+@using InventoryManagement.Frontend.Services;
+@using InventoryManagement.Frontend.Services.Authorization;
+
+
+@inject ApiService ApiService
+@inject NotificationService NotificationService
+@inject IAuthorizationService AuthorizationService
+@inject DialogService DialogService
+
+@if (AuthorizationService.HasPermission("res:company", "scopes:read"))
+{
+    <div class="rz-shadow-2" style="margin-bottom: 10px; display: flex; align-items: center;">
+        <label>Şirket Seç : </label>
+
+        <RadzenDropDownDataGrid TValue="CompanyModel"
+                                Value=@selectedCompany
+                                Data=@companies?.data
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                Change=@(args => OnDropDownValueChangedCompany((CompanyModel)args))
+                                TextProperty="Name" style="margin-right: 25px;" />
+
+        <div style="margin-left: inherit;">
+            @if (!string.IsNullOrEmpty(selectedCompany?.Name))
+            {
+                <div><strong>@selectedCompany?.Name</strong> şirketi altına seçilen sorumlu personeller eklenecek.</div>
+            }
+        </div>
+
+
+        <div style="margin-left: auto; display: flex; align-items: center;">
+            @if (!string.IsNullOrEmpty(selectedCompany?.Name))
+            {
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Sorumlu Personel Seç" Click="@(() => ShowUsersDialog())" />
+            }
+        </div>
+
+    </div>
+}
+
+
+
+@if (AuthorizationService.HasPermission("res:transferofficier", "scopes:read"))
+{
+    <RadzenTabs>
+        <Tabs>
+            <RadzenTabsItem Text="Şirket'e bağlı sorumlular">
+                <RadzenDataGrid @ref="transferOfficierGrid"
+                                AllowFiltering="true"
+                                AllowPaging="true"
+                                AllowSorting="true"
+                                Data="@(transferOfficierModel?.data)"
+                                TItem="CompanyAndTransferOfficerModel">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="CompanyAndTransferOfficerModel"
+                                              Context="transferOfficer"
+                                              Filterable="false"
+                                              Sortable="false"
+                                              TextAlign="TextAlign.Right"
+                                              Width="200px">
+                            <Template Context="transferOfficer">
+                                <RadzenDataGrid AllowFiltering="false"
+                                                AllowPaging="false"
+                                                AllowSorting="false"
+                                                Data="@(transferOfficer.TransferOfficers)"
+                                                TItem="TransferOfficerQueryDto">
+                                    <Columns>
+                                        <RadzenDataGridColumn TItem="TransferOfficerQueryDto" Property="Id" Title="Id" Width="15%" Visible="false" />
+                                        <RadzenDataGridColumn TItem="TransferOfficerQueryDto" Property="UserName" Title="Kullanıcı Adı" Width="50%" />
+                                        <RadzenDataGridColumn TItem="TransferOfficerQueryDto" Property="FullName" Title="Adı Soyadı" Width="50%" />
+                                        <RadzenDataGridColumn TItem="TransferOfficerQueryDto" Property="Email" Title="E-posta" Width="50%" />
+                                        <RadzenDataGridColumn TItem="TransferOfficerQueryDto"
+                                                              Context="officer"
+                                                              Filterable="false"
+                                                              Sortable="false"
+                                                              TextAlign="TextAlign.Right"
+                                                              Width="100px">
+                                            <Template Context="officer">
+                                                @if (AuthorizationService.HasPermission("res:transferofficier", "scopes:read"))
+                                                {
+                                                    <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                                                  Icon="delete"
+                                                                  Text="Sil"
+                                                                  Click="@(() => DeleteTransferOfficer(officer.Id))" />
+                                                }
+                                            </Template>
+                                        </RadzenDataGridColumn>
+                                    </Columns>
+                                </RadzenDataGrid>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenTabsItem>
+        </Tabs>
+    </RadzenTabs>
+}
+
+
+
+
+
+
+
+
+@code {
+    #region Company
+    PaginatedResult<CompanyModel>? companies;
+    CompanyModel? selectedCompany;
+    async void OnDropDownValueChangedCompany(object item)
+    {
+        selectedCompany = (CompanyModel)item;
+
+        await GetByIdCompanyAndTransferOfficerQuery(selectedCompany.Id);
+    }
+    #endregion
+
+
+
+    #region TransferOfficier
+    private PaginatedResult<CompanyAndTransferOfficerModel>? transferOfficierModel { get; set; }
+    private RadzenDataGrid<CompanyAndTransferOfficerModel>? transferOfficierGrid;
+    #endregion
+
+
+    #region User List
+    IEnumerable<KeycloakUsersModel>? users;
+    KeycloakUsersModel? selectedUser;
+    #endregion
+
+
+
+    protected override async void OnInitialized()
+    {
+        companies = new PaginatedResult<CompanyModel>();
+        await LoadCompanyData(1, 10000);
+    }
+
+    private async Task LoadCompanyData(int pageNumber, int pageSize)
+    {
+        try
+        {
+            var companyModel = await ApiService.GetAsync<PaginatedResult<CompanyModel>>($"{ApiEndpointConstants.CompanySearch}?PageNumber={pageNumber}&PageSize={pageSize}");
+            companies = companyModel;
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Bağlantı hatası", $"İstek gerçekleştirilemedi {ex.Message}", duration: 6000);
+        }
+        StateHasChanged();
+    }
+
+
+
+    #region Transfer Officier
+    async Task ShowUsersDialog()
+    {
+        var result = await DialogService.OpenAsync("Sorumlu Personel Atama", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Sorumlu personel : <b>@selectedUser?.FirstName @selectedUser?.LastName</b></p>
+
+        <RadzenDropDownDataGrid TValue="KeycloakUsersModel"
+                                Value="@selectedUser"
+                                LoadData=@LoadDropDownData
+                                AllowFiltering="true"
+                                Data=@users
+                                TextProperty="Username"
+                                Change="@(args => OnChange((KeycloakUsersModel)args))">
+            <Columns>
+                <RadzenDropDownDataGridColumn Property="Id" Title="Id" Width="80px" />
+                <RadzenDropDownDataGridColumn Property="FirstName" Title="FirstName" Width="80px" />
+                <RadzenDropDownDataGridColumn Property="LastName" Title="LastName" Width="80px" />
+                <RadzenDropDownDataGridColumn Property="Email" Title="Email" Width="80px" />
+            </Columns>
+        </RadzenDropDownDataGrid>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.End" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal Et" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Sorumlu Ata" Click="() => CreateTranferOfficierCommand()" Style="width: 120px;" />
+            </RadzenStack>
+        </RadzenStack>
+        </RadzenStack>
+    );
+    }
+    async Task LoadDropDownData(LoadDataArgs args)
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(args?.Filter))
+            {
+                users = await ApiService.GetAsync<List<KeycloakUsersModel>>($"{ApiEndpointConstants.KeyCloakUserSearchEndpoint}?search={args.Filter}");
+                StateHasChanged();
+                await InvokeAsync(StateHasChanged);
+                DialogService.Refresh();
+            }
+        }
+        catch (Exception)
+        {
+        }
+        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
+        DialogService.Refresh();
+    }
+    private void OnChange(object args)
+    {
+        selectedUser = (KeycloakUsersModel)args;
+        DialogService.Refresh();
+    }
+    private async Task CreateTranferOfficierCommand()
+    {
+        if (selectedUser == null)
+        {
+            DialogService.Close();
+            DialogService.Dispose();
+            StateHasChanged();
+            return;
+        }
+
+        var data = new TransferOfficerQueryDto
+            {
+                UserName = selectedUser?.Username,
+                FullName = selectedUser?.FirstName + " " + selectedUser?.LastName,
+                Email = selectedUser?.Email,
+                CompanyId = selectedCompany?.Id
+            };
+
+        var result = await ApiService.PostAsync(ApiEndpointConstants.TransferOfficierCrud, data);
+        if (result.IsSuccessStatusCode)
+        {
+            if (transferOfficierModel != null)
+            {
+                var companyModel = transferOfficierModel.data.FirstOrDefault(t => t.Id == selectedCompany?.Id);
+                if (companyModel != null)
+                {
+                    if (companyModel.TransferOfficers == null)
+                    {
+                        companyModel.TransferOfficers = new List<TransferOfficerQueryDto>();
+                    }
+
+                    var updatedTransferOfficers = companyModel.TransferOfficers.ToList();
+                    updatedTransferOfficers.Add(data);
+                    companyModel.TransferOfficers = updatedTransferOfficers;
+
+                    await transferOfficierGrid.Reload();
+                    StateHasChanged();
+                }
+            }
+            NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"{selectedUser?.FirstName} {selectedUser?.LastName} sorumlu personel olarak atandı.", duration: 6000);
+            StateHasChanged();
+        }
+        DialogService.Close();
+        DialogService.Dispose();
+
+        await transferOfficierGrid.Reload();
+        StateHasChanged();
+    }
+    private async Task GetByIdCompanyAndTransferOfficerQuery(int id)
+    {
+        try
+        {
+            transferOfficierModel = await ApiService.GetAsync<PaginatedResult<CompanyAndTransferOfficerModel>>($"{ApiEndpointConstants.TransferOfficierCrud}/{id}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Bağlantı hatası", $"İstek gerçekleştirilemedi {ex.Message}", duration: 6000);
+        }
+        StateHasChanged();
+    }
+    private async Task DeleteTransferOfficer(int id)
+    {
+        bool? confirmed = await DialogService.Confirm($"Seçilen  personel şirket altından kaldırılacak onaylıyor musunuz?\n" +
+                                             "Silme Onayı");
+        if (confirmed == true)
+        {
+            var response = await ApiService.DeleteAsync(ApiEndpointConstants.TransferOfficierCrud, id);
+            if (response.IsSuccessStatusCode)
+            {
+                var transferOfficerToRemove = transferOfficierModel?.data?.FirstOrDefault(t => t.TransferOfficers.Any(o => o.Id == id));
+                if (transferOfficerToRemove != null)
+                {
+                    transferOfficerToRemove.TransferOfficers = transferOfficerToRemove.TransferOfficers.Where(o => o.Id != id).ToList();
+                }
+                StateHasChanged();
+                NotificationService.Notify(NotificationSeverity.Success, "Başarılı", $"Silme isteği gerçekleşti.");
+            }
+        }
+    }
+    #endregion
+}

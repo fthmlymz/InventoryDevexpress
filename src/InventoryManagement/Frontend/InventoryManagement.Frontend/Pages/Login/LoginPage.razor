@@ -1,0 +1,84 @@
+﻿@layout LoginLayout
+@page "/login"
+@using InventoryManagement.Frontend.DTOs.Keycloak;
+@using System.Text.Json;
+@using InventoryManagement.Frontend.Services.Authorization;
+@using InventoryManagement.Frontend.Services;
+
+@inject ApiService ApiService
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider authenticationStateProvider
+
+
+@if (progressBarValue == false)
+{
+    <RadzenCard class="rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12" style="max-width: 600px">
+        <RadzenTemplateForm TItem="LoginModel" Data="@loginModel">
+            <RadzenLogin AllowRegister="false"
+                         AllowResetPassword="true"
+                         Username="@loginModel.Username"
+                         UserText="Kullanıcı Adı"
+                         UserRequired="Kullanıcı adı zorunludur"
+                         Password="@loginModel.Password"
+                         PasswordText="Şifre"
+                         PasswordRequired="Şifre zorunludur"
+                         AllowRememberMe="true"
+                         RememberMe="@rememberMe"
+                         RememberMeText="Beni hatırla"
+                         Login=@(args => OnLogin(args, "Varsayılan değerle gir"))
+                         LoginText="Giriş Yap"
+                         ResetPassword=@(args => OnResetPassword(args, "Varsayılan değerle gir"))
+                         ResetPasswordText="Şifremi unuttum"
+                         Register=@(args => OnRegister("Varsayıldan değerle kayıt ol"))
+                         RegisterText="Kayıt ol"
+                         RegisterMessageText="Hesabınız yoksa kayıt olun" />
+        </RadzenTemplateForm>
+    </RadzenCard>
+}
+else
+{
+    <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+}
+
+
+
+@code {
+    LoginModel loginModel = new LoginModel();
+    bool rememberMe = true;
+    bool progressBarValue = false;
+
+    async Task OnLogin(LoginArgs args, string name)
+    {
+        loginModel.Username = args.Username;
+        loginModel.Password = args.Password;
+
+
+        progressBarValue = true;
+        await ((KeycloakAuthenticationStateProvider)authenticationStateProvider).LoginAsync(loginModel.Username, loginModel.Password);
+        progressBarValue = false;
+        var userInfo = ((KeycloakAuthenticationStateProvider)authenticationStateProvider).UserInfo;
+    }
+
+    void OnRegister(string name)
+    {
+        // Kayıt işlemi burada yapılabilir
+    }
+
+    void OnResetPassword(string value, string name)
+    {
+        // Şifre sıfırlama işlemi burada yapılabilir
+    }
+
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     var result = await storage.GetAsync<bool>("NewsAlert.showAlert");
+    //     bool oldValue = showAlert;
+    //     showAlert = result.Success ? result.Value : true;
+    //     if (showAlert != oldValue)
+    //     {
+    //         StateHasChanged();
+    //     }
+    // }
+}

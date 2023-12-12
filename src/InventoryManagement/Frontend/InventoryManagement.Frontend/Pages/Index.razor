@@ -1,0 +1,140 @@
+﻿@page "/"
+@using InventoryManagement.Frontend.Common;
+@using InventoryManagement.Frontend.Constants;
+@using InventoryManagement.Frontend.DTOs.Reports;
+@using InventoryManagement.Frontend.Services;
+@using InventoryManagement.Frontend.Services.Authorization;
+
+@inject NotificationService NotificationService
+@inject ApiService ApiService
+@inject IAuthorizationService authorizationService
+
+<PageTitle>Ana Sayfa</PageTitle>
+
+@* <h1>Envanter Yönetim uygulaması</h1> *@
+
+
+@inherits ComponentBase
+
+
+@if (authorizationService.HasPermission("res:report", "scopes:read"))
+{
+    @if (productCounts != null && productCounts.data != null)
+    {
+        <RadzenStack style="box-shadow: var(--rz-shadow-8);" class="rz-border-radius-4">
+            <div>
+                <style>
+                    .rz-chart svg {
+                        overflow: visible;
+                    }
+                </style>
+                <RadzenChart>
+
+                    <RadzenColumnSeries Data="productCounts.data"
+                                        Fills="@(new [] { "#ccbbdd", "#FF9333", "#FF3390", "#95667B", "red", "green", "orange", "blue" })"
+                                        CategoryProperty="CategorySubName"
+                                        ValueProperty="ProductCount">
+                        <RadzenSeriesDataLabels Visible="true" />
+                    </RadzenColumnSeries>
+                    <RadzenLegend Visible="false" />
+                    <RadzenChartTooltipOptions Visible="false" />
+
+                    <RadzenColumnOptions Radius="5" Width="15" />
+                    <RadzenCategoryAxis Padding="20">
+                        <RadzenTicks>
+                            <Template>
+                                <text class="rz-tick-text" style="text-anchor: start; transform: translate(@(Math.Truncate(context.X))px, @(Math.Truncate(context.Y + 10))px) rotate(45deg)">@context.Value</text>
+                            </Template>
+                        </RadzenTicks>
+                    </RadzenCategoryAxis>
+
+                    <RadzenValueAxis>
+                        <RadzenGridLines Visible="true" />
+                        <RadzenAxisTitle Text="Genel Ürün Bilgisi" />
+                    </RadzenValueAxis>
+
+                    <div style="display: flex; justify-content: flex-end; align-items: center;">
+                        <RadzenButton Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Primary" Text="Genel Raporu Yazdır" Click="@(() => { ShowGeneralInventoryReportDialog(); })" />
+
+                    </div>
+                </RadzenChart>
+            </div>
+        </RadzenStack>
+    }
+    else
+    {
+        <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    }
+}
+
+
+
+<br />
+
+<RadzenAlert Variant="Radzen.Variant.Filled" AlertStyle="AlertStyle.Base" Size="AlertSize.Medium" AllowClose=false>
+    Bu alanda bekleyen formlar, taşıma durumundakiler, bekleyen zimmet gibi bilgiler gösterilecek...
+</RadzenAlert>
+
+
+
+@code {
+    private PaginatedResult<CategoryProductCountsDto>? productCounts;
+
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        await CategoryProductCountsDto();
+    }
+    private async Task CategoryProductCountsDto()
+    {
+        try
+        {
+            productCounts = await ApiService.GetAsync<PaginatedResult<CategoryProductCountsDto>>($"{ApiEndpointConstants.GetProductCountsQuery}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Bağlantı hatası", $"Genel rapor isteği gönderilemedi {ex.Message}", duration: 6000);
+        }
+    }
+
+
+
+
+
+    async Task ShowGeneralInventoryReportDialog()
+    {
+        _report = DevExpress.XtraReports.UI.XtraReport.FromFile(ApplicationConstants.GenelEnvanterReport, true);
+        _report.DataMember = "data";
+        
+
+
+
+        await _dialogService.OpenAsync($"Genel Envanter Raporu", ds =>
+    @<RadzenStack style="display: inline-table">
+        @if (_report.DataMember != null)
+        {
+            <DxReportViewer @ref="@_reportViewer" Report="@_report" Zoom="0.8" TabPanelMaxWidth="50"/>
+
+            <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="Kapat" Click="() => { ds.Close(true); _dialogService.Dispose();}" Style="width: 80px;" />
+            </RadzenStack>
+        }
+        else
+        {
+            <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        }
+    </RadzenStack>, new DialogOptions() { Width = "1240px", Height = "750px" });
+    }
+}
+
+@*<AuthorizeView>
+    <Authorized>
+        yetkilisin
+    </Authorized>
+
+    <NotAuthorized>
+        Yetkili değilsin
+    </NotAuthorized>
+</AuthorizeView>
+*@
