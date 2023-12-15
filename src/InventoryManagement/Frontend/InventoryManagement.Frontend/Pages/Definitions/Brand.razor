@@ -29,7 +29,7 @@
             <Columns>
                 <DxGridCommandColumn Width="190px">
                     <HeaderTemplate>
-                        @if (_authorizationService.HasPermission("res:category", "scopes:create"))
+                        @if (_authorizationService.HasPermission("res:brand", "scopes:create"))
                         {
                             <RadzenButton Icon="add" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => GridBrand.StartEditNewRowAsync()" />
                         }
@@ -60,11 +60,11 @@
 
             <DetailRowTemplate Context="detailItem">
                 @{
-                    var category = (BrandDto)detailItem.DataItem;
+                    var brand = (BrandDto)detailItem.DataItem;
                     <div class="rz-shadow-8" style="width: 100%; height: 100%">
                         <RadzenCard class="rz-p-3" style="width: 100%; height: 100%">
                             <DxGrid @ref="GridModel"
-                                    Data="@category.Models"
+                                    Data="@brand.Models"
                                     ColumnResizeMode="GridColumnResizeMode.NextColumn"
                                     ValidationEnabled="true"
                                     CustomizeEditModel="GridModel_CustomizeEditModel"
@@ -74,26 +74,26 @@
                                 <Columns>
                                     <DxGridCommandColumn Width="190px">
                                         <HeaderTemplate>
-                                            @if (_authorizationService.HasPermission("res:category", "scopes:create"))
+                                            @if (_authorizationService.HasPermission("res:model", "scopes:create"))
                                             {
-                                                <RadzenButton Click="() => {SelectedBrand = category; GridModel.StartEditNewRowAsync();}" Icon="add" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" />
+                                                <RadzenButton Click="() => {SelectedBrand = brand; GridModel.StartEditNewRowAsync();}" Icon="add" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" />
                                             }
                                         </HeaderTemplate>
                                         <CellDisplayTemplate>
                                             @{
-                                                @if (_authorizationService.HasPermission("res:category", "scopes:update"))
+                                                @if (_authorizationService.HasPermission("res:model", "scopes:update"))
                                                 {
 
                                                     <DxButton Click="() => GridModel.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
                                                 }
-                                                @if (_authorizationService.HasPermission("res:category", "scopes:delete"))
+                                                @if (_authorizationService.HasPermission("res:model", "scopes:delete"))
                                                 {
                                                     <DxButton Click="() => DeleteModelDialog((ModelDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
                                                 }
                                             }
                                         </CellDisplayTemplate>
                                         <CellEditTemplate>
-                                            @if (_authorizationService.HasPermission("res:category", "scopes:create"))
+                                            @if (_authorizationService.HasPermission("res:model", "scopes:create"))
                                             {
                                                 <DxButton Click="() => GridModel.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Link" />
                                                 <DxButton Click="() => GridModel.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Link" />
@@ -132,15 +132,15 @@ else
     );
     }
 
-    public async Task DeleteModelDialog(ModelDto category)
+    public async Task DeleteModelDialog(ModelDto model)
     {
         var result = await _dialogService.OpenAsync("Model Sil", ds =>
     @<RadzenStack Gap="1.5rem">
-        <p>Model: <b>@category.Name</b>isimli model silinecek !</p>
+        <p>Model: <b>@model.Name</b>isimli model silinecek !</p>
         <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
             <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End">
                 <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
-                <RadzenButton Text="Sil" Click="async() => { ds.Close(true); _dialogService.Dispose(); await DeleteModel(category); }" ButtonStyle="ButtonStyle.Danger" />
+                <RadzenButton Text="Sil" Click="async() => { ds.Close(true); _dialogService.Dispose(); await DeleteModel(model); }" ButtonStyle="ButtonStyle.Danger" />
             </RadzenStack>
         </RadzenStack>
     </RadzenStack>

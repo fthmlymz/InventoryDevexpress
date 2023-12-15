@@ -4,12 +4,12 @@ namespace InventoryManagement.Frontend.Services
 {
     public class CommunicationService
     {
-        private CompanyModel? selectedCompany;
+        private CompanyDto? selectedCompany;
         private int selectedProductId;
         private int selectedProductBarcode;
 
 
-        public CompanyModel GetSelectedCompany()
+        public CompanyDto GetSelectedCompany()
         {
             return selectedCompany;
         }
@@ -26,7 +26,7 @@ namespace InventoryManagement.Frontend.Services
 
 
 
-        public async Task SendCompany(CompanyModel company)
+        public async Task SendCompany(CompanyDto company)
         {
             selectedCompany = company;
 
@@ -35,11 +35,11 @@ namespace InventoryManagement.Frontend.Services
 
                 foreach (var handler in OnCompanySelected.GetInvocationList())
                 {
-                    await ((Func<CompanyModel, Task>)handler)(company);
+                    await ((Func<CompanyDto, Task>)handler)(company);
                 }
             }
         }
-        public event Func<CompanyModel, Task> OnCompanySelected;
+        public event Func<CompanyDto, Task> OnCompanySelected;
 
 
 

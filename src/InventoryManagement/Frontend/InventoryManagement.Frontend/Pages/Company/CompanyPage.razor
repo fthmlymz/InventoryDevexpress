@@ -1,13 +1,6 @@
 ﻿@page "/company-list"
-
-@using InventoryManagement.Frontend.Constants;
-@using InventoryManagement.Frontend.DTOs;
+@using DevExpress.Blazor
 @using InventoryManagement.Frontend.DTOs.Company
-@using InventoryManagement.Frontend.Services.Authorization;
-@using InventoryManagement.Frontend.Services;
-@using InventoryManagement.Frontend.Common;
-
-
 
 
 @inherits ComponentBase
@@ -16,127 +9,70 @@
 {
     @if (companyModel != null && companyModel.data != null)
     {
-        <RadzenStack>
-            <RadzenStack Orientation="Orientation.Horizontal"
-                         Gap="0.5rem"
-                         AlignItems="AlignItems.Center"
-                         Class="rz-p-4 rz-border-radius-1"
-                         Style="border: var(--rz-grid-cell-border);">
-                <RadzenButton Text="Filtrele"
-                              Click="@(args => CompanyFiltering())"
-                              Size="ButtonSize.Small" />
-            </RadzenStack>
+        <DxGrid @ref=GridCompany
+                Data="companyModel?.data"
+                PageSizeSelectorVisible="true"
+                PageSizeSelectorItems="@(new int[] { 2, 4, 6, 8, 10,12 })"
+                PagerVisible="true"
+                PageSizeChanged="HandleCompanyPageSizeChanged"
+                PagerPosition="GridPagerPosition.Bottom"
+                PagerNavigationMode="PagerNavigationMode.InputBox"
+                PagerVisibleNumericButtonCount="2"
+                FooterDisplayMode="GridFooterDisplayMode.Always"
+                PagerSwitchToInputBoxButtonCount="2"
+                PagerAutoHideNavButtons="false"
+                PageSizeSelectorAllRowsItemVisible="true"
+                PageIndex="@(Convert.ToInt32(companyModel?.currentPage))"
+                PageSize="@PageSize"
 
-            <RadzenDataFilter @ref="dataFilter"
-                              Data="@companies" TItem="CompanyModel"
-                              ViewChanged=@(view => filteredCompanies= view)
-                              ApplyFilterText="Uygula"
-                              AndOperatorText="ve"
-                              OrOperatorText="veya"
-                              ClearFilterText="Tümünü temizle"
-                              AddFilterText="Filtre ekle"
-                              RemoveFilterText="Filtre Sil"
-                              AddFilterGroupText="Filtre Grubu Ekle"
-                              EqualsText="Eşittir"
-                              NotEqualsText="Eşit değil"
-                              EndsWithText="ile biter"
-                              ContainsText="içerir"
-                              DoesNotContainText="içermiyor"
-                              StartsWithText="ile başlar"
-                              IsNotNullText="null değil"
-                              IsNullText="null"
-                              IsEmptyText="boş"
-                              IsNotEmptyText="boş değil">
-                <Properties>
-
-                    <RadzenDataFilterProperty TItem="CompanyModel" Property="Name" Title="Şirket Adı">
-                        <FilterTemplate>
-                            <RadzenTextBox @bind-Value="@filterValues[nameof(CompanyModel.Name)]" />
-                        </FilterTemplate>
-                    </RadzenDataFilterProperty>
-
-                    <RadzenDataFilterProperty TItem="CompanyModel" Property="Description" Title="Açıklama">
-                        <FilterTemplate>
-                            <RadzenTextBox @bind-Value="@filterValues[nameof(CompanyModel.Description)]" />
-                        </FilterTemplate>
-                    </RadzenDataFilterProperty>
-
-                    <RadzenDataFilterProperty TItem="CompanyModel" Property="CreatedBy" Title="Oluşturan">
-                        <FilterTemplate>
-                            <RadzenTextBox @bind-Value="@filterValues[nameof(CompanyModel.CreatedBy)]" />
-                        </FilterTemplate>
-                    </RadzenDataFilterProperty>
-
-                    <RadzenDataFilterProperty TItem="CompanyModel" Property="UpdatedBy" Title="Güncelleyen">
-                        <FilterTemplate>
-                            <RadzenTextBox @bind-Value="@filterValues[nameof(CompanyModel.UpdatedBy)]" />
-                        </FilterTemplate>
-                    </RadzenDataFilterProperty>
-                </Properties>
-            </RadzenDataFilter>
-        </RadzenStack>
-
-
-        @if (_authorizationService.HasPermission("res:company", "scopes:create"))
-        {
-            <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" class="mt-2 mb-4" Text="Yeni Şirket" Click="@((args) => InsertRow(new CompanyModel()))" Disabled="@(companyToInsert != null || companyToUpdate != null)" />
-        }
-
-        <RadzenDataGrid @ref="companyGrid" AllowAlternatingRows="false" AllowFiltering="true" AllowPaging="true" Page="@Reset" AllowSorting="true"
-                        EditMode="DataGridEditMode.Multiple" Data="@companyModel?.data"
-                        TItem="CompanyModel" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" Sort="@Reset" Filter="@Reset">
+                ColumnResizeMode="GridColumnResizeMode.NextColumn"
+                CustomizeEditModel="GridCompany_CustomizeEditModel"
+                EditModelSaving="GridCompany_EditModelSaving"
+                EditMode="GridEditMode.EditRow"
+                ShowFilterRow="true"
+                EditorRenderMode="GridEditorRenderMode.Integrated"
+                KeyboardNavigationEnabled="false">
             <Columns>
-                <RadzenDataGridColumn TItem="CompanyModel" Property="Id" Title="Id" Width="25%" Filterable="false" />
 
-                <RadzenDataGridColumn TItem="CompanyModel" Property="Name" Title="Şirket Adı" Width="100%">
-                    <EditTemplate Context="company">
-                        <RadzenTextBox @bind-Value="company.Name" style="width: 100%" Name="Name"></RadzenTextBox>
-                        <RadzenRequiredValidator style="display: grid" Component="Name" Text="Şirket adı zorunludur" Popup="true" />
-                    </EditTemplate>
-                </RadzenDataGridColumn>
+                <DxGridDataColumn FieldName="@(nameof(CompanyDto.Name))" SortIndex="0">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged("Name", v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName="@(nameof(CompanyDto.Description))" SortIndex=" 0" Caption="Açıklama" />
 
-                <RadzenDataGridColumn TItem="CompanyModel" Property="Description" Title="Açıklama" Width="100%">
-                    <EditTemplate Context="company">
-                        <RadzenTextBox @bind-Value=company.Description style="width: 100%"></RadzenTextBox>
-                    </EditTemplate>
-                </RadzenDataGridColumn>
 
-                <RadzenDataGridColumn TItem="CompanyModel" Context="company" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
-                    <Template Context="company">
-                        @if (_authorizationService.HasPermission("res:company", "scopes:update"))
-                        {
-                            <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(company))" @onclick:stopPropagation="true"></RadzenButton>
-                        }
-                        @if (_authorizationService.HasPermission("res:company", "scopes:delete"))
-                        {
-                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(company))" @onclick:stopPropagation="true"></RadzenButton>
-                        }
+
+                <DxGridCommandColumn Width="190px">
+                    <HeaderTemplate>
                         @if (_authorizationService.HasPermission("res:company", "scopes:create"))
                         {
-                            <RadzenButton Icon="line_style" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => CompanyDetail(company))" @onclick:stopPropagation="true"></RadzenButton>
+                            <RadzenButton Icon="add" Click="() => GridCompany.StartEditNewRowAsync()" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" />
                         }
-                    </Template>
-
-                    <EditTemplate Context="company">
-                        @if (_authorizationService.HasPermission("res:company", "scopes:update"))
+                    </HeaderTemplate>
+                    <CellDisplayTemplate>
+                        @{
+                            @if (_authorizationService.HasPermission("res:company", "scopes:update"))
+                            {
+                                <DxButton Click="() => GridCompany.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                            @if (_authorizationService.HasPermission("res:category", "scopes:delete"))
+                            {
+                                <DxButton Click="() => DeleteCompanyDialog((CompanyDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                        }
+                    </CellDisplayTemplate>
+                    <CellEditTemplate>
+                        @if (_authorizationService.HasPermission("res:company", "scopes:create"))
                         {
-                            <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRow(company))"></RadzenButton>
-                            <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Style="border-radius: 50%;" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEdit(company))"></RadzenButton>
+                            <DxButton Click="() => GridCompany.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Link" />
+                            <DxButton Click="() => GridCompany.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Link" />
                         }
-
-                        @if (_authorizationService.HasPermission("res:company", "scopes:delete"))
-                        {
-                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Style="border-radius: 50%;" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(company))"></RadzenButton>
-                        }
-                    </EditTemplate>
-
-                </RadzenDataGridColumn>
+                    </CellEditTemplate>
+                </DxGridCommandColumn>
             </Columns>
-        </RadzenDataGrid>
-
-        <RadzenPager HorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true" PagingSummaryFormat="@pagingSummaryFormat" Count="@companyModel.totalCount"
-                     PageSize="@companyModel.pageSize" PageNumbersCount="4" PageChanged="@ChangePage" PageSizeOptions="@pageSizeOptions" PageSizeText="sayfa başına"
-                     PageSizeChanged="@(args => PageSizeOptionsChanged(args))" />
+        </DxGrid>
     }
     else
     {
@@ -144,3 +80,40 @@
     }
 }
 
+
+@code {
+    private void OnFilterValueChanged(string columnName, string filterValue)
+    {
+        filterValues[columnName] = filterValue;
+        CompanyFiltering();
+    }
+    void HandleCompanyPageNumberChanged(int newPageNumber)
+    {
+        PageNumber = newPageNumber + 1;
+        CompanyFiltering();
+        StateHasChanged();
+    }
+    void HandleCompanyPageSizeChanged(int newPageSize)
+    {
+        PageSize = newPageSize;
+        CompanyFiltering();
+        StateHasChanged();
+    }
+
+
+
+    public async Task DeleteCompanyDialog(CompanyDto company)
+    {
+        var result = await _dialogService.OpenAsync("Şirket Sil", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Şirket : <b>@company.Name</b>isimli şirket ve buna bağlı tüm ürünler silinecek!</p>
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Sil" Click="async() => { ds.Close(true); _dialogService.Dispose(); await DeleteCompany(company); }" ButtonStyle="ButtonStyle.Danger" Style="width: 80px;" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+        );
+    }
+}

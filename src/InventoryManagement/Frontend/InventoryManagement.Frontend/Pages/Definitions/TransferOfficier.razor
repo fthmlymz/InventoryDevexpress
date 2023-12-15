@@ -19,11 +19,11 @@
     <div class="rz-shadow-2" style="margin-bottom: 10px; display: flex; align-items: center;">
         <label>Şirket Seç : </label>
 
-        <RadzenDropDownDataGrid TValue="CompanyModel"
+        <RadzenDropDownDataGrid TValue="CompanyDto"
                                 Value=@selectedCompany
                                 Data=@companies?.data
                                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                Change=@(args => OnDropDownValueChangedCompany((CompanyModel)args))
+                                Change=@(args => OnDropDownValueChangedCompany((CompanyDto)args))
                                 TextProperty="Name" style="margin-right: 25px;" />
 
         <div style="margin-left: inherit;">
@@ -111,11 +111,11 @@
 
 @code {
     #region Company
-    PaginatedResult<CompanyModel>? companies;
-    CompanyModel? selectedCompany;
+    PaginatedResult<CompanyDto>? companies;
+    CompanyDto? selectedCompany;
     async void OnDropDownValueChangedCompany(object item)
     {
-        selectedCompany = (CompanyModel)item;
+        selectedCompany = (CompanyDto)item;
 
         await GetByIdCompanyAndTransferOfficerQuery(selectedCompany.Id);
     }
@@ -138,7 +138,7 @@
 
     protected override async void OnInitialized()
     {
-        companies = new PaginatedResult<CompanyModel>();
+        companies = new PaginatedResult<CompanyDto>();
         await LoadCompanyData(1, 10000);
     }
 
@@ -146,7 +146,7 @@
     {
         try
         {
-            var companyModel = await ApiService.GetAsync<PaginatedResult<CompanyModel>>($"{ApiEndpointConstants.CompanySearch}?PageNumber={pageNumber}&PageSize={pageSize}");
+            var companyModel = await ApiService.GetAsync<PaginatedResult<CompanyDto>>($"{ApiEndpointConstants.CompanySearch}?PageNumber={pageNumber}&PageSize={pageSize}");
             companies = companyModel;
         }
         catch (Exception ex)

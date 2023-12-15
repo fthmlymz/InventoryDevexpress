@@ -25,7 +25,7 @@ namespace InventoryManagement.Frontend.Pages.Company
         #endregion
 
 
-        private CompanyModel? SelectedCompany { get; set; }
+        private CompanyDto? SelectedCompany { get; set; }
 
         #region Category-CategorySub
         private PaginatedResult<CategoryDto>? categoryModel { get; set; }
@@ -103,7 +103,7 @@ namespace InventoryManagement.Frontend.Pages.Company
         }
 
         #region Selected Company Information
-        private async Task SetSelectedCompany(CompanyModel selectedCompany)
+        private async Task SetSelectedCompany(CompanyDto selectedCompany)
         {
             SelectedCompany = selectedCompany;
 
