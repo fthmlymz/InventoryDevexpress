@@ -23,7 +23,7 @@ namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.Up
             var transferOfficier = await _unitOfWork.Repository<TransferOfficier>().GetByIdAsync(request.Id);
             if (transferOfficier == null)
             {
-                _logger.LogWarning($"Transfer responsible ID number not found: {request.Id}", request.Name);
+                _logger.LogWarning($"Transfer responsible ID number not found: {request.Id}", request.UserName);
                 throw new NotFoundExceptionCustom($"{request.Id} numaralı transfer sorumlusu bulunamadı");
             }
 
@@ -31,8 +31,8 @@ namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.Up
             var company = _unitOfWork.Repository<Company>().Entities.FirstOrDefault(x => x.Id == request.CompanyId);
             if (company == null)
             {
-                _logger.LogWarning($"Company ID not found: {request.Name}", request.Name);
-                throw new NotFoundExceptionCustom($"{request.Name} için kayıt edilecek şirket bilgisi bulunamadu");
+                _logger.LogWarning($"Company ID not found: {request.UserName}", request.UserName);
+                throw new NotFoundExceptionCustom($"{request.UserName} için kayıt edilecek şirket bilgisi bulunamadu");
             }
 
 

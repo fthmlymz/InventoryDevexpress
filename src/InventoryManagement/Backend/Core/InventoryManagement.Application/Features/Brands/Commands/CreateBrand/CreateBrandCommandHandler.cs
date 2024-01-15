@@ -43,16 +43,16 @@ namespace InventoryManagement.Application.Features.Brands.Commands.CreateBrand
             }
 
 
-            //CompanyId gonderildiyse kontrol et
-            if (request.CompanyId > 0)
-            {
-                var companyExists = _unitOfWork.Repository<Company>().Entities.SingleOrDefault(x => x.Id == request.CompanyId);
-                if (companyExists == null)
-                {
-                    _logger.LogWarning($"Company Id not found for brand record: {request.Name}", request.Name);
-                    throw new BadRequestExceptionCustom($"{request.Name} için kayıt edilecek şirket bilgisi bulunamadı");
-                }
-            }
+            ////CompanyId gonderildiyse kontrol et
+            //if (request.CompanyId > 0)
+            //{
+            //    var companyExists = _unitOfWork.Repository<Company>().Entities.SingleOrDefault(x => x.Id == request.CompanyId);
+            //    if (companyExists == null)
+            //    {
+            //        _logger.LogWarning($"Company Id not found for brand record: {request.Name}", request.Name);
+            //        throw new BadRequestExceptionCustom($"{request.Name} için kayıt edilecek şirket bilgisi bulunamadı");
+            //    }
+            //}
 
 
             var brand = request.Adapt<Brand>();
@@ -61,8 +61,8 @@ namespace InventoryManagement.Application.Features.Brands.Commands.CreateBrand
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            // Döngüyü kırmak için Company nesnesini null'a atayalım(Relationship hatasını önlemek için)
-            brand.Company = null;
+            //// Döngüyü kırmak için Company nesnesini null'a atayalım(Relationship hatasını önlemek için)
+            //brand.Company = null;
 
             //Tüm tabloyu önbelleğe kaydet
             cacheKey = $"Brand_{brand.Id}";

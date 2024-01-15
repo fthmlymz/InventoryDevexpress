@@ -89,10 +89,6 @@ namespace InventoryManagement.Application.Features.Categories.Commands.UpdateCat
             category.AddDomainEvent(new CategoryUpdatedEvent(category));
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-
-            // Döngüyü kırmak için Company nesnesini null'a atayalım(Relationship hatasını önlemek için)
-            category.Company = null;
-
             // Güncellenen category önbelleğe al
             await _easyCacheService.SetAsync(cacheKey, category);
             return await Result<Category>.SuccessAsync(category);

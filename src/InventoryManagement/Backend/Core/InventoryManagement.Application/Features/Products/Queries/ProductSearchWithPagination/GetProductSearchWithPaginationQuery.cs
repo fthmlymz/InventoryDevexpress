@@ -21,9 +21,13 @@ namespace InventoryManagement.Application.Features.Products.Queries.ProductSearc
         public string? Mac { get; set; }
         public string? Status { get; set; }
         public int? CompanyId { get; set; }
+        public string? CompanyName { get; set; }
+        public string? AssignedUserName { get; set; }
+        public string? ApprovalStatus { get; set; }
+        public string? FullName { get; set; }
         public GetProductSearchWithPaginationQuery() { }
         public GetProductSearchWithPaginationQuery(int pageNumber, int pageSize, string name, string createdBy, string updatedBy, string barcode, string serialNumber,
-            string status, string? imei, string? mac, int? companyId)
+            string status, string? imei, string? mac, int? companyId, string? companyName, string ? assignedUserName, string? approvalStatus, string? fullName)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
@@ -36,6 +40,10 @@ namespace InventoryManagement.Application.Features.Products.Queries.ProductSearc
             Status = status;
             Mac = mac;
             CompanyId = companyId;
+            CompanyName = companyName;
+            AssignedUserName = assignedUserName;
+            ApprovalStatus = approvalStatus;
+            FullName = fullName;
         }
     }
 

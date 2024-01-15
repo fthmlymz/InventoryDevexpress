@@ -1,0 +1,103 @@
+﻿@page "/company-list"
+
+
+@using DevExpress.Blazor
+@using InventoryManagement.Frontend.DTOs.Company
+
+
+@inherits ComponentBase
+
+@if (AuthorizationService.HasPermission("res:company", "scopes:read"))
+{
+    @if (companyModel != null && companyModel.data != null)
+    {
+        <DxGrid @ref=GridCompany
+                Data="companyModel?.data"
+                ColumnResizeMode="GridColumnResizeMode.NextColumn"
+                CustomizeEditModel="GridCompany_CustomizeEditModel"
+                EditModelSaving="GridCompany_EditModelSaving"
+                EditMode="GridEditMode.EditRow"
+                ShowFilterRow="true"
+                EditorRenderMode="GridEditorRenderMode.Integrated"
+                KeyboardNavigationEnabled="false">
+            <Columns>
+
+                <DxGridDataColumn FieldName="@(nameof(CompanyDto.Name))" SortIndex="0">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged("Name", v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName="@(nameof(CompanyDto.Description))" SortIndex=" 0" Caption="Açıklama" />
+
+                <DxGridCommandColumn Width="190px">
+                    <HeaderTemplate>
+                        @if (AuthorizationService.HasPermission("res:company", "scopes:create"))
+                        {
+                            <RadzenButton Icon="add" Click="() => GridCompany.StartEditNewRowAsync()" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" />
+                        }
+                    </HeaderTemplate>
+                    <CellDisplayTemplate>
+                        @{
+                            @if (AuthorizationService.HasPermission("res:company", "scopes:update"))
+                            {
+                                <DxButton Click="() => GridCompany.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                            @if (AuthorizationService.HasPermission("res:category", "scopes:delete"))
+                            {
+                                <DxButton Click="() => DeleteCompanyDialog((CompanyDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                        }
+                    </CellDisplayTemplate>
+                    <CellEditTemplate>
+                        @if (AuthorizationService.HasPermission("res:company", "scopes:create"))
+                        {
+                            <DxButton Click="() => GridCompany.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Link" />
+                            <DxButton Click="() => GridCompany.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Link" />
+                        }
+                    </CellEditTemplate>
+                </DxGridCommandColumn>
+            </Columns>
+
+        </DxGrid>
+        <DxPager PageCount="@companyModel.totalPages"
+                 AutoHideNavButtons="false"
+                 SwitchToInputBoxButtonCount="3"
+                 ActivePageIndexChanged="HandleCompanyPageNumberChanged" />
+    }
+    else
+    {
+        <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    }
+}
+
+
+@code {
+    private async Task OnFilterValueChanged(string columnName, string filterValue)
+    {
+        filterValues[columnName] = filterValue;
+        await CompanyFiltering();
+    }
+    async Task HandleCompanyPageNumberChanged(int newPageNumber)
+    {
+        PageNumber = newPageNumber + 1;
+        await CompanyFiltering();
+        StateHasChanged();
+    }
+
+
+    public async Task DeleteCompanyDialog(CompanyDto company)
+    {
+        var result = await DialogService.OpenAsync("Şirket Sil", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Şirket : <b>@company.Name</b>isimli şirket ve buna bağlı tüm ürünler silinecek!</p>
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Sil" Click="async() => { ds.Close(true); DialogService.Dispose(); await DeleteCompany(company); }" ButtonStyle="ButtonStyle.Danger" Style="width: 80px;" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+        );
+    }
+}

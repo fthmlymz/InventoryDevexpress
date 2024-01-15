@@ -64,17 +64,6 @@ namespace InventoryManagement.Application.Features.Brands.Commands.UpdateBrand
             }
 
 
-            //Company check
-            if (request.CompanyId > 0)
-            {
-                var company = _unitOfWork.Repository<Company>().Entities.FirstOrDefault(x => x.Id == request.CompanyId);
-                if (company == null)
-                {
-                    _logger.LogWarning($"Company ID not found: {request.Name}", request.Name);
-                    throw new NotFoundExceptionCustom($"{request.Name} için kayıt edilecek şirket bilgisi bulunamadu");
-                }
-            }
-
 
             // Brand bilgisini güncelle
             foreach (var propertyInfo in request.GetType().GetProperties())
@@ -94,11 +83,6 @@ namespace InventoryManagement.Application.Features.Brands.Commands.UpdateBrand
             brand.AddDomainEvent(new BrandUpdatedEvent(brand));
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-
-
-
-            // Döngüyü kırmak için Company nesnesini null'a atayalım(Relationship hatasını önlemek için)
-            brand.Company = null;
 
 
             // Güncellenen category önbelleğe al

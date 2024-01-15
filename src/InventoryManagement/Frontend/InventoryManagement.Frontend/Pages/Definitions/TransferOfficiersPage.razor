@@ -1,0 +1,114 @@
+﻿@page "/definitions/transfer-officiers"
+
+@using DevExpress.Blazor
+@using InventoryManagement.Frontend.DTOs.Company
+@using InventoryManagement.Frontend.DTOs.TransferOfficier
+
+@inherits ComponentBase
+
+@if (AuthorizationService!.HasPermission("res:transferofficier", "scopes:read"))
+{
+    @if (transferOfficiers != null && transferOfficiers.data != null)
+    {
+        <DxGrid @ref="GridTransferOfficier"
+                Data="transferOfficiers?.data"
+                CustomizeEditModel="GridTransferOfficier_CustomizeEditModel"
+                EditModelSaving="GridTransferOfficier_EditModelSaving"
+                EditMode="GridEditMode.EditRow"
+                EditorRenderMode="GridEditorRenderMode.Integrated"
+                KeyFieldName="Id"
+                ColumnResizeMode="GridColumnResizeMode.NextColumn">
+            <Columns>
+
+                <DxGridDataColumn Width="116">
+                    <CellEditTemplate>
+                        <DxButton Click="@(() => {ShowUsersVisible = true;})" Text="Personel Seç" RenderStyle="ButtonRenderStyle.Info" />
+                    </CellEditTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(TransferOfficierDto.CompanyId) Caption="Şirket Adı" FilterMode="GridColumnFilterMode.Value">
+                    <EditSettings>
+                        <DxComboBoxSettings NullText="Şirket Seç"
+                                            ShowValidationIcon="true"
+                                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                            Data="companyList?.data"
+                                            ValueFieldName="Id"
+                                            TextFieldName="Name"
+                                            FilteringMode="DataGridFilteringMode.Contains" />
+                    </EditSettings>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(TransferOfficierDto.Id) Caption="Id" FilterRowEditorVisible="false" Visible="false" />
+                <DxGridDataColumn FieldName=@nameof(TransferOfficierDto.FullName) Caption="Adı Soyadı">
+                    <CellEditTemplate>
+                        @SelectedUser?.FirstName @SelectedUser?.LastName
+                    </CellEditTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(TransferOfficierDto.UserName) Caption="Kullanıcı Adı">
+                    <CellEditTemplate>
+                        @SelectedUser?.Username
+                    </CellEditTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(TransferOfficierDto.Email) Caption="Email" ReadOnly="true">
+                    <CellEditTemplate>
+                        @SelectedUser?.Email
+                    </CellEditTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(TransferOfficierDto.CreatedBy) Caption="Oluşturan" ReadOnly="true" />
+                <DxGridDataColumn FieldName=@nameof(TransferOfficierDto.UpdatedBy) Caption="Güncelleyen" ReadOnly="true" />
+
+                <DxGridCommandColumn Width="190px">
+                    <HeaderTemplate>
+                        @if (AuthorizationService!.HasPermission("res:transferofficier", "scopes:create"))
+                        {
+                            <RadzenButton Icon="add"
+                                          ButtonStyle="ButtonStyle.Secondary"
+                                          Style="border-radius: 50%;"
+                                          Shade="Shade.Lighter"
+                                          Variant="Variant.Flat"
+                                          Size="ButtonSize.Medium" Click="@(() => {GridTransferOfficier!.StartEditNewRowAsync();})" />
+                        }
+                    </HeaderTemplate>
+
+                    <CellDisplayTemplate>
+                        @{
+                            @if (AuthorizationService!.HasPermission("res:transferofficier", "scopes:delete"))
+                            {
+                                <DxButton Click="() => DeleteTransferOfficier((TransferOfficierDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                                <DxButton Click="() => GridTransferOfficier!.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                        }
+                    </CellDisplayTemplate>
+
+                    <CellEditTemplate>
+                        @if (AuthorizationService.HasPermission("res:transferofficier", "scopes:create"))
+                        {
+                            <DxButton Click="() => GridTransferOfficier!.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Link" />
+                            <DxButton Click="() => GridTransferOfficier!.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Link" />
+                        }
+                    </CellEditTemplate>
+                </DxGridCommandColumn>
+            </Columns>
+        </DxGrid>
+    }
+}
+else
+{
+    <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+}
+
+
+
+@if (AuthorizationService!.HasPermission("res:transferofficier", "scopes:read"))
+{
+    @if (ShowUsersVisible)
+    {
+        <DxPopup HeaderText="Transfer Sorumluları"
+                 AllowDrag="true"
+                 @bind-Visible="@ShowUsersVisible">
+            <InventoryManagement.Frontend.Pages.Keycloak.UserPage />
+            <hr />
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="Radzen.JustifyContent.End" Gap="0">
+                <RadzenButton Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Success" Text="Sorumluyu Seç" Click="@(() => { Task.Run(() => UserSelect() ); ShowUsersVisible=false; })" />
+            </RadzenStack>
+        </DxPopup>
+    }
+}

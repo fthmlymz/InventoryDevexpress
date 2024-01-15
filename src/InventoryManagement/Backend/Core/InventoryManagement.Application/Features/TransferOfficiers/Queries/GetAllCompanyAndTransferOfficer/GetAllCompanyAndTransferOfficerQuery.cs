@@ -39,7 +39,13 @@ namespace InventoryManagement.Application.Features.TransferOfficiers.Queries.Get
                     UserName = transferOfficier.UserName,
                     FullName = transferOfficier.FullName,
                     Email = transferOfficier.Email,
-                    Id = transferOfficier.Id
+                    Id = transferOfficier.Id,
+                    CreatedBy = transferOfficier.CreatedBy,
+                    CreatedDate = transferOfficier.CreatedDate,
+                    CreatedUserId = transferOfficier.CreatedUserId,
+                    UpdatedBy = transferOfficier.UpdatedBy,
+                    UpdatedUserId = transferOfficier.UpdatedUserId,
+                    UpdatedDate = transferOfficier.UpdatedDate,
                 })
                 .ToListAsync();
             return await Result<List<GetAllCompanyAndTransferOfficerDto>>.SuccessAsync(groupedData);

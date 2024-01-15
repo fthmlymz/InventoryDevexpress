@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using InventoryManagement.Application.Features.Categories.Commands.CreateCategory;
 
 namespace InventoryManagement.Application.Features.Brands.Commands.CreateBrand
 {
@@ -8,7 +7,6 @@ namespace InventoryManagement.Application.Features.Brands.Commands.CreateBrand
         public CreateBrandCommandValidator()
         {
             RuleFor(x => x.Name).NotNull().WithMessage("{PropertyName} bu alan gereklidir").NotEmpty().WithMessage("{PropertyName} bu alan gereklidir");
-            //RuleFor(x => x.CompanyId).NotNull().WithMessage("{PropertyName} bu alan gereklidir").NotEmpty().WithMessage("{PropertyName} bu alan gereklidir");
             RuleFor(x => x.CreatedBy).NotNull().WithMessage("{PropertyName} bu alan gereklidir").NotEmpty().WithMessage("{PropertyName} bu alan gereklidir");
             RuleFor(x => x.CreatedUserId).NotNull().WithMessage("{PropertyName} bu alan gereklidir").NotEmpty().WithMessage("{PropertyName} bu alan gereklidir");
         }

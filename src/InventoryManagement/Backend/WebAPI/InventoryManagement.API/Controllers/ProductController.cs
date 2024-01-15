@@ -87,7 +87,7 @@ namespace InventoryManagement.API.Controllers
 
         [Authorize("ProductReadRole")]
         [HttpGet]
-        public async Task<ActionResult<PaginatedResult<GetProductWithPaginationDto>>> GetCategoryWithPaginationQuery([FromQuery] GetProductWithPaginationQuery query)
+        public async Task<ActionResult<PaginatedResult<GetProductWithPaginationDto>>> GetProductWithPaginationQuery([FromQuery] GetProductWithPaginationQuery query)
         {
             return await _mediator.Send(query);
         }

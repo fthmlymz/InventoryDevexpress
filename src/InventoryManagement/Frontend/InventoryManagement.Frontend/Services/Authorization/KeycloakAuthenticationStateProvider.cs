@@ -20,17 +20,19 @@ namespace InventoryManagement.Frontend.Services.Authorization
         private readonly ProtectedSessionStorage _browserStorage;
         private readonly NotificationService _notificationService;
         private Timer _tokenRefreshTimer;
+        private readonly IConfiguration _configuration;
 
         public UserInfo UserInfo { get; private set; }
 
 
         public KeycloakAuthenticationStateProvider(HttpClient httpClient, NavigationManager navigationManager,
-            NotificationService notificationService, ProtectedSessionStorage browserStorage)
+            NotificationService notificationService, ProtectedSessionStorage browserStorage, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _navigationManager = navigationManager;
             _notificationService = notificationService;
             _browserStorage = browserStorage;
+            _configuration = configuration;
         }
 
 
@@ -39,12 +41,15 @@ namespace InventoryManagement.Frontend.Services.Authorization
             var loginData = new Dictionary<string, string>
             {
                 { "username", username },
-                { "password", password }
+                { "password", password },
+                { "grant_type", _configuration.GetSection("Keycloak:GrantType").Value },
+                { "client_id",  _configuration.GetSection("Keycloak:ClientId").Value },
+                { "client_secret",  _configuration.GetSection("Keycloak:ClientSecret").Value }
             };
 
             var content = new FormUrlEncodedContent(loginData);
 
-            var tokenResponse = await _httpClient.PostAsync(ApiEndpointConstants.KeyCloakUserTokenEndpoint + "/getToken", content);
+            var tokenResponse = await _httpClient.PostAsync(ApiEndpointConstants.KeycloakUserGetTokenEndpoint, content);
 
             if (tokenResponse.IsSuccessStatusCode)
             {
@@ -55,10 +60,6 @@ namespace InventoryManagement.Frontend.Services.Authorization
                 {
                     await _browserStorage.SetAsync("access_token", tokenResponseObject.AccessToken);
                     await _browserStorage.SetAsync("refresh_token", tokenResponseObject.RefreshToken);
-
-                    // Zamanlayıcıyı başlat
-                    StartOrResetTokenRefreshTimer(tokenResponseObject.ExpiresIn);
-
 
                     var userInfo = await GetUserInfoAsync();
                     if (userInfo != null)
@@ -96,6 +97,7 @@ namespace InventoryManagement.Frontend.Services.Authorization
 
                     var expirationTime = jwtToken.ValidTo;
                     var currentTime = DateTime.UtcNow;
+
 
                     if (expirationTime < currentTime)
                     {
@@ -151,10 +153,12 @@ namespace InventoryManagement.Frontend.Services.Authorization
 
                 var logoutData = new Dictionary<string, string>
                 {
-                    { "refresh_token", refreshToken }
+                    { "refresh_token", refreshToken },
+                    { "client_id",  _configuration.GetSection("Keycloak:ClientId").Value },
+                    { "client_secret",  _configuration.GetSection("Keycloak:ClientSecret").Value }
                 };
 
-                var request = new HttpRequestMessage(HttpMethod.Post, ApiEndpointConstants.KeyCloakUserLogoutEndpoint);
+                var request = new HttpRequestMessage(HttpMethod.Post, ApiEndpointConstants.KeycloakEndpoint);
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessTokenResponse);
                 request.Content = new FormUrlEncodedContent(logoutData);
 
@@ -180,7 +184,7 @@ namespace InventoryManagement.Frontend.Services.Authorization
             }
         }
 
-        private async Task NotifyAndRedirect(string title = null, string message = null)
+        protected internal async Task NotifyAndRedirect(string? title = null, string? message = null)
         {
             if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(message))
             {
@@ -191,9 +195,8 @@ namespace InventoryManagement.Frontend.Services.Authorization
             await _browserStorage.DeleteAsync("refresh_token");
             await _browserStorage.DeleteAsync("permissions_token");
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()))));
-            _navigationManager.NavigateTo("/login");
+            _navigationManager.NavigateTo("/login", forceLoad: true);
         }
-
 
 
         private async Task<UserInfo> GetUserInfoAsync()
@@ -216,50 +219,27 @@ namespace InventoryManagement.Frontend.Services.Authorization
                 else
                 {
                     await NotifyAndRedirect($"Kullanıcı bilgileri alınamadı", $"Kullanıcı bilgileri alınamadı{response.StatusCode}");
-                    //_notificationService.Notify(NotificationSeverity.Error, "Hata", $"Kullanıcı bilgileri alınamadı {response.StatusCode}", duration: 6000);
-                    _navigationManager.NavigateTo("/login", forceLoad: false); //force load iptal edilecek
+                    _navigationManager.NavigateTo("/login"); //force load iptal edilecek
                 }
             }
             return null;
         }
-        //private async Task<UserInfo> GetUserInfoAsync()
-        //{
-        //    // Eğer UserInfo zaten ayarlanmışsa, tekrar sunucuya istek yapmaya gerek yok.
-        //    if (UserInfo != null)
-        //    {
-        //        return UserInfo;
-        //    }
-
-        //    var encryptedToken = await _browserStorage.GetAsync<string>("access_token");
-        //    string tokenResponse = string.IsNullOrEmpty(encryptedToken.Value) ? null : encryptedToken.Value;
-
-        //    if (!string.IsNullOrEmpty(tokenResponse))
-        //    {
-        //        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse);
-        //        var response = await _httpClient.GetAsync(ApiEndpointConstants.KeyCloakUserInfoEndpoint);
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            var userInfoJson = await response.Content.ReadAsStringAsync();
-        //            UserInfo = JsonSerializer.Deserialize<UserInfo>(userInfoJson);
-        //            return UserInfo;
-        //        }
-        //        else
-        //        {
-        //            _notificationService.Notify(NotificationSeverity.Error, "Hata", $"Kullanıcı bilgileri alınamadı {response.StatusCode}", duration: 6000);
-        //            _navigationManager.NavigateTo("/login", forceLoad: false);
-        //        }
-        //    }
-        //    return null;
-        //}
 
         private async Task<TokenPermissions> GetTokenPermissionsAsync(string access_token)
         {
-            var permissionsData = new Dictionary<string, string> { { "claim_token", access_token } };
+            var permissionsData = new Dictionary<string, string> {
+                { "claim_token", access_token },
+                { "grant_type", _configuration.GetSection("Keycloak:GrantTypePermissions").Value },
+                { "client_id",  _configuration.GetSection("Keycloak:ClientId").Value },
+                { "client_secret",  _configuration.GetSection("Keycloak:ClientSecret").Value },
+                { "realm",  _configuration.GetSection("Keycloak:Realm").Value },
+                { "audience",  _configuration.GetSection("Keycloak:Audience").Value }
+            };
 
             if (!string.IsNullOrEmpty(access_token))
             {
                 var content = new FormUrlEncodedContent(permissionsData);
-                var response = await _httpClient.PostAsync(ApiEndpointConstants.KeyCloakUserTokenEndpoint + "/permissions", content);
+                var response = await _httpClient.PostAsync(ApiEndpointConstants.KeycloakUserGetTokenEndpoint, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -328,9 +308,14 @@ namespace InventoryManagement.Frontend.Services.Authorization
 
         public async Task<TokenResponse> RefreshTokenAsync(string refreshToken)
         {
-            var refreshTokenData = new Dictionary<string, string> { { "refresh_token", refreshToken } };
+            var refreshTokenData = new Dictionary<string, string> {
+                { "client_id",  _configuration.GetSection("Keycloak:ClientId").Value },
+                { "client_secret",  _configuration.GetSection("Keycloak:ClientSecret").Value },
+                { "grant_type", "refresh_token" },
+                { "refresh_token", refreshToken }
+            };
             var content = new FormUrlEncodedContent(refreshTokenData);
-            var tokenResponse = await _httpClient.PostAsync(ApiEndpointConstants.KeyCloakUserTokenEndpoint + "/refreshToken", content);
+            var tokenResponse = await _httpClient.PostAsync(ApiEndpointConstants.KeycloakUserGetTokenEndpoint, content);
 
             if (tokenResponse.IsSuccessStatusCode)
             {
@@ -340,7 +325,7 @@ namespace InventoryManagement.Frontend.Services.Authorization
                 await _browserStorage.SetAsync("access_token", tokenResponseObject.AccessToken);
                 await _browserStorage.SetAsync("refresh_token", tokenResponseObject.RefreshToken);
 
-                StartOrResetTokenRefreshTimer(tokenResponseObject.ExpiresIn);
+                await StartOrResetTokenRefreshTimer(tokenResponseObject.ExpiresIn);
 
                 var userInfo = await GetUserInfoAsync(); // UserInfo güncellemesi
                 if (userInfo != null)
@@ -356,7 +341,7 @@ namespace InventoryManagement.Frontend.Services.Authorization
                 if (!string.IsNullOrEmpty(tokenResponseObject.AccessToken))
                 {
                     var content_permission = new FormUrlEncodedContent(permissionsData);
-                    var response = await _httpClient.PostAsync(ApiEndpointConstants.KeyCloakUserTokenEndpoint + "/permissions", content_permission);
+                    var response = await _httpClient.PostAsync(ApiEndpointConstants.KeycloakUserGetTokenEndpoint, content_permission);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -372,15 +357,24 @@ namespace InventoryManagement.Frontend.Services.Authorization
             }
             return null;
         }
-        private void StartOrResetTokenRefreshTimer(int tokenLifetime)
+        private async Task StartOrResetTokenRefreshTimer(int tokenLifetime)
         {
+            Console.WriteLine("zamanlayıcı şimdi çalışıyor");
+            var accessTokenResult = await _browserStorage.GetAsync<string>("access_token");
+            if (!accessTokenResult.Success || string.IsNullOrEmpty(accessTokenResult.Value))
+            {
+                await NotifyAndRedirect("Kimlik Doğrulama", "Kimlik doğrulaması yapılamadı !");
+                return;
+            }
+
             var refreshInterval = TimeSpan.FromSeconds(tokenLifetime * 0.7);
-            _tokenRefreshTimer?.Dispose(); // Mevcut zamanlayıcı varsa iptal et
+            _tokenRefreshTimer?.Dispose();
             _tokenRefreshTimer = new Timer(RefreshToken, null, refreshInterval, Timeout.InfiniteTimeSpan);
         }
         private async void RefreshToken(object state)
         {
             var refreshTokenResult = await _browserStorage.GetAsync<string>("refresh_token");
+
             if (refreshTokenResult.Success && !string.IsNullOrEmpty(refreshTokenResult.Value))
             {
                 await RefreshTokenAsync(refreshTokenResult.Value);

@@ -194,6 +194,13 @@ builder.Services.AddAuthorization(options =>
     #region TransferOfficier
     options.AddPolicy("FileTransferCreateRole", builder => { builder.AddRequirements(new RptRequirement("res:filetransfer", "scopes:create")); });
     #endregion
+
+
+    #region File Transfer
+    options.AddPolicy("FileTransferReadRole", builder => { builder.AddRequirements(new RptRequirement("res:filetransfer", "scopes:read")); });
+    options.AddPolicy("FileTransferCreateRole", builder => { builder.AddRequirements(new RptRequirement("res:filetransfer", "scopes:create")); });
+    options.AddPolicy("FileTransferDeleteRole", builder => { builder.AddRequirements(new RptRequirement("res:filetransfer", "scopes:delete")); });
+    #endregion
 });
 
 builder.Services.AddHttpClient<KeycloakService>(client =>
@@ -284,6 +291,7 @@ if (app.Environment.IsDevelopment())
 
 
 //app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseCors(allowedResources);
 app.UseAuthentication();
 app.UseAuthorization();

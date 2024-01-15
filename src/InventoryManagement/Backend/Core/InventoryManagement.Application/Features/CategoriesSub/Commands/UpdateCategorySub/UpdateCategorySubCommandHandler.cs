@@ -81,9 +81,7 @@ namespace InventoryManagement.Application.Features.CategoriesSub.Commands.Update
                 {
                     var propertyName = propertyInfo.Name;
                     var categorySubProperty = categorySub.GetType().GetProperty(propertyName);
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
                     categorySubProperty.SetValue(categorySub, value);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 }
             }
 
@@ -93,9 +91,7 @@ namespace InventoryManagement.Application.Features.CategoriesSub.Commands.Update
 
 
             // Döngüyü kırmak için Category nesnesini null'a atayalım(Relationship hatasını önlemek için)
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             categorySub.Category = null;
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             // Güncellenen category önbelleğe al
             await _easyCacheService.SetAsync(cacheKey, categorySub);

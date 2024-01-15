@@ -56,7 +56,7 @@
                                             <RadzenMenuItem Text="Ana Sayfa" Icon="home" IconColor="@Colors.Primary" Path="/"></RadzenMenuItem>
                                             @if (AuthorizationService.HasPermission("res:product", "scopes:read"))
                                             {
-                                                <RadzenMenuItem Text="Envanter Listesi" Icon="inventory" IconColor="@Colors.DangerDark" Path="/product/product-and-assigned"></RadzenMenuItem>
+                                                <RadzenMenuItem Text="Envanter Listesi" Icon="inventory" IconColor="@Colors.DangerDark" Path="/product/product-list"></RadzenMenuItem>
                                             }
                                             <RadzenMenuItem Text="Tanımlamalar" Icon="edit_square">
                                                 <ChildContent>
@@ -103,7 +103,7 @@
                                 <ChildContent>
                                     <RadzenPanelMenuItem Text="Ana Sayfa" Icon="home" IconColor="@Colors.Primary" Path="/">
                                     </RadzenPanelMenuItem>
-                                    <RadzenPanelMenuItem Text="Envanter Listesi" Icon="inventory" IconColor="@Colors.Info" Path="/product/product-and-assigned"> </RadzenPanelMenuItem>
+                                    <RadzenPanelMenuItem Text="Envanter Listesi" Icon="inventory" IconColor="@Colors.Info" Path="/product/product-list"> </RadzenPanelMenuItem>
                                     <RadzenPanelMenuItem Text="Tanımlamalar" Icon="edit_square" IconColor="@Colors.Danger">
                                         <ChildContent>
                                             @if (AuthorizationService.HasPermission("res:company", "scopes:read"))

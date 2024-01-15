@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Radzen;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
 
@@ -60,12 +59,6 @@ namespace InventoryManagement.Frontend.Services.Authorization
                     _permissions[table].Add(scope);
                 }
             }
-            //// Yetkileri Console'a yazdır
-            //foreach (var permission in _permissions)
-            //{
-            //    Console.WriteLine($"Table: {permission.Key}");
-            //    Console.WriteLine($"Scopes: {string.Join(", ", permission.Value)}");
-            //}
         }
         public bool HasPermission(string tableName, string permission)
         {

@@ -43,7 +43,7 @@
                             <td>@file.LastModifiedTime</td>
                             <td>@file.FileType</td>
                             <td class="button-group">
-                                <RadzenButton Click="() => DownloadFile(file.FileName)" ButtonStyle="ButtonStyle.Primary" Icon="save" Style="margin-right: 10px;">İndir</RadzenButton>
+                                <RadzenButton Click="() => DownloadFile(file.FolderName, file.FileName)" ButtonStyle="ButtonStyle.Primary" Icon="save" Style="margin-right: 10px;">İndir</RadzenButton>
                                 @if (_authorizationService.HasPermission("res:filetransfer", "scopes:delete") && ShowDeleteButton)
                                 {
                                     <RadzenButton Click="() => DeleteFile(file.FileName)" ButtonStyle="ButtonStyle.Danger" Icon="delete">Sil</RadzenButton>
@@ -78,7 +78,7 @@
     @if (uploadInProgress)
     {
         <div>
-            <RadzenLabel>Dosya Yükleniyor, lütfen bekleyiniz... (@progressValue%)</RadzenLabel>
+            <RadzenLabel>Dosya Yükleniyor, lütfen bekleyin... (@progressValue%)</RadzenLabel>
             <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
         </div>
     }

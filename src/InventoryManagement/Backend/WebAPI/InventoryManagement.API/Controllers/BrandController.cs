@@ -1,9 +1,7 @@
 ﻿using InventoryManagement.Application.Features.Brands.Commands.CreateBrand;
 using InventoryManagement.Application.Features.Brands.Commands.DeleteBrand;
 using InventoryManagement.Application.Features.Brands.Commands.UpdateBrand;
-using InventoryManagement.Application.Features.Brands.Queries.GetBrandAllList;
 using InventoryManagement.Application.Features.Brands.Queries.GetBrandListWithPaginationQuery;
-using InventoryManagement.Application.Features.Brands.Queries.GetBrandWithModel;
 using InventoryManagement.Domain.Entities;
 using InventoryManagement.Shared;
 using MediatR;
@@ -31,16 +29,6 @@ namespace InventoryManagement.API.Controllers
         {
             return await _mediator.Send(query);
         }
-
-
-        [Authorize("BrandReadRole")]
-        [HttpGet]
-        [Route("BrandWithModel")]
-        public async Task<ActionResult<Result<GetBrandWithModelDto>>> GetBrandWithModelQuery(int companyId)
-        {
-            return await _mediator.Send(new GetBrandWithModelQuery(companyId));
-        }
-
 
 
         [Authorize("BrandCreateRole")]
@@ -71,12 +59,6 @@ namespace InventoryManagement.API.Controllers
             return NoContent();
         }
 
-        [Authorize("BrandReadRole")]
-        [HttpGet]
-        [Route("BrandAllList")]
-        public async Task<ActionResult<Result<List<GetBrandAllListDto>>>> GetBrandAllListQuery()
-        {
-            return await _mediator.Send(new GetBrandAllListQuery());
-        }
+ 
     }
 }

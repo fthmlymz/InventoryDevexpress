@@ -1,9 +1,7 @@
 ﻿using InventoryManagement.Application.Features.Categories.Commands.CreateCategory;
 using InventoryManagement.Application.Features.Categories.Commands.DeleteCategory;
 using InventoryManagement.Application.Features.Categories.Commands.UpdateCategory;
-using InventoryManagement.Application.Features.Categories.Queries.GetCategoryAllList;
 using InventoryManagement.Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery;
-using InventoryManagement.Application.Features.Categories.Queries.GetCategoryWithCategorySub;
 using InventoryManagement.Domain.Entities;
 using InventoryManagement.Shared;
 using MediatR;
@@ -30,18 +28,6 @@ namespace InventoryManagement.API.Controllers
         {
             return await _mediator.Send(query);
         }
-
-
-        [Authorize("CategoryReadRole")]
-        [HttpGet]
-        [Route("CategoryWithCategorySub")]
-        public async Task<ActionResult<Result<GetCategoryWithCategorySubDto>>> GetCategoryWithCategorySubQuery(int companyId)
-        {
-            return await _mediator.Send(new GetCategoryWithCategorySubQuery(companyId));
-        }
-
-
-
 
         [Authorize("CategoryCreateRole")]
         [HttpPost]
@@ -70,16 +56,5 @@ namespace InventoryManagement.API.Controllers
 
             return NoContent();
         }
-
-
-        [Authorize("CategoryReadRole")]
-        [HttpGet]
-        [Route("CategoryAllList")]
-        public async Task<ActionResult<Result<List<GetCategoryAllListDto>>>> GetCategoryAllListQuery()
-        {
-            return await _mediator.Send(new GetCategoryAllListQuery());
-        }
-
-
     }
 }

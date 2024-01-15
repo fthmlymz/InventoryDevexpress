@@ -83,9 +83,7 @@ namespace InventoryManagement.Application.Features.Models.Commands.UpdateModel
                 {
                     var propertyName = propertyInfo.Name;
                     var modelProperty = model.GetType().GetProperty(propertyName);
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
                     modelProperty.SetValue(model, value);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 }
             }
 
@@ -94,9 +92,7 @@ namespace InventoryManagement.Application.Features.Models.Commands.UpdateModel
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             // Döngüyü kırmak için Brand nesnesini null'a atayalım(Relationship hatasını önlemek için)
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             model.Brand = null;
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             // Güncellenen category önbelleğe al
             await _easyCacheService.SetAsync(cacheKey, model);

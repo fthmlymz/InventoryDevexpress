@@ -34,7 +34,43 @@ namespace InventoryManagement.Application.Features.Brands.Queries.GetBrandListWi
 
         public async Task<PaginatedResult<GetBrandWithPaginationDto>> Handle(GetBrandWithPaginationQuery request, CancellationToken cancellationToken)
         {
-            var query = _unitOfWork.Repository<Brand>().Entities.OrderBy(c => c.Name);
+            try
+            {
+                var query = _unitOfWork.Repository<Brand>().Entities.Include(c => c.Models).OrderBy(c => c.Name);
+                var totalCount = await query.CountAsync(cancellationToken);
+
+                var brands = await query
+                    .Skip((request.PageNumber - 1) * request.PageSize)
+                    .Take(request.PageSize)
+                    .ToListAsync(cancellationToken);
+
+                var dtos = brands.Select(c => new GetBrandWithPaginationDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Models = c.Models.Select(sub => new ModelDto
+                    {
+                        Id = sub.Id,
+                        Name = sub.Name,
+                        BrandId = sub.BrandId.Value,
+                        CreatedBy = sub.CreatedBy,
+                        CreatedDate = sub.CreatedDate,
+                        CreatedUserId = sub.CreatedUserId,
+                        UpdatedBy = sub.UpdatedBy,
+                        UpdatedDate = sub.UpdatedDate,
+                        UpdatedUserId = sub.UpdatedUserId
+                    }).ToList(),
+                }).ToList();
+
+                var result = new PaginatedResult<GetBrandWithPaginationDto>(true, dtos, count: totalCount, pageNumber: request.PageNumber, pageSize: request.PageSize);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing GetCategoryWithPaginationQuery.");
+                throw;
+            }
+            /*var query = _unitOfWork.Repository<Brand>().Entities.OrderBy(c => c.Name);
             var totalCount = await query.CountAsync(cancellationToken);
 
             var brands = await query
@@ -43,7 +79,7 @@ namespace InventoryManagement.Application.Features.Brands.Queries.GetBrandListWi
                 .ProjectToType<GetBrandWithPaginationDto>()
                 .ToListAsync(cancellationToken);
 
-            return new PaginatedResult<GetBrandWithPaginationDto>(true, brands, count: totalCount, pageNumber: request.PageNumber, pageSize: request.PageSize);
+            return new PaginatedResult<GetBrandWithPaginationDto>(true, brands, count: totalCount, pageNumber: request.PageNumber, pageSize: request.PageSize);*/
         }
     }
 

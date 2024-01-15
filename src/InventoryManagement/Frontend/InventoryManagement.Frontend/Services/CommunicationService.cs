@@ -1,12 +1,14 @@
 ﻿using InventoryManagement.Frontend.DTOs.Company;
+using InventoryManagement.Frontend.DTOs.Keycloak;
+using InventoryManagement.Frontend.DTOs.Product;
 
 namespace InventoryManagement.Frontend.Services
 {
     public class CommunicationService
     {
         private CompanyDto? selectedCompany;
-        private int selectedProductId;
-        private int selectedProductBarcode;
+        private ProductDto? selectedProduct;
+        private KeycloakUsersDto? selectedUser;
 
 
         public CompanyDto GetSelectedCompany()
@@ -14,14 +16,14 @@ namespace InventoryManagement.Frontend.Services
             return selectedCompany;
         }
 
-        public int GetSelectedProductId()
+        public ProductDto GetSelectedProduct()
         {
-            return selectedProductId;
+            return selectedProduct;
         }
 
-        public int GetSelectedProductBarcode()
+        public KeycloakUsersDto GetSelectedUser()
         {
-            return selectedProductBarcode;
+            return selectedUser;
         }
 
 
@@ -39,41 +41,39 @@ namespace InventoryManagement.Frontend.Services
                 }
             }
         }
-        public event Func<CompanyDto, Task> OnCompanySelected;
+        public event Func<CompanyDto, Task> ?OnCompanySelected;
 
 
-
-        public async Task SendProductId(int productId)
+        public async Task SendProduct(ProductDto product)
         {
-            selectedProductId = productId;
+            selectedProduct = product;
 
-            if (OnProductIdSelected != null)
+            if (OnProductSelected != null)
             {
-
-                foreach (var handler in OnProductIdSelected.GetInvocationList())
+                foreach (var handler in OnProductSelected.GetInvocationList())
                 {
-                    await ((Func<int, Task>)handler)(productId);
+                    await ((Func<ProductDto, Task>)handler)(product);
                 }
             }
         }
-        public event Func<int, Task> OnProductIdSelected;
+        public event Func<ProductDto, Task> ? OnProductSelected;
 
 
 
 
-        public async Task SendProductBarcode(int productBarcode)
+
+        public async Task SendSelectedUser(KeycloakUsersDto user)
         {
-            selectedProductBarcode = productBarcode;
+            selectedUser = user;
 
-            if (OnProductBarcodeSelected != null)
+            if (OnSelectedUser != null)
             {
-
-                foreach (var handler in OnProductBarcodeSelected.GetInvocationList())
+                foreach (var handler in OnSelectedUser.GetInvocationList())
                 {
-                    await ((Func<int, Task>)handler)(productBarcode);
+                    await ((Func<KeycloakUsersDto, Task>)handler)(user);
                 }
             }
         }
-        public event Func<int, Task> OnProductBarcodeSelected;
+        public event Func<KeycloakUsersDto, Task>? OnSelectedUser;
     }
 }

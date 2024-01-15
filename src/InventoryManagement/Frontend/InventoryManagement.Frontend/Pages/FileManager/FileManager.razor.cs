@@ -81,12 +81,12 @@ namespace InventoryManagement.Frontend.Pages.FileManager
                 var content = new MultipartFormDataContent();
                 var fileContent = new StreamContent(file.OpenReadStream(maxAllowedSize: 15 * 1024 * 1024)); // 15MB maksimum boyut
                 string fileExtension = Path.GetExtension(file.Name);
-                string newFileName = $"{_communicationService.GetSelectedProductBarcode()}{fileExtension}";
+                string newFileName = $"{_communicationService.GetSelectedProduct().Barcode}{fileExtension}";
 
                 content.Add(fileContent, "file", newFileName);
                 content.Add(new StringContent(selectedFolderType), "folderType");
 
-                await _apiService.UploadFileAsync($"{ApiEndpointConstants.FileTransferManager}/Upload", content);
+                await _apiService.UploadFileAsync($"{ApiEndpointConstants.UploadFileManager}", content);
 
                 progressValue += (int)(100 / e.FileCount); // Basit ilerleme hesaplama
             }
@@ -115,15 +115,15 @@ namespace InventoryManagement.Frontend.Pages.FileManager
 
 
         #region Download
-        private async Task DownloadFile(string fileName)
+        private async Task DownloadFile(string folderName, string fileName)
         {
             string extension = Path.GetExtension(fileName);
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
             string newFileName = fileNameWithoutExtension + extension;
 
-            var downloadUrl = $"{ApiEndpointConstants.FileTransferManager}/download/{selectedFolderType}/{fileNameWithoutExtension}";
+            var downloadUrl = $"{ApiEndpointConstants.DownloadFileManager}/{folderName}/{fileNameWithoutExtension}";
             var fileBytes = await _apiService.DownloadFileAsync(downloadUrl);
-
+            //"http://localhost:4002/api/FileManager/download/Zimmetler/80 - 08.01.2024"
             await JSRuntime.InvokeVoidAsync("downloadFileFromBytes", newFileName, fileBytes);
         }
         #endregion
@@ -136,7 +136,7 @@ namespace InventoryManagement.Frontend.Pages.FileManager
             var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", $"Bu dosyayı silmek istediğinizden emin misiniz: {fileName}?");
             if (confirmed)
             {
-                var deleteUrl = $"{ApiEndpointConstants.FileTransferManager}/delete/{selectedFolderType}/{fileName}";
+                var deleteUrl = $"{ApiEndpointConstants.DeleteFileManager}/{selectedFolderType}/{fileName}";
                 var success = await _apiService.DeleteFileAsync(deleteUrl);
                 if (success)
                 {
@@ -151,7 +151,7 @@ namespace InventoryManagement.Frontend.Pages.FileManager
         #region Search
         private async Task SearchFiles()
         {
-            files = await _apiService.ListFilesAsync(_communicationService.GetSelectedProductBarcode().ToString());
+            files = await _apiService.ListFilesAsync(_communicationService.GetSelectedProduct().Barcode.ToString());
             StateHasChanged();
         }
         #endregion
@@ -170,8 +170,8 @@ namespace InventoryManagement.Frontend.Pages.FileManager
             {
                 CreatedBy = ((KeycloakAuthenticationStateProvider)_authenticationStateProvider).UserInfo.PreferredUsername,
                 CreatedUserId = ((KeycloakAuthenticationStateProvider)_authenticationStateProvider).UserInfo.Sub,
-                ProductId = _communicationService.GetSelectedProductId(),
-                Description = $"{((KeycloakAuthenticationStateProvider)_authenticationStateProvider)?.UserInfo?.PreferredUsername} tarafından, {_communicationService.GetSelectedProductBarcode().ToString()} barkodlu ürün için dosya {operationDescription} işlemi yapıldı"
+                ProductId = _communicationService.GetSelectedProduct().ProductId,
+                Description = $"{((KeycloakAuthenticationStateProvider)_authenticationStateProvider)?.UserInfo?.PreferredUsername} tarafından, {_communicationService.GetSelectedProduct().Barcode.ToString()} barkodlu ürün için dosya {operationDescription} işlemi yapıldı"
             };
 
             #region FileManager Push

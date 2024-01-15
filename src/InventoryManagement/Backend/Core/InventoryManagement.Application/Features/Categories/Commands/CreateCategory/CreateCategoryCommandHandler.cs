@@ -45,30 +45,11 @@ namespace InventoryManagement.Application.Features.Categories.Commands.CreateCat
             }
 
 
-
-            //Şirket kayıtlı mı ?
-            if (request.CompanyId > 0)
-            {
-                Console.WriteLine("Sıfırdan büyük geldi");
-                var companyExists = _unitOfWork.Repository<Company>().Entities.SingleOrDefault(x => x.Id == request.CompanyId);
-                if (companyExists == null)
-                {
-                    _logger.LogWarning($"Company Id not found for category record: {request.Name}", request.Name);
-                    throw new BadRequestExceptionCustom($"{request.Name} için kayıt edilecek şirket bilgisi bulunamadı");
-                }
-            }
-
-
             var category = request.Adapt<Category>();
             await _unitOfWork.Repository<Category>().AddAsync(category);
             category.AddDomainEvent(new CategoryCreatedEvent(category));
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-
-            // Döngüyü kırmak için Company nesnesini null'a atayalım(Relationship hatasını önlemek için)
-            category.Company = null;
-
 
             // Tüm tabloyu önbelleğe kaydet
             cacheKey = $"Category_{category.Id}"; // Cache key'i güncelle

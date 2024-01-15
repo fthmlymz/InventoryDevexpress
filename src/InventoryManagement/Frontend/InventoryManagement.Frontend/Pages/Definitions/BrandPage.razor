@@ -1,0 +1,147 @@
+﻿@page "/definitions/brand-list"
+@using DevExpress.Blazor
+@using InventoryManagement.Frontend.DTOs.Brand
+
+@inherits ComponentBase
+
+
+@if (AuthorizationService.HasPermission("res:brand", "scopes:read"))
+{
+    @if (brandModel != null && brandModel.data != null)
+    {
+        <DxGrid @ref="GridBrand"
+                Data="brandModel?.data"
+                PageSize="@PageSize"
+                ColumnResizeMode="GridColumnResizeMode.NextColumn"
+                ValidationEnabled="true"
+                AutoCollapseDetailRow="true"
+                CustomizeEditModel="GridBrand_CustomizeEditModel"
+                EditModelSaving="GridBrand_EditModelSaving"
+                EditMode="GridEditMode.EditRow"
+                EditorRenderMode="GridEditorRenderMode.Integrated">
+            <Columns>
+                <DxGridDataColumn FieldName="Name" SortIndex="0" Caption="Marka Adı" />
+                <DxGridCommandColumn Width="190px">
+                    <HeaderTemplate>
+                        @if (AuthorizationService.HasPermission("res:brand", "scopes:create"))
+                        {
+                            <RadzenButton Icon="add" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => GridBrand.StartEditNewRowAsync()" />
+                        }
+                    </HeaderTemplate>
+                    <CellDisplayTemplate>
+                        @{
+                            @if (AuthorizationService.HasPermission("res:brand", "scopes:update"))
+                            {
+                                <DxButton Click="() => GridBrand.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                            @if (AuthorizationService.HasPermission("res:brand", "scopes:delete"))
+                            {
+                                <DxButton Click="() => DeleteBrandDialog((BrandDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                        }
+                    </CellDisplayTemplate>
+                    <CellEditTemplate>
+                        @if (AuthorizationService.HasPermission("res:brand", "scopes:create"))
+                        {
+                            <DxButton Click="() => GridBrand.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Link" />
+                            <DxButton Click="() => GridBrand.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Link" />
+                        }
+                    </CellEditTemplate>
+                </DxGridCommandColumn>
+            </Columns>
+
+
+            <DetailRowTemplate Context="detailItem">
+                @{
+                    var brand = (BrandDto)detailItem.DataItem;
+                    <div class="rz-shadow-8" style="width: 100%; height: 100%">
+                        <RadzenCard class="rz-p-3" style="width: 100%; height: 100%">
+                            <DxGrid @ref="GridModel"
+                                    Data="@brand.Models"
+                                    ColumnResizeMode="GridColumnResizeMode.NextColumn"
+                                    ValidationEnabled="true"
+                                    AutoCollapseDetailRow="true"
+                                    CustomizeEditModel="GridModel_CustomizeEditModel"
+                                    EditModelSaving="GridModel_EditModelSaving"
+                                    EditMode="GridEditMode.EditRow"
+                                    EditorRenderMode="GridEditorRenderMode.Integrated">
+                                <Columns>
+                                    <DxGridDataColumn FieldName="Name" Caption="Alt Kategori Adı" />
+                                    <DxGridCommandColumn Width="190px">
+                                        <HeaderTemplate>
+                                            @if (AuthorizationService.HasPermission("res:model", "scopes:create"))
+                                            {
+                                                <RadzenButton Click="() => {SelectedBrand = brand; GridModel.StartEditNewRowAsync();}" Icon="add" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" />
+                                            }
+                                        </HeaderTemplate>
+                                        <CellDisplayTemplate>
+                                            @{
+                                                @if (AuthorizationService.HasPermission("res:model", "scopes:update"))
+                                                {
+
+                                                    <DxButton Click="() => GridModel.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
+                                                }
+                                                @if (AuthorizationService.HasPermission("res:model", "scopes:delete"))
+                                                {
+                                                    <DxButton Click="() => DeleteModelDialog((ModelDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                                                }
+                                            }
+                                        </CellDisplayTemplate>
+                                        <CellEditTemplate>
+                                            @if (AuthorizationService.HasPermission("res:model", "scopes:create"))
+                                            {
+                                                <DxButton Click="() => GridModel.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Link" />
+                                                <DxButton Click="() => GridModel.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Link" />
+                                            }
+                                        </CellEditTemplate>
+                                    </DxGridCommandColumn>
+                                </Columns>
+                            </DxGrid>
+                        </RadzenCard>
+                    </div>
+                }
+            </DetailRowTemplate>
+        </DxGrid>
+        <DxPager PageCount="@brandModel.totalPages"
+                 AutoHideNavButtons="false"
+                 SwitchToInputBoxButtonCount="3"
+                 ActivePageIndexChanged="HandleBrandPageNumberChanged" />
+    }
+}
+else
+{
+    <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+}
+
+@code {
+    public async Task DeleteBrandDialog(BrandDto brand)
+    {
+        var result = await _dialogService.OpenAsync("Kategori Sil", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p> Kategori : <b> @brand.Name </b> isimli kategori ve buna bağlı alt kategorilerde silinecek! </p>
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Sil" Click="async() => { ds.Close(true); _dialogService.Dispose(); await DeleteBrand(brand); }" ButtonStyle="ButtonStyle.Danger" Style="width: 80px;" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+    );
+    }
+
+    public async Task DeleteModelDialog(ModelDto model)
+    {
+        var result = await _dialogService.OpenAsync("Model Sil", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Model: <b>@model.Name</b>isimli model silinecek !</p>
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Sil" Click="async() => { ds.Close(true); _dialogService.Dispose(); await DeleteModel(model); }" ButtonStyle="ButtonStyle.Danger" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+    );
+    }
+
+}

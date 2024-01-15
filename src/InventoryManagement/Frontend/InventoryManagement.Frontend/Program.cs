@@ -4,6 +4,7 @@ using InventoryManagement.Frontend.Services.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Radzen;
 
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options =>
@@ -38,7 +39,6 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     }
 });
 #endregion
-
 
 
 

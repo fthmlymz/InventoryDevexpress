@@ -1,0 +1,24 @@
+﻿@using DevExpress.Blazor
+@using InventoryManagement.Frontend.DTOs.Keycloak
+
+
+@inherits ComponentBase
+
+<DxGrid @ref="GridUsers"
+        Data="_users"
+        ShowSearchBox="true"
+        SearchBoxNullText="Kullanıcı ara"
+        SearchTextChanged="@GetUsers"
+        ColumnResizeMode="GridColumnResizeMode.NextColumn"
+        AllowSelectRowByClick="true"
+        SelectionMode="GridSelectionMode.Single"
+        SelectedDataItemChanged="@OnSelectedDataItemChanged"
+        KeyFieldName="Id">
+    <Columns>
+        <DxGridSelectionColumn />
+        <DxGridDataColumn FieldName=@nameof(KeycloakUsersDto.Username) Caption="Kullanıcı Adı" FilterRowEditorVisible="false" />
+        <DxGridDataColumn FieldName=@nameof(KeycloakUsersDto.Email) Caption="Email" FilterRowEditorVisible="false" />
+        <DxGridDataColumn FieldName=@nameof(KeycloakUsersDto.FirstName) Caption="Adı" FilterRowEditorVisible="false" />
+        <DxGridDataColumn FieldName=@nameof(KeycloakUsersDto.LastName) Caption="Soyadı" FilterRowEditorVisible="false" />
+    </Columns>
+</DxGrid>

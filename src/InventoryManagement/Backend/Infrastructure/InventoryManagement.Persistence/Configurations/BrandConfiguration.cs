@@ -18,7 +18,7 @@ namespace InventoryManagement.Persistence.Configurations
 
 
             builder.ToTable(nameof(Brand));
-            builder.HasOne(x => x.Company).WithMany(x => x.Brands).HasForeignKey(x => x.CompanyId);
+            //builder.HasOne(x => x.Company).WithMany(x => x.Brands).HasForeignKey(x => x.CompanyId);
         }
     }
 }

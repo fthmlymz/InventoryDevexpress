@@ -3,7 +3,6 @@ using InventoryManagement.Application.Features.Companies.Commands.DeleteCompany;
 using InventoryManagement.Application.Features.Companies.Commands.UpdateCompany;
 using InventoryManagement.Application.Features.Companies.Queries.CompanySearchWithPagination;
 using InventoryManagement.Application.Features.Companies.Queries.GetCompanyAllList;
-using InventoryManagement.Application.Features.Companies.Queries.GetCompanyById;
 using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,17 +21,6 @@ namespace InventoryManagement.API.Controllers
         {
             _mediator = mediator;
         }
-
-
-
-        [Authorize("CompanyReadRole")]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Result<GetCompanyByIdWithCategoryDto>>> GetCompanyByIdWithCategoryQuery(int id)
-        {
-            return await _mediator.Send(new GetCompanyByIdWithCategoryQuery(id));
-        }
-
-
 
 
         [Authorize("CompanyReadRole")]

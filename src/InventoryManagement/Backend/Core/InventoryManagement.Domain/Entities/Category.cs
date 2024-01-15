@@ -9,10 +9,10 @@ namespace InventoryManagement.Domain.Entities
 
 
 
-        #region Relationship - Affiliated with the upper class
-        public int? CompanyId { get; set; }
-        public Company? Company { get; set; }
-        #endregion
+        //#region Relationship - Affiliated with the upper class
+        //public int? CompanyId { get; set; }
+        //public Company? Company { get; set; }
+        //#endregion
 
         
 

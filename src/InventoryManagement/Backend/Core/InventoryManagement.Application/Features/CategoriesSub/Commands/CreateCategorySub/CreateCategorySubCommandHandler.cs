@@ -59,9 +59,7 @@ namespace InventoryManagement.Application.Features.CategoriesSub.Commands.Create
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             // Döngüyü kırmak için Company nesnesini null'a atayalım(Relationship hatasını önlemek için)
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             categorySub.Category = null;
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
 
             // Tüm tabloyu önbelleğe kaydet

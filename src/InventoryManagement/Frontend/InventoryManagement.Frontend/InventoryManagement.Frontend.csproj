@@ -14,10 +14,10 @@
     <PackageReference Include="DevExpress.Blazor" Version="23.1.5" />
     <PackageReference Include="DevExpress.Blazor.Reporting.Viewer" Version="23.1.5" />
     <PackageReference Include="DevExpress.Drawing.Skia" Version="23.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-    <PackageReference Include="Radzen.Blazor" Version="4.21.4" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+    <PackageReference Include="Radzen.Blazor" Version="4.23.8" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
   </ItemGroup>
 
   <ItemGroup>

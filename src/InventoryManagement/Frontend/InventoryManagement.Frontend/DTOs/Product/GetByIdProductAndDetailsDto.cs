@@ -11,6 +11,8 @@ namespace InventoryManagement.Frontend.DTOs.Product
         public string? Mac { get; set; }
         public string? DataClass { get; set; }
         public string? Status { get; set; }
+        public DateTime? PurchaseDate { get; set; }
+
         public DateTime? ProductDate { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public int? CompanyId { get; set; }
@@ -25,8 +27,8 @@ namespace InventoryManagement.Frontend.DTOs.Product
 
 
         public ICollection<ProductMovementQueryDto>? ProductMovements { get; set; }
-        public ICollection<AssignedProductsQueryDto>? AssignedProducts { get; set; }
-        public ICollection<ProductTransfersQuerDto>? ProductTransfers { get; set; }
+        public ICollection<AssignedProductQueryDto>? AssignedProducts { get; set; }
+        public ICollection<ProductTransferQuerDto>? ProductTransfers { get; set; }
     }
 
 
@@ -39,17 +41,14 @@ namespace InventoryManagement.Frontend.DTOs.Product
         public string? Description { get; set; }
     }
 
-    public class AssignedProductsQueryDto : BaseAuditableEntity
+    public class AssignedProductQueryDto : BaseAuditableEntity
     {
         public string? AssignedUserName { get; set; }
         public string? AssignedUserId { get; set; }
         public string? AssignedUserPhoto { get; set; }
         public string? FullName { get; set; }
-        public string? Email { get; set; }
-        public string? Barcode { get; set; }
-        public string? ProductName { get; set; }
-        public int? ProductId { get; set; }
         public string? ApprovalStatus { get; set; }
+        public int? ProductId { get; set; }
 
         public ICollection<AssignedProductMovementQueryDto>? AssignedProductMovements { get; set; }
     }
@@ -63,7 +62,7 @@ namespace InventoryManagement.Frontend.DTOs.Product
         public string? MovementDescription { get; set; }
     }
 
-    public class ProductTransfersQuerDto
+    public class ProductTransferQuerDto
     {
         public string? SenderUserName { get; set; }
         public string? SenderEmail { get; set; }

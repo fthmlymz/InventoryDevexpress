@@ -2,74 +2,131 @@
 {
     public class ApiEndpointConstants
     {
-        public static string? gatewayAddress { get; private set; }
+        public static string? InventoryManagementApi { get; private set; }
+        public static string? KeycloakEndpoint { get; private set; }
+        public static string? Realm { get; private set; }
+        public static string? RealmId { get; private set; }
 
         public static void Load(IConfiguration configuration)
         {
-            gatewayAddress = configuration["GatewayAddress"];
+            InventoryManagementApi = configuration["InventoryManagementApi"];
+            KeycloakEndpoint = configuration["Keycloak:KeycloakEndpoint"];
+            Realm = configuration["Keycloak:RealmId"];
         }
 
         #region Keycloak
-        public static string KeyCloakUserTokenEndpoint => $"{gatewayAddress}/gateway/inventory/user/token";
-        public static string KeyCloakUserInfoEndpoint => $"{gatewayAddress}/gateway/inventory/user/info";
-        public static string KeyCloakUserLogoutEndpoint => $"{gatewayAddress}/gateway/inventory/user/logout";
-        public static string KeyCloakUserSearchEndpoint => $"{gatewayAddress}/gateway/inventory/user/search";
+        public static string KeycloakUserGetTokenEndpoint => $"{KeycloakEndpoint}/realms/{Realm}/protocol/openid-connect/token";
+        public static string KeyCloakUserInfoEndpoint => $"{KeycloakEndpoint}/realms/{Realm}/protocol/openid-connect/userinfo";
+        public static string KeycloakUserLogoutEndpoint => $"{KeycloakEndpoint}/realms/{Realm}/protocol/openid-connect/logout";
+        public static string KeycloakUserSearchEndpoint => $"{KeycloakEndpoint}/admin/realms/{Realm}/users";
         #endregion
 
 
         #region Company
-        public static string CompanySearch => $"{gatewayAddress}/gateway/inventory/company/search";
-        public static string CompanyGetPostPutDelete => $"{gatewayAddress}/gateway/inventory/company";
-        public static string CompanyGetAllList => $"{gatewayAddress}/gateway/inventory/company/companylist";
+        public static string SearchCompany => $"{InventoryManagementApi}/api/company/search";
+        public static string AllCompanyList => $"{InventoryManagementApi}/api/company/companyList";
+        public static string PostCompany => $"{InventoryManagementApi}/api/company";
+        public static string PutCompany => $"{InventoryManagementApi}/api/company";
+        public static string DeleteCompany => $"{InventoryManagementApi}/api/company";
         #endregion
 
-        
+
         #region Category
-        public static string CategoryGetPostPutDelete => $"{gatewayAddress}/gateway/inventory/category";
-        public static string CategorySubGetPostPutDelete => $"{gatewayAddress}/gateway/inventory/categorySub";
-        public static string CategoryAllList => $"{gatewayAddress}/gateway/inventory/category/CategoryAllList";
+        public static string PostCategory => $"{InventoryManagementApi}/api/category";
+        public static string GetCategory => $"{InventoryManagementApi}/api/category";
+        public static string PutCategory => $"{InventoryManagementApi}/api/category";
+        public static string DeleteCategory => $"{InventoryManagementApi}/api/category";
+        #endregion
+
+        #region Category sub
+        public static string PostCategorySub => $"{InventoryManagementApi}/api/categorySub";
+        public static string PutCategorySub => $"{InventoryManagementApi}/api/categorySub";
+        public static string DeleteCategorySub => $"{InventoryManagementApi}/api/categorySub";
         #endregion
 
 
         #region Brand
-        public static string BrandGetPostPutDelete => $"{gatewayAddress}/gateway/inventory/brand";
-        public static string BrandAllList => $"{gatewayAddress}/gateway/inventory/brand/BrandAllList";
-        public static string ModelGetPostPutDelete => $"{gatewayAddress}/gateway/inventory/model";
+        public static string GetBrand => $"{InventoryManagementApi}/api/brand";
+        public static string PostBrand => $"{InventoryManagementApi}/api/brand";
+        public static string PutBrand => $"{InventoryManagementApi}/api/brand";
+        public static string DeleteBrand => $"{InventoryManagementApi}/api/brand";
+        #endregion
+
+
+        #region Model
+        public static string PostModel => $"{InventoryManagementApi}/api/model";
+        public static string PutModel => $"{InventoryManagementApi}/api/model";
+        public static string DeleteModel => $"{InventoryManagementApi}/api/model";
         #endregion
 
 
 
 
         #region Product
-        public static string ProductGetPostPutDelete => $"{gatewayAddress}/gateway/inventory/product";
-        //public static string ProductsAndAssignedProduct => $"{gatewayAddress}/gateway/inventory/product/ProductsAndAssignedProducts";
-        public static string GetStoreProduct => $"{gatewayAddress}/gateway/inventory/product/GetStoreProduct";
-        public static string GetByIdProductAndDetailsQuery => $"{gatewayAddress}/gateway/inventory/product/GetByIdProductAndDetailsQuery";
-        public static string ProductSearch => $"{gatewayAddress}/gateway/inventory/product/search";
-        public static string FileTransferMovement => $"{gatewayAddress}/gateway/inventory/product/filemanagement";
+        /*
+         Post: /api/Product
+         Put: /api/Product
+         Get: /api/Product
+         Put: /api/Product/GetStoreProduct
+         Put: /api/Product/Transfer
+         Delete: /api/Product/id
+         Get: /api/Product/GetByIdProductAndDetailsQuery
+         Get: /api/Product/search
+         post: /api/Product/fileManagement
+         */
+        public static string PostProduct => $"{InventoryManagementApi}/api/product";
+        public static string PutProduct => $"{InventoryManagementApi}/api/product";
+        public static string GetProduct => $"{InventoryManagementApi}/api/product";
+        public static string GetStoreProduct => $"{InventoryManagementApi}/api/product/GetStoreProduct";
+        public static string PutProductTransfer => $"{InventoryManagementApi}/api/product/Transfer";
+        public static string DeleteProduct => $"{InventoryManagementApi}/api/product";
+        public static string GetByIdProductAndDetailsQuery => $"{InventoryManagementApi}/api/product/GetByIdProductAndDetailsQuery";
+        public static string SearchProduct => $"{InventoryManagementApi}/api/product/search";
+        public static string PostProductFileManagement => $"{InventoryManagementApi}/api/product/fileManagement";
+        public static string FileTransferMovement => $"{InventoryManagementApi}/api/product/filemanagement";
         #endregion
 
 
+
+        #region FileManager
+        public static string SearchFileManager => $"{InventoryManagementApi}/api/FileManager/search"; //{filename}
+        public static string UploadFileManager => $"{InventoryManagementApi}/api/FileManager/upload";
+        public static string DownloadFileManager => $"{InventoryManagementApi}/api/FileManager/download";
+        public static string DeleteFileManager => $"{InventoryManagementApi}/api/FileManager/delete";
+        #endregion
+
+
+
         #region AssignedProduct
-        public static string AssignedProductCreate => $"{gatewayAddress}/gateway/inventory/AssignedProduct/AssignedProductCreate";
-        public static string AssignedProductUpdate => $"{gatewayAddress}/gateway/inventory/AssignedProduct/AssignedProductUpdate";
-        public static string AssignedProductApproveReject => $"{gatewayAddress}/gateway/inventory/AssignedProduct/AssignedProductApproveReject";
+        public static string AssignedProductCreate => $"{InventoryManagementApi}/api/AssignedProduct/AssignedProductCreate";
+        public static string AssignedProductUpdate => $"{InventoryManagementApi}/api/AssignedProduct/AssignedProductUpdate";
+        public static string AssignedProductApproveReject => $"{InventoryManagementApi}/api/AssignedProduct/AssignedProductApproveReject";
         #endregion
 
 
         #region TransferOfficiers
-        public static string TransferOfficierCrud => $"{gatewayAddress}/gateway/inventory/TransferOfficier";
-        public static string ProductTransfer => $"{gatewayAddress}/gateway/inventory/product/Transfer";
+        /*
+         Post: /api/TransferOfficier
+         Put: /api/TransferOfficier
+         Delete: /api/TransferOfficier/id
+         Get: /api/TransferOfficier/{companyId}
+         Get: /api/TransferOfficier/GetAll
+         */
+        public static string PostTransferOfficier => $"{InventoryManagementApi}/api/TransferOfficier";
+        public static string PutTransferOfficier => $"{InventoryManagementApi}/api/TransferOfficier";
+        public static string DeleteTransferOfficier => $"{InventoryManagementApi}/api/TransferOfficier";
+        public static string GetTransferOfficier => $"{InventoryManagementApi}/api/TransferOfficier";
+        public static string GetTransferOfficierGetAll => $"{InventoryManagementApi}/api/TransferOfficier/GetAll";
         #endregion
 
 
         #region Reports
-        public static string GetProductCountsQuery => $"{gatewayAddress}/gateway/inventory/Report/GetProductCountsQuery";
+        public static string GetProductCountsQuery => $"{InventoryManagementApi}/api/Report/GetProductCountsQuery";
         #endregion
 
 
-        #region gRPC - FileTransfer
-        public static string FileTransferManager => $"{gatewayAddress}/gateway/filemanager";
-        #endregion
+        //#region gRPC - FileTransfer
+        //public static string FileTransferManager => $"{gatewayAddress}/gateway/filemanager";
+        //#endregion
     }
 }
