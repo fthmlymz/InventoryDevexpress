@@ -5,7 +5,7 @@
 @if (ShowUploadArea)
 {
     <select @onchange="OnFolderTypeChanged">
-        @foreach (var type in folderTypes)
+        @foreach (var type in FolderTypes)
         {
             <option value="@type">@type</option>
         }

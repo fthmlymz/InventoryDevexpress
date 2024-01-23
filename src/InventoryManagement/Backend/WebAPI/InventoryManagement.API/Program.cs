@@ -144,6 +144,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("CategoryUpdateRole", builder => { builder.AddRequirements(new RptRequirement("res:category", "scopes:update")); });
     options.AddPolicy("CategoryDeleteRole", builder => { builder.AddRequirements(new RptRequirement("res:category", "scopes:delete")); });
     #endregion
+
     #region CategorySub
     options.AddPolicy("CategorySubReadRole", builder => { builder.AddRequirements(new RptRequirement("res:categorysub", "scopes:read")); });
     options.AddPolicy("CategorySubCreateRole", builder => { builder.AddRequirements(new RptRequirement("res:categorysub", "scopes:create")); });

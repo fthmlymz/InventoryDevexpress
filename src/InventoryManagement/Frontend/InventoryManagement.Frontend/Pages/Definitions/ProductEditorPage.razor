@@ -1,0 +1,299 @@
+﻿@page "/definitions/product-editor"
+@using DevExpress.Blazor
+@using InventoryManagement.Frontend.DTOs.Category
+@using InventoryManagement.Frontend.DTOs.Product
+
+
+@inherits ComponentBase
+
+@* @if (productModel != null && productModel.data != null)
+{
+    @if (AuthorizationService!.HasPermission("res:product", "scopes:read"))
+    {
+        <DxGrid @ref="GridProduct"
+                Data="productModel?.data"
+                PageSize="@PageSize"
+                ShowFilterRow="true"
+                ValidationEnabled="true"
+                ColumnResizeMode="GridColumnResizeMode.NextColumn"
+                CustomizeEditModel="GridProduct_CustomizeEditModel"
+                EditModelSaving="GridProduct_EditModelSaving"
+                EditMode="GridEditMode.EditRow"
+                EditorRenderMode="GridEditorRenderMode.Integrated">
+            <Columns>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Barcode) SortIndex="0" Caption="Barkod">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Barcode).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Name) SortIndex="0" Caption="Ürün Adı">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Name).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.AssignedUserName) Caption="Zimmetlenen Adı" FilterRowEditorVisible="false" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.ApprovalStatus) Caption="Onay Durumu" />
+
+                <DxGridDataColumn FieldName=@nameof(ProductDto.CategoryId) Caption="Kategori">
+                    <CellEditTemplate>
+                        <DxComboBox Data="@categoryDto?.data"
+                                    @bind-Value="CurrentCategory"
+                                    TextFieldName="Name"
+                                    ValueFieldName="Id"
+                                    SelectedItemChanged="@((CategoryDto category) => SelectedCountryChanged(category))"
+                                    AllowUserInput="true"
+                                    InputId="cbCountryName" />
+                    </CellEditTemplate>
+                    <EditSettings>
+                        <DxComboBoxSettings NullText="Kategori test"
+                                            ShowValidationIcon="true"
+                                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                            Data="categoryDto?.data"
+                                            ValueFieldName="Id"
+                                            TextFieldName="Name"
+                                            FilteringMode="DataGridFilteringMode.Contains" />
+                    </EditSettings>
+                </DxGridDataColumn>
+
+
+                <DxGridDataColumn FieldName=@nameof(ProductDto.CategorySubId) Caption="Alt Kategori">
+                    <CellEditTemplate>
+                        <DxComboBox Data="@CurrentCategorySubs"
+                                    @bind-Value="@CurrentSubCategory"
+                                    TextFieldName="Name"
+                                    ValueFieldName="Id"
+                                    SelectedItemChanged="@((CategorySubModel categorySub) => SelectedCategorySubChanged(categorySub))"
+                                    AllowUserInput="true"
+                                    InputId="cbCityName" />
+                    </CellEditTemplate>
+                    <EditSettings>
+                        <DxComboBoxSettings NullText="Alt Kategori Seç"
+                                            ShowValidationIcon="true"
+                                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                            Data="CurrentCategorySubs"
+                                            TextFieldName="Name"
+                                            ValueFieldName="Id"
+                                            FilteringMode="DataGridFilteringMode.Contains" />
+                    </EditSettings>
+                </DxGridDataColumn>
+
+
+
+
+                <DxGridDataColumn FieldName=@nameof(ProductDto.BrandId) SortIndex="0" Caption="Marka" Context="brand">
+                    <EditSettings>
+                        <DxComboBoxSettings NullText="Marka Seç"
+                                            ShowValidationIcon="true"
+                                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                            Data="brandDto?.data"
+                                            ValueFieldName="Id"
+                                            TextFieldName="Name"
+                                            FilteringMode="DataGridFilteringMode.Contains" />
+                    </EditSettings>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.ModelId) SortIndex="0" Caption="Model">
+                    <EditSettings>
+                        <DxComboBoxSettings NullText="Model Seç"
+                                            ShowValidationIcon="true"
+                                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                            Data="brandDto?.data"
+                                            ValueFieldName="Id"
+                                            TextFieldName="Name"
+                                            FilteringMode="DataGridFilteringMode.Contains" />
+                    </EditSettings>
+                </DxGridDataColumn>
+
+
+                <DxGridDataColumn FieldName=@nameof(ProductDto.DataClass) SortIndex="0" Caption="Veri Sınıfı" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.FullName) SortIndex="0" Caption="Tam Adı" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Imei) Caption="Imei">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Imei).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Mac) Caption="Mac Adresi">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Mac).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.SerialNumber) Caption="Seri No">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.SerialNumber).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Status) SortIndex="0" Caption="Durum">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Status).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.PurchaseDate) Caption="Satın Alma Tarihi" FilterRowEditorVisible="false" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.InvoiceDate) Caption="Fatura Tarihi" />
+                <DxGridCommandColumn Width="190px">
+                    <HeaderTemplate>
+                        @if (AuthorizationService.HasPermission("res:product", "scopes:create"))
+                        {
+                            <RadzenButton Icon="add" ButtonStyle="ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Shade.Lighter" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => GridProduct.StartEditNewRowAsync()" />
+                        }
+                    </HeaderTemplate>
+                    <CellDisplayTemplate>
+                        @{
+                            @if (AuthorizationService.HasPermission("res:product", "scopes:update"))
+                            {
+                                <DxButton Click="() => GridProduct.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                            @if (AuthorizationService.HasPermission("res:product", "scopes:delete"))
+                            {
+                                <DxButton Click="() => DeleteProductDialog((ProductDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                        }
+                    </CellDisplayTemplate>
+                    <CellEditTemplate>
+                        @if (AuthorizationService.HasPermission("res:product", "scopes:create"))
+                        {
+                            <DxButton Click="() => GridProduct.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Link" />
+                            <DxButton Click="() => GridProduct.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Link" />
+                        }
+                    </CellEditTemplate>
+                </DxGridCommandColumn>
+            </Columns>
+        </DxGrid>
+        <DxPager PageCount="@productModel.totalPages"
+                 AutoHideNavButtons="false"
+                 SwitchToInputBoxButtonCount="3"
+                 ActivePageIndexChanged="HandleProductPageNumberChanged" />
+    }
+}
+ *@
+
+
+
+<DxGrid @ref="GridProduct" 
+        Data="productModel?.data"
+        PageSize="@PageSize"
+        ShowFilterRow="true"
+        ValidationEnabled="true"
+        ColumnResizeMode="GridColumnResizeMode.NextColumn"
+        DataItemDeleting="Grid_DataItemDeleting"
+        CustomizeEditModel="GridProduct_CustomizeEditModel"
+        EditModelSaving="GridProduct_EditModelSaving">
+    <Columns>
+        <DxGridCommandColumn Width="160px" />
+        <DxGridDataColumn FieldName="Id" Caption="Id" />
+        <DxGridDataColumn FieldName="ProductId" Caption="Barkod" />
+        <DxGridDataColumn FieldName="Name" Caption="Ürün Adı" />
+        <DxGridDataColumn FieldName="CategoryId" Caption="Kategori Id" Visible="false" />
+        <DxGridDataColumn FieldName="CategoryName" Caption="Kategori" />
+        <DxGridDataColumn FieldName="CategorySubId" Caption="Alt Kategori Id" Visible="false" />
+        <DxGridDataColumn FieldName="CategorySubName" Caption="Alt Kategori" />
+    </Columns>
+    <EditFormTemplate Context="EditFormContext">
+        @{
+            var product = (ProductDto)EditFormContext.EditModel;
+        }
+        <DxFormLayout CssClass="w-100">
+            <DxFormLayoutItem Caption="Company Name:" ColSpanMd="6">
+                @EditFormContext.GetEditor("Name")
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Contact Name:" ColSpanMd="6">
+                @EditFormContext.GetEditor("Id")
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Kategori:" ColSpanMd="6">
+               @*  <DxComboBox Data="@Countries"
+                            NullText="Kategori Seç..."
+                            FilteringMode="DataGridFilteringMode.Contains"
+                            TextFieldName="Name"
+                            ValueFieldName="Name"
+                            Value="@product.CategoryName"
+                            ValueChanged="(string newCellValue) => {
+                                                  product.CategoryName = newCellValue;
+                                                  product.CategorySubName = null; }">
+                </DxComboBox> *@
+
+                <DxComboBox Data="@Countries"
+                            NullText="Select Category Sub..."
+                            FilteringMode="DataGridFilteringMode.Contains"
+                            @bind-Value="@product.CategoryId"
+                            TextFieldName="@nameof(CategoryDto.Name)"
+                            ValueFieldName="@nameof(CategoryDto.Id)"
+                            SelectedItemChanged="@((CategoryDto category) => {
+                                                                        product.CategoryName = category.Name;
+                                                                        product.CategoryId = category.Id;
+                                                                        product.CategorySubId = null;
+                                                                        product.CategorySubName = null; })">
+                </DxComboBox>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Alt Kategori:" ColSpanMd="6">
+                @{
+                    // var countryId = Countries?.Where(c => c?.Name == product?.CategoryName)?.FirstOrDefault()?.Id;
+                    // var cities = Cities?.Where(x => x?.CategoryId == countryId);
+                    var categoryId = Countries?.Where(c => c?.Id == product?.CategoryId)?.FirstOrDefault()?.Id;
+                    var categorySub = Cities?.Where(x => x?.CategoryId == categoryId);
+                }
+                <DxComboBox Data="@categorySub"
+                            NullText="Alt Kategori Seç..."
+                            FilteringMode="DataGridFilteringMode.Contains"
+                            @bind-Value="@product.CategorySubId"
+                            TextFieldName="Name"
+                            ValueFieldName="Id">
+                </DxComboBox>
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </EditFormTemplate>
+</DxGrid>
+
+
+
+@code {
+    /*IEnumerable<CategorySubModel>? CurrentCategorySubs { get; set; }
+    int CurrentCategory { get; set; }
+    int CurrentSubCategory { get; set; }
+    void SelectedCountryChanged(CategoryDto country)
+    {
+        CurrentCategory = country.Id;
+        CurrentCategorySubs = country?.CategorySubs?.Select(cs => new CategorySubModel
+                {
+                    Id = cs.Id,
+                    Name = cs.Name
+                }).ToList();
+        StateHasChanged();
+    }
+    void SelectedCategorySubChanged(CategorySubModel subModel)
+    {
+        if (subModel != null)
+        {
+            CurrentSubCategory = subModel.Id;
+            StateHasChanged();
+        }
+    }*/
+    public async Task DeleteProductDialog(ProductDto product)
+    {
+        var result = await DialogService.OpenAsync("Ürün Sil", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Ürün : <b>@product.Name</b> isimli ürün ve buna bağlı tüm alt kayıtlar silinecek!</p>
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Sil" Click="async() => { ds.Close(true); DialogService.Dispose(); await DeleteProduct(product); }" ButtonStyle="ButtonStyle.Danger" Style="width: 80px;" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+    );
+    }
+
+
+
+
+    IEnumerable<CategoryDto> Countries { get; set; }
+    IEnumerable<CategorySubModel> Cities { get; set; }
+    async Task Grid_DataItemDeleting(GridDataItemDeletingEventArgs e)
+    {
+    }
+}

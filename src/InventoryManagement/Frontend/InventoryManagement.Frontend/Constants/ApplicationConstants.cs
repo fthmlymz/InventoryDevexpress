@@ -10,5 +10,15 @@
 
         public static string ZimmetFormuReport => ZimmetLocation;
         public static string GenelEnvanterReport => GenelEnvanterRaporuLocation;
+
+
+
+        public static class Folders
+        {
+            public static string Zimmetler => "Zimmetler";
+            public static string Tutanaklar => "Tutanaklar";
+            public static string Diger => "Diğer";
+            public static List<string> AllFolders => new List<string> { Zimmetler, Tutanaklar, Diger };
+        }
     }
 }

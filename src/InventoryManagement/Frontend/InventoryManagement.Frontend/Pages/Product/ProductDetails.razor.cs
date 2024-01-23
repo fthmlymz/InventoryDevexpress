@@ -2,10 +2,13 @@
 using InventoryManagement.Frontend.Constants;
 using InventoryManagement.Frontend.DTOs.Keycloak;
 using InventoryManagement.Frontend.DTOs.Product;
+using InventoryManagement.Frontend.DTOs.TransferOfficier;
 using InventoryManagement.Frontend.Services;
 using InventoryManagement.Frontend.Services.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Radzen;
+using SharedLibrary.Common;
 
 namespace InventoryManagement.Frontend.Pages.Product
 {
@@ -17,19 +20,25 @@ namespace InventoryManagement.Frontend.Pages.Product
         [Inject] public ApiService? ApiService { get; set; }
         [Inject] public NotificationService? NotificationService { get; set; }
         [Inject] public IAuthorizationService? AuthorizationService { get; set; }
+        [Inject] public AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
         #endregion
 
 
         public ProductDto? SelectedProduct { get; set; }
         public KeycloakUsersDto? SelectedUser { get; set; }
         public PaginatedResult<GetByIdProductAndDetailsDto>? productDetails { get; set; }
+        public PaginatedResult<TransferOfficierDto>? productOfficierList { get; set; }
         private GetStoreProductDto? _storeProductDto { get; set; } = new GetStoreProductDto();
+        private ApproveRejectDto ? approveRejectDto { get; set; } = new ApproveRejectDto();
+        
+        public FileManager.FileManager? fileManagerRef;
 
 
-
+        #region Dialogs
         private bool ShowUsersVisible { get; set; }
         private bool ShowGetStoreVisible { get; set; }
-
+        private bool ShowTransferListVisible { get; set; }
+        #endregion
 
 
         protected override async void OnInitialized()
@@ -43,6 +52,7 @@ namespace InventoryManagement.Frontend.Pages.Product
                 return;
             }
             await ProductGetDetails();
+
         }
         private async Task SetSelectedProduct(ProductDto selectedProduct)
         {
@@ -60,19 +70,17 @@ namespace InventoryManagement.Frontend.Pages.Product
             try
             {
                 productDetails = await ApiService!.GetAsync<PaginatedResult<GetByIdProductAndDetailsDto>>($"{ApiEndpointConstants.GetByIdProductAndDetailsQuery}?Id={SelectedProduct?.ProductId}");
-
-                await InvokeAsync(() =>
-                {
-                    StateHasChanged();
-                });
             }
             catch (Exception ex)
             {
                 NotificationService?.Notify(NotificationSeverity.Error, "Bağlantı hatası", $"İstek gerçekleştirilemedi {ex.Message}", duration: 6000);
             }
             SelectedProduct!.Status = productDetails?.data?.FirstOrDefault()?.Status;
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
         }
-
 
 
 
@@ -84,15 +92,16 @@ namespace InventoryManagement.Frontend.Pages.Product
             var result = await ApiService!.PutAsync(ApiEndpointConstants.GetStoreProduct, _storeProductDto);
             if (result.IsSuccessStatusCode)
             {
+                NotificationService?.Notify(NotificationSeverity.Success, "Depo İşlemi", $"{SelectedProduct.Barcode} barkod numaralı ürün depoya alındı.", duration: 6000);
                 await ProductGetDetails();
             }
 
-            await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
+            await fileManagerRef!.SearchFiles();
+            await InvokeAsync(StateHasChanged);
         }
         #endregion
+
+
 
 
 
@@ -125,6 +134,108 @@ namespace InventoryManagement.Frontend.Pages.Product
             if (result.StatusCode == System.Net.HttpStatusCode.NoContent || result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 NotificationService?.Notify(NotificationSeverity.Success, "Zimmet", $"{SelectedUser?.FirstName} {SelectedUser?.LastName} kullanıcısına {SelectedProduct?.Barcode} numaralı ürün zimmetlendi.", duration: 6000);
+            }
+
+            await ProductGetDetails();
+        }
+        #endregion
+
+        #region Product Approve Reject
+        async Task ProductApproveReject(string status)
+        {
+            approveRejectDto!.ProductId = SelectedProduct.ProductId;
+            approveRejectDto.AssignedProductId = productDetails?.data?.FirstOrDefault()?.AssignedProducts?.FirstOrDefault()?.Id;
+            approveRejectDto.ApprovalStatus = status;
+
+
+            var result = await ApiService!.PutAsync(ApiEndpointConstants.AssignedProductApproveReject, approveRejectDto);
+
+            if (result.IsSuccessStatusCode)
+            {
+                var severity = status == "Accepted" ? NotificationSeverity.Success : NotificationSeverity.Error;
+                var message = status == "Accepted" ? "onayladınız" : "reddettiniz";
+                var fullName = productDetails?.data?.FirstOrDefault()?.AssignedProducts?.FirstOrDefault()?.FullName;
+                var barcode = productDetails?.data?.FirstOrDefault()?.Barcode;
+
+                if (!string.IsNullOrEmpty(fullName) && !string.IsNullOrEmpty(barcode))
+                {
+                    NotificationService?.Notify(severity, status, $"Sayın {fullName}, {barcode} numaralı ürünü {message}.", duration: 6000);
+                }
+
+                await ProductGetDetails();
+            }
+        }
+        #endregion
+
+
+        #region Product Transfer
+        async Task ProductTransferGetList()
+        {
+            productOfficierList = await ApiService!.GetAsync<PaginatedResult<TransferOfficierDto>>($"{ApiEndpointConstants.GetTransferOfficierGetAll}");
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        }
+        async Task ProductTransfer(TransferOfficierDto data)
+        {
+
+            ProductTransferDto dto = new ProductTransferDto
+            {
+                Id = SelectedProduct!.ProductId!.Value,
+                SenderUserName = ((KeycloakAuthenticationStateProvider)AuthenticationStateProvider).UserInfo.PreferredUsername,
+                SenderEmail = ((KeycloakAuthenticationStateProvider)AuthenticationStateProvider).UserInfo.Email,
+                SenderCompanyName = SelectedProduct.CompanyName,
+
+                RecipientCompanyId = data.CompanyId,
+                RecipientEmail = data.Email,
+                RecipientUserName = data.UserName,
+
+                TypeOfOperations = GenericConstantDefinitions.Transfer
+            };
+            var result = await ApiService!.PutAsync(ApiEndpointConstants.PutProductTransfer, dto);
+            if (result.IsSuccessStatusCode)
+            {
+                NotificationService?.Notify(NotificationSeverity.Success, "Transfer", $"{SelectedProduct.Barcode} barkodlu ürün transfer işlemi başladı.", duration: 6000);
+            }
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+
+
+            await ProductGetDetails();
+        }
+        async Task ProductTransfer(string transferValue)
+        {
+            string typeOfOperation = null;
+            switch (transferValue)
+            {
+                case GenericConstantDefinitions.Accepted:
+                    typeOfOperation = GenericConstantDefinitions.Accepted;
+                    break;
+                case GenericConstantDefinitions.Rejected:
+                    typeOfOperation = GenericConstantDefinitions.Rejected;
+                    break;
+                case GenericConstantDefinitions.ReturnIt:
+                    typeOfOperation = GenericConstantDefinitions.ReturnIt;
+                    break;
+            }
+            if (typeOfOperation == null)
+            {
+                return;
+            }
+
+            ProductTransferDto dto = new ProductTransferDto
+            {
+                Id = SelectedProduct!.ProductId!.Value,
+                TypeOfOperations = typeOfOperation,
+            };
+            var result = await ApiService!.PutAsync(ApiEndpointConstants.PutProductTransfer, dto);
+
+            if (result.IsSuccessStatusCode)
+            {
+                NotificationService?.Notify(NotificationSeverity.Success, "Transfer", $"{SelectedProduct.Barcode} barkodlu ürün için {transferValue} işlemi yapıldı", duration: 6000);
             }
 
             await ProductGetDetails();

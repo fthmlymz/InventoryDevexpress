@@ -74,7 +74,7 @@
                                                     }
                                                     @if (AuthorizationService.HasPermission("res:product", "scopes:read"))
                                                     {
-                                                        <RadzenMenuItem Text="Ürün Listesi" Path="/definitions/product-list" Icon="polymer" IconColor="@Colors.SuccessLight"></RadzenMenuItem>
+                                                        <RadzenMenuItem Text="Ürün Listesi" Path="/definitions/product-editor" Icon="polymer" IconColor="@Colors.SuccessLight"></RadzenMenuItem>
                                                     }
                                                     @if (AuthorizationService.HasPermission("res:transferofficier", "scopes:read"))
                                                     {
@@ -120,7 +120,7 @@
                                             }
                                             @if (AuthorizationService.HasPermission("res:product", "scopes:read"))
                                             {
-                                                <RadzenPanelMenuItem Text="Ürün Tanımlama" Icon="polymer" IconColor="@Colors.SuccessLight" Path="/definitions/product-list"></RadzenPanelMenuItem>
+                                                <RadzenPanelMenuItem Text="Ürün Tanımlama" Icon="polymer" IconColor="@Colors.SuccessLight" Path="/definitions/product-editor"></RadzenPanelMenuItem>
                                             }
                                             @if (AuthorizationService.HasPermission("res:transferofficier", "scopes:read"))
                                             {

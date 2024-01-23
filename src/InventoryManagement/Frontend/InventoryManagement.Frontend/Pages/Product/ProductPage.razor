@@ -7,7 +7,7 @@
 
 @if (productModel != null && productModel.data != null)
 {
-    @if (AuthorizationService.HasPermission("res:product", "scopes:read"))
+    @if (AuthorizationService!.HasPermission("res:product", "scopes:read"))
     {
         <DxGrid @ref="GridProduct"
                 Data="productModel?.data"
@@ -16,7 +16,7 @@
                 ColumnResizeMode="GridColumnResizeMode.NextColumn">
 
             <Columns>
-                <DxGridCommandColumn Width="150px" ClearFilterButtonVisible="false" NewButtonVisible="false">
+                <DxGridCommandColumn Width="100px" ClearFilterButtonVisible="false" NewButtonVisible="false">
                     <CellDisplayTemplate>
                         @{
                             <DxButton Click="() => GetProductDetails(context.DataItem)" Text="Detaylar" />

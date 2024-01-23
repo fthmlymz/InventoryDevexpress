@@ -1,6 +1,9 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
+﻿using InventoryManagement.Application.Features.FileManager.Commands;
+using InventoryManagement.Application.Features.FileManager.Queries;
+using InventoryManagement.Application.Interfaces.Repositories;
 using InventoryManagement.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using SharedLibrary.Common;
 
@@ -10,11 +13,16 @@ namespace InventoryManagement.Application.Features.Products.Commands.GetStorePro
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetStoreProductUpdatedEventHandler> _logger;
+        private readonly IWebHostEnvironment _environment;//sonradan eklendi
+        private readonly IMediator _mediator; //sonradan eklendi
 
-        public GetStoreProductUpdatedEventHandler(IUnitOfWork unitOfWork, ILogger<GetStoreProductUpdatedEventHandler> logger)
+
+        public GetStoreProductUpdatedEventHandler(IUnitOfWork unitOfWork, ILogger<GetStoreProductUpdatedEventHandler> logger, IWebHostEnvironment environment, IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _environment = environment;
+            _mediator = mediator;
         }
 
         public async Task Handle(GetStoreProductUpdatedEvent notification, CancellationToken cancellationToken)
@@ -39,8 +47,6 @@ namespace InventoryManagement.Application.Features.Products.Commands.GetStorePro
             #endregion
 
 
-
-
             #region AssignedProduct
             if (updatedProduct.Status == GenericConstantDefinitions.InStock)
             { //GetById yapılacak, firstasync kaldırılacak
@@ -60,6 +66,25 @@ namespace InventoryManagement.Application.Features.Products.Commands.GetStorePro
                 }
             }
             #endregion
+
+
+            #region Get Store Remove File
+            await MoveFilesToHistory(updatedProduct?.Barcode?.ToString());
+            #endregion
+        }
+        private async Task MoveFilesToHistory(string barcode)
+        {
+            var searchQuery = new SearchFileQuery(barcode);
+            var searchResult = await _mediator.Send(searchQuery);
+
+            if (searchResult.Succeeded)
+            {
+                foreach (var fileItem in searchResult.Data)
+                {
+                    var deleteCommand = new DeleteFileCommand(fileItem.FileName, fileItem.FolderName);
+                    await _mediator.Send(deleteCommand);
+                }
+            }
         }
     }
 }

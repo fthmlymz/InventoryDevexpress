@@ -1,7 +1,6 @@
 ﻿using InventoryManagement.Application.Interfaces.Repositories;
 using InventoryManagement.Domain.Entities;
 using InventoryManagement.Shared;
-using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -82,9 +81,4 @@ namespace InventoryManagement.Application.Features.Brands.Queries.GetBrandListWi
             return new PaginatedResult<GetBrandWithPaginationDto>(true, brands, count: totalCount, pageNumber: request.PageNumber, pageSize: request.PageSize);*/
         }
     }
-
-
-
-
-
 }

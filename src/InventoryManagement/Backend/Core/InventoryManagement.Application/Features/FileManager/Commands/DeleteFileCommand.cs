@@ -54,9 +54,14 @@ namespace InventoryManagement.Application.Features.FileManager.Commands
 
                     if (File.Exists(destFile))
                     {
-                        string newFileName = $"{Path.GetFileNameWithoutExtension(fileName)}-DeletedDate-{DateTime.Now:dd-MM-yyyy-HH-mm-ss}{Path.GetExtension(fileName)}";
+                        string newFileName = $"{Path.GetFileNameWithoutExtension(fileName)}-SilinmeTarihi-{DateTime.Now:dd-MM-yyyy-HH-mm-ss}{Path.GetExtension(fileName)}";
                         destFile = Path.Combine(historyFolderPath, newFileName);
                     }
+                    //else
+                    //{
+                    //    string newFileName = $"{Path.GetFileNameWithoutExtension(fileName)}-DepoTarihi-{DateTime.Now:dd-MM-yyyy-HH-mm-ss}{Path.GetExtension(fileName)}";
+                    //    destFile = Path.Combine(historyFolderPath, newFileName);
+                    //}
                     File.Move(file, destFile);
                 }
 

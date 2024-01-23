@@ -30,9 +30,8 @@ namespace InventoryManagement.Frontend.Pages.FileManager
         #endregion
 
 
-
-        private string selectedFolderType = "Zimmetler";
-        private List<string> folderTypes = new List<string> { "Zimmetler", "Tutanaklar", "Diğer" };
+        private string selectedFolderType = ApplicationConstants.Folders.Zimmetler!;
+        public static List<string> FolderTypes = ApplicationConstants.Folders.AllFolders;
         private List<FileItemDto> files;
 
 
@@ -41,8 +40,11 @@ namespace InventoryManagement.Frontend.Pages.FileManager
             if (firstRender)
             {
                 await SearchFiles();
+                base.OnInitialized();
             }
         }
+
+
 
         private async Task OnFolderTypeChanged(ChangeEventArgs e)
         {
@@ -113,7 +115,6 @@ namespace InventoryManagement.Frontend.Pages.FileManager
         #endregion
 
 
-
         #region Download
         private async Task DownloadFile(string folderName, string fileName)
         {
@@ -123,11 +124,9 @@ namespace InventoryManagement.Frontend.Pages.FileManager
 
             var downloadUrl = $"{ApiEndpointConstants.DownloadFileManager}/{folderName}/{fileNameWithoutExtension}";
             var fileBytes = await _apiService.DownloadFileAsync(downloadUrl);
-            //"http://localhost:4002/api/FileManager/download/Zimmetler/80 - 08.01.2024"
             await JSRuntime.InvokeVoidAsync("downloadFileFromBytes", newFileName, fileBytes);
         }
         #endregion
-
 
 
         #region Delete File
@@ -148,11 +147,12 @@ namespace InventoryManagement.Frontend.Pages.FileManager
         #endregion
 
 
+
         #region Search
-        private async Task SearchFiles()
+        public async Task SearchFiles()
         {
             files = await _apiService.ListFilesAsync(_communicationService.GetSelectedProduct().Barcode.ToString());
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
         #endregion
 
@@ -178,10 +178,7 @@ namespace InventoryManagement.Frontend.Pages.FileManager
             var result = await _apiService.PostAsync(ApiEndpointConstants.FileTransferMovement, fileInformation);
             #endregion
         }
-
     }
-
-
     public class FileTransferDto
     {
         public int? ProductId { get; set; }
