@@ -1,46 +1,6 @@
 version: '3.9'
 
 services:
-  apimanagement.gateway:
-    image: ${DOCKER_REGISTRY-}apimanagementgateway
-    container_name: "inventorymanagement.gateway"
-    restart: "always"
-    ports:
-      - "4001:8080"
-    build:
-      context: .
-      dockerfile: src/InventoryManagement/Gateway/ApiManagement.Gateway/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081 
-      - AllowedHosts=*
-      - Logging__LogLevel__Default=Warning
-      - Logging__LogLevel__Microsoft.AspNetCore=Warning
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/ssl/aspnetapp.pfx
-
-      - GatewaySettings__BaseUrl=http://host.docker.internal:4001                               # Gateway Address
-      - GatewaySettings__Hosts__KeycloakServiceInventory=http://host.docker.internal:4000       # Keycloak address 
-      - GatewaySettings__Hosts__InventoryManagementAPI=http://host.docker.internal:4002         # Inventory Web API
-      - GatewaySettings__Hosts__FileTransferManagerAPI=http://host.docker.internal:4005         # File Transfer Manager API
-      - GatewaySettings__Hosts__KeycloakServiceInventoryRealmId=inventory_management_realm
-      
-      - Keycloak__Authority=http://host.docker.internal:4000/realms/inventory_management_realm
-      - Keycloak__ClientId=InventoryManagementClient
-      - Keycloak__ClientSecret=Zs6XKKBjBple3OJJPLsZpK5M7MmD1TFn
-      - Keycloak__GrantType=password
-      - Keycloak__Audience=InventoryManagementClient
-      - Keycloak__Realm=InventoryManagementClient
-      - Keycloak__GrantTypePermissions=urn:ietf:params:oauth:grant-type:uma-ticket
-    volumes:
-      - ./src/ApiManagement.Gateway/ssl:/app/ssl
-      - ./src/ApiManagement.Gateway/ssl:/root/.aspnet/https:ro # test icin eklendi silinecek
-      - ./src/ApiManagement.Gateway/ssl/docker-host.crt:/etc/x509/https/docker-host.crt                   # host.docker.internal ssl
-      - ./src/ApiManagement.Gateway/ssl/docker-host.key:/etc/x509/https/docker-host.key                   # host.docker.internal ssl
-    network_mode: bridge
-
-
   inventorymanagement.api:
     image: ${DOCKER_REGISTRY-}inventorymanagementapi
     container_name: "inventorymanagement.api"
@@ -79,8 +39,6 @@ services:
       - Keycloak__Audience=InventoryManagementClient
       - Keycloak__KeycloakResourceUrl=http://host.docker.internal:4000/realms/inventory_management_realm/authz/protection/resource_set/
       - Keycloak__ClientCredentialsTokenAddress=http://host.docker.internal:4000/realms/inventory_management_realm/protocol/openid-connect/token
-    depends_on:
-      - apimanagement.gateway
     volumes:
       - ./src/InventoryManagement/Backend/WebAPI/InventoryManagement.API/ssl:/app/ssl
     network_mode: bridge

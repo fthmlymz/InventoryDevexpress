@@ -14,10 +14,10 @@ namespace InventoryManagement.Frontend.DTOs.Category
         public string? UpdatedBy { get; set; }
         public string? UpdatedUserId { get; set; }
         public DateTime UpdatedDate { get; set; }
-        public List<CategorySubModel>? CategorySubs { get; set; } = new List<CategorySubModel>();
+        public List<CategorySubDto>? CategorySubs { get; set; } = new List<CategorySubDto>();
     }
 
-    public class CategorySubModel
+    public class CategorySubDto
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Alt kategori adı gereklidir")]

@@ -84,7 +84,7 @@
                                                 }
                                                 @if (AuthorizationService.HasPermission("res:category", "scopes:delete"))
                                                 {
-                                                    <DxButton Click="() => DeleteCategorySubDialog((CategorySubModel)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                                                    <DxButton Click="() => DeleteCategorySubDialog((CategorySubDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
                                                 }
                                             }
                                         </CellDisplayTemplate>
@@ -133,7 +133,7 @@ else
     </RadzenStack>
     );
     }
-    public async Task DeleteCategorySubDialog(CategorySubModel category)
+    public async Task DeleteCategorySubDialog(CategorySubDto category)
     {
         var result = await DialogService.OpenAsync("Alt Kategori Sil", ds =>
     @<RadzenStack Gap="1.5rem">

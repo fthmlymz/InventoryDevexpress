@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Backend\Core\InventoryManagement.Domain\InventoryManagement.Domain.csproj" />
+    <ProjectReference Include="..\..\Backend\Core\IM.Domain\IM.Domain.csproj" />
   </ItemGroup>
 
 </Project>

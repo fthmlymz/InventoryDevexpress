@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\InventoryManagement.Application\InventoryManagement.Application.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\InventoryManagement.Infrastructure\InventoryManagement.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\InventoryManagement.Persistence\InventoryManagement.Persistence.csproj" />
+    <ProjectReference Include="..\..\Core\IM.Application\IM.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\IM.Infrastructure\IM.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\IM.Persistence\IM.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>

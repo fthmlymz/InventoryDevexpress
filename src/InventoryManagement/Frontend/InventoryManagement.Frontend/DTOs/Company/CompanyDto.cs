@@ -4,6 +4,7 @@ namespace InventoryManagement.Frontend.DTOs.Company
 {
     public class CompanyDto
     {
+        [Required(ErrorMessage = "Şirket Id alanı zorunludur")]
         public int Id { get; set; }
         [Required(ErrorMessage = "Şirket adı zorunludur")]
         public string? Name { get; set; }

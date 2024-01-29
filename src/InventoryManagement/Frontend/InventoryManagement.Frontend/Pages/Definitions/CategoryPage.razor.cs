@@ -127,21 +127,21 @@ namespace InventoryManagement.Frontend.Pages.Definitions
         {
             if (e.IsNew)
             {
-                var categorySub = (CategorySubModel)e.EditModel;
+                var categorySub = (CategorySubDto)e.EditModel;
                 categorySub.CategoryId = SelectedCategory.Id;
                 categorySub.Name = null;
             }
         }
         async Task GridCategorySub_EditModelSaving(GridEditModelSavingEventArgs e)
         {
-            var categorySub = (CategorySubModel)e.EditModel;
+            var categorySub = (CategorySubDto)e.EditModel;
 
             if (e.IsNew)
             {
                 var response = await ApiService!.PostAsync(ApiEndpointConstants.PostCategorySub, categorySub);
                 if (response.IsSuccessStatusCode)
                 {
-                    var insertedCategorySub = await response.Content.ReadFromJsonAsync<CategorySubModel>();
+                    var insertedCategorySub = await response.Content.ReadFromJsonAsync<CategorySubDto>();
                     var parentCategory = categoryModel?.data?.FirstOrDefault(c => c.Id == categorySub.CategoryId);
                     if (parentCategory != null && insertedCategorySub != null)
                     {
@@ -169,9 +169,9 @@ namespace InventoryManagement.Frontend.Pages.Definitions
             }
         }
 
-        public async Task DeleteCategorySub(CategorySubModel category)
+        public async Task DeleteCategorySub(CategorySubDto category)
         {
-            var categorySubToDelete = (CategorySubModel)category;
+            var categorySubToDelete = (CategorySubDto)category;
             var response = await ApiService!.DeleteAsync(ApiEndpointConstants.DeleteCategorySub, categorySubToDelete.Id);
             if (response.IsSuccessStatusCode)
             {

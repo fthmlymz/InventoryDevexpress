@@ -1,5 +1,4 @@
 ﻿using DevExpress.Blazor;
-using DevExpress.XtraRichEdit.Model;
 using InventoryManagement.Frontend.Common;
 using InventoryManagement.Frontend.Constants;
 using InventoryManagement.Frontend.DTOs.Brand;
@@ -10,6 +9,7 @@ using InventoryManagement.Frontend.Services;
 using InventoryManagement.Frontend.Services.Authorization;
 using Microsoft.AspNetCore.Components;
 using Radzen;
+using SharedLibrary.Common;
 
 namespace InventoryManagement.Frontend.Pages.Definitions
 {
@@ -37,6 +37,11 @@ namespace InventoryManagement.Frontend.Pages.Definitions
         #endregion
 
 
+        private IEnumerable<string> DataClassOptions { get; set; } = GenericConstantDataClassDescriptions.DescriptionArray;
+
+
+
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -52,21 +57,28 @@ namespace InventoryManagement.Frontend.Pages.Definitions
         private async Task GetCompanies()
         {
             companyDto = await ApiService!.GetAsync<PaginatedResult<CompanyDto>>($"{ApiEndpointConstants.AllCompanyList}");
+            Companies = companyDto?.data;
             StateHasChanged();
         }
         private async Task GetCategories()
         {
             categoryDto = await ApiService!.GetAsync<PaginatedResult<CategoryDto>>($"{ApiEndpointConstants.GetCategory}?pageNumber=1&pageSize=100000");
-            Countries = categoryDto?.data;
-            if (Countries != null)
+            Categories = categoryDto?.data;
+            if (Categories != null)
             {
-                Cities = Countries.SelectMany(country => country.CategorySubs ?? Enumerable.Empty<CategorySubModel>());
+                CategorySubs = Categories.SelectMany(country => country.CategorySubs ?? Enumerable.Empty<CategorySubDto>());
             }
             StateHasChanged();
         }
         private async Task GetBrands()
         {
             brandDto = await ApiService!.GetAsync<PaginatedResult<BrandDto>>($"{ApiEndpointConstants.GetBrand}?pageNumber=1&pageSize=100000");
+            Brands = brandDto?.data;
+            if (Brands != null)
+            {
+                Models = Brands.SelectMany(model => model.Models ?? Enumerable.Empty<ModelDto>());
+            }
+
             StateHasChanged();
         }
         async Task GetProductList()
@@ -169,6 +181,10 @@ namespace InventoryManagement.Frontend.Pages.Definitions
                 if (response.IsSuccessStatusCode)
                 {
                     var insertedProduct = await response.Content.ReadFromJsonAsync<ProductDto>();
+
+                    // Kategorileri alanlarını doldur
+                    FillCategoryNames(insertedProduct);
+
                     productModel?.data?.Add(insertedProduct);
                     productModel.totalCount++;
                     StateHasChanged();
@@ -193,12 +209,19 @@ namespace InventoryManagement.Frontend.Pages.Definitions
             }
             StateHasChanged();
         }
-
+        void FillCategoryNames(ProductDto product)
+        {
+            product.CategoryName = Categories?.FirstOrDefault(c => c.Id == product.CategoryId)?.Name;
+            product.CategorySubName = CategorySubs?.FirstOrDefault(s => s.Id == product.CategorySubId)?.Name;
+            product.CompanyName = Companies?.FirstOrDefault(c => c.Id == product.CompanyId)?.Name;
+            product.BrandName = Brands?.FirstOrDefault(b => b.Id == product.BrandId)?.Name;
+            product.ModelName = Models?.FirstOrDefault(m => m.Id == product.ModelId)?.Name;
+        }
 
 
         async Task DeleteProduct(ProductDto product)
         {
-            var response = await ApiService!.DeleteAsync(ApiEndpointConstants.DeleteProduct, product.ProductId.Value);
+            var response = await ApiService!.DeleteAsync(ApiEndpointConstants.DeleteProduct, product.Id);
             if (response.IsSuccessStatusCode)
             {
                 productModel?.data?.Remove(product);
@@ -215,3 +238,30 @@ namespace InventoryManagement.Frontend.Pages.Definitions
         }
     }
 }
+
+
+/*var category = Categories?.FirstOrDefault(c => c.Id == insertedProduct.CategoryId);
+if (category != null)
+{
+    insertedProduct.CategoryName = category.Name;
+}
+var categorySub = CategorySubs?.FirstOrDefault(s => s.Id == insertedProduct.CategorySubId);
+if (categorySub != null)
+{
+    insertedProduct.CategorySubName = categorySub.Name;
+}
+var company = Companies?.FirstOrDefault(c => c.Id == insertedProduct.CompanyId);
+if (company != null)
+{
+    insertedProduct.CompanyName = company.Name;
+}
+var brand = Brands?.FirstOrDefault(b => b.Id == insertedProduct.BrandId);
+if (brand != null)
+{
+    insertedProduct.BrandName = brand.Name;
+}
+var model = Models?.FirstOrDefault(m => m.Id == insertedProduct.ModelId);
+if (model != null)
+{
+    insertedProduct.ModelName = model.Name;
+}*/

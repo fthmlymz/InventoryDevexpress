@@ -38,7 +38,8 @@ namespace InventoryManagement.Frontend.DTOs.Product
 
 
         #region Relationship - Affiliated with the upper class
-        public int CompanyId { get; set; }
+        [Required(ErrorMessage = "Şirket seçimi zorunludur")]
+        public int? CompanyId { get; set; }
         public string? CompanyName { get; set; }
         #endregion
 
