@@ -1,0 +1,258 @@
+﻿@page "/definitions/product-editor"
+@using DevExpress.Blazor
+@using InventoryManagement.Frontend.DTOs.Brand
+@using InventoryManagement.Frontend.DTOs.Category
+@using InventoryManagement.Frontend.DTOs.Company
+@using InventoryManagement.Frontend.DTOs.Product
+@using Radzen.Blazor
+
+
+@inherits ComponentBase
+
+
+@if (productModel != null && productModel.data != null)
+{
+    @if (AuthorizationService!.HasPermission("res:product", "scopes:read"))
+    {
+        <DxGrid @ref="GridProduct"
+                Data="productModel?.data"
+                PageSize="@PageSize"
+                ShowFilterRow="true"
+                ValidationEnabled="true"
+                TextWrapEnabled="false"
+                ColumnResizeMode="GridColumnResizeMode.NextColumn"
+                CustomizeEditModel="GridProduct_CustomizeEditModel"
+                EditModelSaving="GridProduct_EditModelSaving"
+                EditFormButtonsVisible="false">
+            <Columns>
+                <DxGridDataColumn FieldName="@nameof(ProductDto.Id)" Caption="Id" Visible="false" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.CategoryId)" Caption="Kategori Id" Visible="false" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.CategorySubId)" Caption="Alt Kategori Id" Visible="false" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.BrandId)" Caption="Marka Id" Visible="false" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.ModelId)" Caption="Model Id" Visible="false" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.CompanyId)" Caption="Şirket Id" Visible="false" />
+
+                <DxGridDataColumn FieldName="@nameof(ProductDto.CompanyName)" Caption="Şirket Adı" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.Name)" Caption="Ürün Adı" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.Barcode)" Caption="Barkod No" DisplayFormat="d0" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.CategoryName)" Caption="Kategori" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.CategorySubName)" Caption="Alt Kategori" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.BrandName)" Caption="Marka" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.ModelName)" Caption="Model" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.DataClass)" Caption="Veri Sınıfı" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.Imei)" Caption="Imei" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.Mac)" Caption="Mac" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.SerialNumber)" Caption="Seri Numarası" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.PurchaseDate)" Caption="Satın Alma Tarihi" />
+                <DxGridDataColumn FieldName="@nameof(ProductDto.InvoiceDate)" Caption="Fatura Tarihi" />
+
+                <DxGridCommandColumn Width="160px" ClearFilterButtonVisible="false">
+                    <HeaderTemplate>
+                        @if (AuthorizationService.HasPermission("res:product", "scopes:create"))
+                        {
+                            <RadzenButton Icon="add" ButtonStyle="Radzen.ButtonStyle.Secondary" Style="border-radius: 50%;" Shade="Radzen.Shade.Lighter" Variant="Radzen.Variant.Flat" Size="Radzen.ButtonSize.Medium" Click="() => GridProduct.StartEditNewRowAsync()" />
+                        }
+                    </HeaderTemplate>
+                    <CellDisplayTemplate>
+                        @{
+                            @if (AuthorizationService.HasPermission("res:product", "scopes:update"))
+                            {
+                                <DxButton Click="() => GridProduct.StartEditDataItemAsync(context.DataItem)" Text="Düzenle" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                            @if (AuthorizationService.HasPermission("res:product", "scopes:delete"))
+                            {
+                                <DxButton Click="() => DeleteProductDialog((ProductDto)context.DataItem)" Text="Sil" RenderStyle="ButtonRenderStyle.Link" />
+                            }
+                        }
+                    </CellDisplayTemplate>
+                </DxGridCommandColumn>
+            </Columns>
+            <EditFormTemplate Context="EditFormContext">
+                @{
+                    var product = (ProductDto)EditFormContext.EditModel;
+                }
+                <DxFormLayout CssClass="w-100">
+                    <DxFormLayoutItem Caption="Contact Name:" ColSpanMd="6" Visible="false">
+                        @EditFormContext.GetEditor(nameof(ProductDto.Id))
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Ürün Adı" ColSpanMd="12">
+                        @EditFormContext.GetEditor(nameof(ProductDto.Name))
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Şirket" ColSpanMd="6">
+                        <DxComboBox Data="@Companies"
+                                    NullText="Şirket Seç..."
+                                    AllowUserInput="true"
+                                    ShowValidationIcon="true"
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                    FilteringMode="DataGridFilteringMode.Contains"
+                                    @bind-Value="@product.CompanyId"
+                                    TextFieldName="@nameof(CompanyDto.Name)"
+                                    ValueFieldName="@nameof(CompanyDto.Id)"
+                                    SelectedItemChanged="@((CompanyDto res) => {
+                                                                        product.CompanyName = res?.Name;
+                                                                        product.CompanyId = res?.Id; })">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+
+
+                    @*  <DxFormLayoutItem Caption="Barkod Numarası" ColSpanMd="6">
+            @EditFormContext.GetEditor(nameof(ProductDto.Barcode))
+            </DxFormLayoutItem> *@
+
+                    <DxFormLayoutItem Caption="Barkod Numarası" ColSpanMd="6">
+                        <DxSpinEdit @bind-Value="@product.Barcode"
+                                    Mask="@NumericMask.RealNumber">
+                        </DxSpinEdit>
+                    </DxFormLayoutItem>
+
+
+                    <DxFormLayoutItem Caption="Veri Sınıfı" ColSpanMd="6">
+                        <DxComboBox Data="@DataClassOptions"
+                                    NullText="Veri Sınıfı Seç..."
+                                    AllowUserInput="true"
+                                    ShowValidationIcon="true"
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                    FilteringMode="DataGridFilteringMode.Contains"
+                                    @bind-Value="product.DataClass">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Imei" ColSpanMd="6">
+                        <DxTextBox @bind-Text="@product.Imei" MaxLength="30" />
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Mac Adresi" ColSpanMd="6">
+                        <DxMaskedInput @bind-Value="@product.Mac"
+                                       CssClass="cw-320"
+                                       Mask="AA:AA:AA:AA:AA:AA"
+                                       InputId="macAddressInput">
+                        </DxMaskedInput>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Seri Numarası" ColSpanMd="6">
+                        <DxTextBox @bind-Text="@product.SerialNumber" MaxLength="30" />
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Satın Alma Tarihi" ColSpanMd="6">
+                        @EditFormContext.GetEditor(nameof(ProductDto.PurchaseDate))
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Fatura Tarihi" ColSpanMd="6">
+                        @EditFormContext.GetEditor(nameof(ProductDto.InvoiceDate))
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Kategori" ColSpanMd="6">
+                        <DxComboBox Data="@Categories"
+                                    NullText="Kategori Seç..."
+                                    AllowUserInput="true"
+                                    ShowValidationIcon="true"
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                    FilteringMode="DataGridFilteringMode.Contains"
+                                    @bind-Value="@product.CategoryId"
+                                    TextFieldName="@nameof(CategoryDto.Name)"
+                                    ValueFieldName="@nameof(CategoryDto.Id)"
+                                    SelectedItemChanged="@((CategoryDto category) => {
+                                                                        product.CategoryName = category?.Name;
+                                                                        product.CategoryId = category?.Id;
+                                                                        product.CategorySubId = null;
+                                                                        product.CategorySubName = null; })">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Alt Kategori" ColSpanMd="6">
+                        @{
+                            var categoryId = Categories?.Where(c => c?.Id == product?.CategoryId)?.FirstOrDefault()?.Id;
+                            var categorySub = CategorySubs?.Where(x => x?.CategoryId == categoryId);
+                        }
+                        <DxComboBox Data="@categorySub"
+                                    NullText="Alt Kategori Seç..."
+                                    AllowUserInput="true"
+                                    ShowValidationIcon="true"
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                    FilteringMode="DataGridFilteringMode.Contains"
+                                    @bind-Value="@product.CategorySubId"
+                                    TextFieldName="@nameof(CategorySubDto.Name)"
+                                    ValueFieldName="@nameof(CategorySubDto.Id)"
+                                    SelectedItemChanged="@((CategorySubDto subModel) => {
+                                                                        product.CategorySubId = subModel?.Id;
+                                                                        product.CategorySubName = subModel?.Name; })">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Marka" ColSpanMd="6">
+                        <DxComboBox Data="@Brands"
+                                    NullText="Marka Seç..."
+                                    AllowUserInput="true"
+                                    ShowValidationIcon="true"
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                    FilteringMode="DataGridFilteringMode.Contains"
+                                    @bind-Value="@product.BrandId"
+                                    TextFieldName="@nameof(BrandDto.Name)"
+                                    ValueFieldName="@nameof(BrandDto.Id)"
+                                    SelectedItemChanged="@((BrandDto brand) => {
+                                                                        product.BrandName = brand?.Name;
+                                                                        product.BrandId = brand?.Id;
+                                                                        product.ModelId = null;
+                                                                        product.ModelName = null; })">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="Model" ColSpanMd="6">
+                        @{
+                            var brandId = Brands?.Where(c => c?.Id == product?.BrandId)?.FirstOrDefault()?.Id;
+                            var modelSub = Models?.Where(x => x?.BrandId == brandId);
+                        }
+                        <DxComboBox Data="@modelSub"
+                                    NullText="Model Seç..."
+                                    AllowUserInput="true"
+                                    ShowValidationIcon="true"
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                    FilteringMode="DataGridFilteringMode.Contains"
+                                    @bind-Value="@product.ModelId"
+                                    TextFieldName="@nameof(ModelDto.Name)"
+                                    ValueFieldName="@nameof(ModelDto.Id)"
+                                    SelectedItemChanged="@((ModelDto subModel) => {
+                                                                        product.ModelId = subModel?.Id;
+                                                                        product.ModelName = subModel?.Name; })">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem ColSpanMd="12">
+                        @if (AuthorizationService.HasPermission("res:product", "scopes:create"))
+                        {
+                            <div style="text-align: right;">
+                                <DxButton Click="() => GridProduct.SaveChangesAsync()" Text="Kaydet" RenderStyle="ButtonRenderStyle.Success" />
+                                <DxButton Click="() => GridProduct.CancelEditAsync()" Text="İptal Et" RenderStyle="ButtonRenderStyle.Secondary" />
+                            </div>
+                        }
+                    </DxFormLayoutItem>
+                </DxFormLayout>
+            </EditFormTemplate>
+        </DxGrid>
+        <DxPager PageCount="@productModel.totalPages"
+                 AutoHideNavButtons="false"
+                 SwitchToInputBoxButtonCount="3"
+                 ActivePageIndexChanged="HandleProductPageNumberChanged" />
+    }
+}
+
+
+
+@code {
+    public async Task DeleteProductDialog(ProductDto product)
+    {
+        var result = await DialogService.OpenAsync("Ürün Sil", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <p>Ürün : <b>@product.Name</b> isimli ürün ve buna bağlı tüm alt kayıtlar silinecek!</p>
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="Radzen.AlignItems.Center" JustifyContent="Radzen.JustifyContent.End">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="Radzen.JustifyContent.End">
+                <RadzenButton Text="İptal" Click="() => ds.Close(false)" ButtonStyle="Radzen.ButtonStyle.Light" />
+                <RadzenButton Text="Sil" Click="async() => { ds.Close(true); DialogService.Dispose(); await DeleteProduct(product); }" ButtonStyle="Radzen.ButtonStyle.Danger" Style="width: 80px;" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+    );
+    }
+}

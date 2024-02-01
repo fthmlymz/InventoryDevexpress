@@ -8,27 +8,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5745671E-ED7
 		Helpers.txt = Helpers.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InventoryManagement", "InventoryManagement", "{E2B6E18A-DC4F-41AD-A34E-FC4DB6716606}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{E2B6E18A-DC4F-41AD-A34E-FC4DB6716606}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{096667AE-D1E4-4595-A8E5-8B3595AD3F14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Application", "src\InventoryManagement\Backend\Core\IM.Application\IM.Application.csproj", "{6719D83A-3468-4F56-9FFD-51A422ED06D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Application", "src\Inventory\Backend\Core\IM.Application\IM.Application.csproj", "{6719D83A-3468-4F56-9FFD-51A422ED06D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Domain", "src\InventoryManagement\Backend\Core\IM.Domain\IM.Domain.csproj", "{B0102C81-A3EB-48A0-9A61-29CB51D0F999}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Domain", "src\Inventory\Backend\Core\IM.Domain\IM.Domain.csproj", "{B0102C81-A3EB-48A0-9A61-29CB51D0F999}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9C4C8165-7C0A-4791-BD4D-CB7EBD1AFF1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Persistence", "src\InventoryManagement\Backend\Infrastructure\IM.Persistence\IM.Persistence.csproj", "{F79222A5-C116-474D-81E2-E36D75FBCA9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Persistence", "src\Inventory\Backend\Infrastructure\IM.Persistence\IM.Persistence.csproj", "{F79222A5-C116-474D-81E2-E36D75FBCA9B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{8F71FD59-D9B2-42A4-96DE-B3D1A2C7063A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.API", "src\InventoryManagement\Backend\WebAPI\InventoryManagement.API\InventoryManagement.API.csproj", "{8F419030-FFFC-4EF8-BA12-A8854D03D16E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.API", "src\Inventory\Backend\WebAPI\InventoryManagement.API\InventoryManagement.API.csproj", "{8F419030-FFFC-4EF8-BA12-A8854D03D16E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Infrastructure", "src\InventoryManagement\Backend\Infrastructure\IM.Infrastructure\IM.Infrastructure.csproj", "{F3911E27-C49E-4BE5-A1DB-2A60CA686027}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Infrastructure", "src\Inventory\Backend\Infrastructure\IM.Infrastructure\IM.Infrastructure.csproj", "{F3911E27-C49E-4BE5-A1DB-2A60CA686027}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{1C508C98-8A75-45C2-90D3-A2761B6C8017}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Shared", "src\InventoryManagement\Backend\Shared\IM.Shared\IM.Shared.csproj", "{9F0E2C42-D37D-4F27-B611-9E56DAB51700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Shared", "src\Inventory\Backend\Shared\IM.Shared\IM.Shared.csproj", "{9F0E2C42-D37D-4F27-B611-9E56DAB51700}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C81C9B02-A352-4A16-9B46-9F326A8B9B83}"
 	ProjectSection(SolutionItems) = preProject
@@ -42,9 +42,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{A982
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{07364367-DC8F-441E-9431-500819D99A9D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedLibrary", "src\InventoryManagement\Shared\SharedLibrary\SharedLibrary.csproj", "{7FBEFE39-5158-4B5D-B70E-9A884AC157D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedLibrary", "src\Inventory\Shared\SharedLibrary\SharedLibrary.csproj", "{7FBEFE39-5158-4B5D-B70E-9A884AC157D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.Frontend", "src\InventoryManagement\Frontend\InventoryManagement.Frontend\InventoryManagement.Frontend.csproj", "{808EABA6-17F8-4F3F-BB08-A3352F1D2AA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.Frontend", "src\Inventory\Frontend\InventoryManagement.Frontend\InventoryManagement.Frontend.csproj", "{808EABA6-17F8-4F3F-BB08-A3352F1D2AA9}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{36887007-9143-42C2-AFE0-D093F58584A9}"
 EndProject

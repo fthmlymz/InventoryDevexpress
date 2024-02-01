@@ -2,8 +2,6 @@ Ports
 
 Keycloak
 		- http://localhost:4000;
-Gateway
-		- http://localhost:4001;
 InventoryManagement.API
 		- http://localhost:4002;
 InventoryManagement.Frontend
@@ -45,7 +43,7 @@ ____________________________ DOCKER ____________________________
 
 Genel Bilgi: 
 Persistence katman�nda bir kere migrations �al��t�r�lacak, 
-Migrate: dotnet ef migrations add InitialCreate --context ApplicationDbContext
+Migrate: dotnet ef migrations add InitialCreate3 --context ApplicationDbContext
 Update : dotnet ef database update --context ApplicationDbContext
 Remove : dotnet ef migrations remove --force --context ApplicationDbContext
 

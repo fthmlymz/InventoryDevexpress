@@ -1,0 +1,90 @@
+﻿@page "/product/product-list"
+
+@using DevExpress.Blazor
+@using InventoryManagement.Frontend.DTOs.Product
+
+@inherits ComponentBase
+
+@if (productModel != null && productModel.data != null)
+{
+    @if (AuthorizationService!.HasPermission("res:product", "scopes:read"))
+    {
+        <DxGrid @ref="GridProduct"
+                Data="productModel?.data"
+                ShowFilterRow="true"
+                PageSize="@PageSize"
+                TextWrapEnabled="false"
+                ColumnResizeMode="GridColumnResizeMode.NextColumn">
+
+            <Columns>
+                <DxGridCommandColumn Width="100px" ClearFilterButtonVisible="false" NewButtonVisible="false">
+                    <CellDisplayTemplate>
+                        @{
+                            <DxButton Click="() => GetProductDetails(context.DataItem)" Text="Detaylar" />
+                        }
+                    </CellDisplayTemplate>
+                </DxGridCommandColumn>
+
+
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Barcode) Caption="Barkod" DisplayFormat="d0">
+                    <FilterRowCellTemplate>
+                        <DxSpinEdit Value="(int?)context.FilterRowValue"
+                                    ValueChanged="(int? v) => OnFilterValueChanged(context.DataColumn.FieldName, v?.ToString())"
+                                    ShowSpinButtons="false">
+                        </DxSpinEdit>
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Name) Caption="Ürün Adı">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Name).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+
+                <DxGridDataColumn FieldName=@nameof(ProductDto.AssignedUserName) Caption="Zimmetlenen Adı" FilterRowEditorVisible="false" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.ApprovalStatus) Caption="Onay Durumu" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.CategoryName) Caption="Kategori" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.CategorySubName) Caption="Alt Kategori" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.BrandName) Caption="Marka" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.ModelName) Caption="Model" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.DataClass) Caption="Veri Sınıfı" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.FullName) Caption="Tam Adı" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Imei) Caption="Imei">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Imei).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Mac) Caption="Mac Adresi">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Mac).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.SerialNumber) Caption="Seri No">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.SerialNumber).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.Status) SortIndex="0" Caption="Durum">
+                    <FilterRowCellTemplate>
+                        <DxTextBox @bind-Value="context.FilterRowValue"
+                                   TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Status).ToString(), v))" />
+                    </FilterRowCellTemplate>
+                </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.PurchaseDate) Caption="Satın Alma Tarihi" FilterRowEditorVisible="false" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.InvoiceDate) Caption="Fatura Tarihi" FilterRowEditorVisible="false" />
+            </Columns>
+        </DxGrid>
+        <DxPager PageCount="@productModel.totalPages"
+                 AutoHideNavButtons="false"
+                 SwitchToInputBoxButtonCount="3"
+                 ActivePageIndexChanged="HandleProductPageNumberChanged" />
+    }
+}
+else
+{
+    <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+}
