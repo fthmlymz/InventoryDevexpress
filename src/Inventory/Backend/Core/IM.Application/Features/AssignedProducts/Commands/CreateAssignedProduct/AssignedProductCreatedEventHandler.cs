@@ -44,7 +44,7 @@ namespace InventoryManagement.Application.Features.AssignedProducts.Commands.Cre
                     CreatedBy = createdAssignedProduct.CreatedBy,
                     CreatedUserId = createdAssignedProduct.CreatedUserId,
                     CreatedDate = createdAssignedProduct.CreatedDate,
-                    MovementDate = DateTime.Now, // Veya başka bir hareket tarihi
+                    MovementDate = DateTime.Now,
                     Description = $"{createdAssignedProduct.CreatedBy} tarafından, {existingProduct.Barcode} barkodlu ürün {createdAssignedProduct.FullName} - ({createdAssignedProduct.AssignedUserName}) üzerine zimmetlendi", // Hareket açıklaması veya başka bir bilgi
                     ProductId = createdAssignedProduct.ProductId
                 };

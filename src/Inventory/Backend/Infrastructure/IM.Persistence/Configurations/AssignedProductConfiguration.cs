@@ -15,6 +15,11 @@ namespace InventoryManagement.Persistence.Configurations
             builder.Property(x => x.AssignedUserName).HasMaxLength(250);
             builder.Property(x => x.FullName).HasMaxLength(250);
             builder.Property(x => x.ApprovalStatus).HasMaxLength(250);
+            builder.Property(x => x.Company).HasMaxLength(250);
+            builder.Property(x => x.PhysicalDeliveryOfficeName).HasMaxLength(250);
+            builder.Property(x => x.Title).HasMaxLength(250);
+            builder.Property(x => x.Manager).HasMaxLength(250);
+            builder.Property(x => x.Department).HasMaxLength(250);
             builder.Property(x => x.CreatedBy).HasMaxLength(250);
             builder.Property(x => x.UpdatedBy).HasMaxLength(250);
             builder.Property(x => x.CreatedUserId).HasMaxLength(250);

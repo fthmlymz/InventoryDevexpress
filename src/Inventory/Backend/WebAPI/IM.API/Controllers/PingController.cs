@@ -4,7 +4,7 @@ namespace InventoryManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PingPongController : ControllerBase
+    public class PingController : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()

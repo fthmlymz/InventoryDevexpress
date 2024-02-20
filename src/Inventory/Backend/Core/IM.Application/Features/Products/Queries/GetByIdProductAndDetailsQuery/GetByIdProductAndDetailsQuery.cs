@@ -156,6 +156,10 @@ namespace InventoryManagement.Application.Features.Products.Queries.GetByIdProdu
                     AssignedUserPhoto = ap.AssignedUserPhoto,
                     FullName = ap.FullName,
                     ApprovalStatus = ap.ApprovalStatus,
+                    Department = ap.Department,
+                    Manager = ap.Manager,
+                    PhysicalDeliveryOfficeName = ap.PhysicalDeliveryOfficeName,
+                    Title = ap.Title
                 }).ToList()
             };
             return await Result<List<GetByIdProductAndDetailsDto>>.SuccessAsync(new List<GetByIdProductAndDetailsDto> { dto });

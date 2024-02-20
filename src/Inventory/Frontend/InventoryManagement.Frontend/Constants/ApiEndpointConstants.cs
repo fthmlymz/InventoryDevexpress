@@ -5,7 +5,7 @@
         public static string? InventoryManagementApi { get; private set; }
         public static string? KeycloakEndpoint { get; private set; }
         public static string? Realm { get; private set; }
-        public static string? RealmId { get; private set; }
+
 
         public static void Load(IConfiguration configuration)
         {
@@ -63,17 +63,6 @@
 
 
         #region Product
-        /*
-         Post: /api/Product
-         Put: /api/Product
-         Get: /api/Product
-         Put: /api/Product/GetStoreProduct
-         Put: /api/Product/Transfer
-         Delete: /api/Product/id
-         Get: /api/Product/GetByIdProductAndDetailsQuery
-         Get: /api/Product/search
-         post: /api/Product/fileManagement
-         */
         public static string PostProduct => $"{InventoryManagementApi}/api/product";
         public static string PutProduct => $"{InventoryManagementApi}/api/product";
         public static string GetProduct => $"{InventoryManagementApi}/api/product";
@@ -105,13 +94,6 @@
 
 
         #region TransferOfficiers
-        /*
-         Post: /api/TransferOfficier
-         Put: /api/TransferOfficier
-         Delete: /api/TransferOfficier/id
-         Get: /api/TransferOfficier/{companyId}
-         Get: /api/TransferOfficier/GetAll
-         */
         public static string PostTransferOfficier => $"{InventoryManagementApi}/api/TransferOfficier";
         public static string PutTransferOfficier => $"{InventoryManagementApi}/api/TransferOfficier";
         public static string DeleteTransferOfficier => $"{InventoryManagementApi}/api/TransferOfficier";
@@ -121,12 +103,7 @@
 
 
         #region Reports
-        public static string GetProductCountsQuery => $"{InventoryManagementApi}/api/Report/GetProductCountsQuery";
+        public static string GeneralReport => $"{InventoryManagementApi}/api/Report/GeneralReport";
         #endregion
-
-
-        //#region gRPC - FileTransfer
-        //public static string FileTransferManager => $"{gatewayAddress}/gateway/filemanager";
-        //#endregion
     }
 }

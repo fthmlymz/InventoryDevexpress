@@ -42,13 +42,13 @@
                     </FilterRowCellTemplate>
                 </DxGridDataColumn>
 
-                <DxGridDataColumn FieldName=@nameof(ProductDto.AssignedUserName) Caption="Zimmetlenen Adı" FilterRowEditorVisible="false" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.ApprovalStatus) Caption="Onay Durumu" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.CategoryName) Caption="Kategori" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.CategorySubName) Caption="Alt Kategori" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.BrandName) Caption="Marka" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.ModelName) Caption="Model" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.DataClass) Caption="Veri Sınıfı" />
+                <DxGridDataColumn FieldName=@nameof(ProductDto.AssignedUserName) Caption="Zimmetlenen Adı" FilterRowEditorVisible="false" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.FullName) Caption="Tam Adı" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.Imei) Caption="Imei">
                     <FilterRowCellTemplate>
@@ -74,6 +74,7 @@
                                    TextChanged="@((string v) => OnFilterValueChanged(nameof(ProductDto.Status).ToString(), v))" />
                     </FilterRowCellTemplate>
                 </DxGridDataColumn>
+                <DxGridDataColumn FieldName=@nameof(ProductDto.CompanyName) Caption="Şirket" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.PurchaseDate) Caption="Satın Alma Tarihi" FilterRowEditorVisible="false" />
                 <DxGridDataColumn FieldName=@nameof(ProductDto.InvoiceDate) Caption="Fatura Tarihi" FilterRowEditorVisible="false" />
             </Columns>

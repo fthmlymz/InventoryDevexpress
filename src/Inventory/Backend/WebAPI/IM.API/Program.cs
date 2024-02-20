@@ -100,8 +100,8 @@ var keycloakSettings = builder.Configuration.GetSection("Keycloak").Get<Keycloak
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
            {
-               options.Authority = keycloakSettings.Authority;
-               options.Audience = keycloakSettings.Audience;
+               options.Authority = keycloakSettings?.Authority;
+               options.Audience = keycloakSettings?.Audience;
                options.RequireHttpsMetadata = false;
                options.UseSecurityTokenValidators = true;
                options.TokenValidationParameters = new TokenValidationParameters
@@ -110,6 +110,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                    ValidateAudience = true,
                    ValidateIssuerSigningKey = true,
                    RequireSignedTokens = false,
+                   ValidIssuer = keycloakSettings?.Authority, //test eklendi
+                   ValidAudience = keycloakSettings?.Audience, //test eklendi
                    SignatureValidator = delegate (string token, TokenValidationParameters parameters)
                    {
                        var jwt = new JwtSecurityToken(token);

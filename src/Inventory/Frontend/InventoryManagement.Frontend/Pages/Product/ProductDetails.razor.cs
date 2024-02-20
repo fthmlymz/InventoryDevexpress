@@ -1,4 +1,6 @@
-﻿using InventoryManagement.Frontend.Common;
+﻿using DevExpress.Blazor.Reporting;
+using DevExpress.XtraReports.UI;
+using InventoryManagement.Frontend.Common;
 using InventoryManagement.Frontend.Constants;
 using InventoryManagement.Frontend.DTOs.Keycloak;
 using InventoryManagement.Frontend.DTOs.Product;
@@ -29,8 +31,8 @@ namespace InventoryManagement.Frontend.Pages.Product
         public PaginatedResult<GetByIdProductAndDetailsDto>? productDetails { get; set; }
         public PaginatedResult<TransferOfficierDto>? productOfficierList { get; set; }
         private GetStoreProductDto? _storeProductDto { get; set; } = new GetStoreProductDto();
-        private ApproveRejectDto ? approveRejectDto { get; set; } = new ApproveRejectDto();
-        
+        private ApproveRejectDto? approveRejectDto { get; set; } = new ApproveRejectDto();
+
         public FileManager.FileManager? fileManagerRef;
 
 
@@ -38,9 +40,14 @@ namespace InventoryManagement.Frontend.Pages.Product
         private bool ShowUsersVisible { get; set; }
         private bool ShowGetStoreVisible { get; set; }
         private bool ShowTransferListVisible { get; set; }
+        private bool ShowAssignedFormVisible { get; set; }
         #endregion
 
 
+        #region Report
+        DxReportViewer _reportViewer;
+        XtraReport _report = XtraReport.FromFile(ApplicationConstants.ZimmetFormuReport, true);
+        #endregion
         protected override async void OnInitialized()
         {
             SelectedProduct = CommunicationService!.GetSelectedProduct();
@@ -124,7 +131,12 @@ namespace InventoryManagement.Frontend.Pages.Product
                 Email = SelectedUser?.Email,
                 FullName = SelectedUser?.FirstName + " " + SelectedUser?.LastName,
                 ProductId = Convert.ToInt32(SelectedProduct?.ProductId),
-                ProductName = SelectedProduct?.Name
+                ProductName = SelectedProduct?.Name,
+                Company = SelectedUser?.Attributes?.Company?.FirstOrDefault(),
+                Department = SelectedUser?.Attributes?.Department?.FirstOrDefault(),
+                Manager = SelectedUser?.Attributes?.Manager?.FirstOrDefault(),
+                PhysicalDeliveryOfficeName = SelectedUser?.Attributes?.PhysicalDeliveryOfficeName?.FirstOrDefault(),
+                Title = SelectedUser?.Attributes?.Title?.FirstOrDefault(),
             };
 
             var result = (productDetails?.data?.FirstOrDefault()?.AssignedProducts?.FirstOrDefault()?.Id == null)
@@ -139,6 +151,20 @@ namespace InventoryManagement.Frontend.Pages.Product
             await ProductGetDetails();
         }
         #endregion
+
+
+        #region Assigned Product Form
+        void ReportSet()
+        {
+            #region Report
+            _report = XtraReport.FromFile(ApplicationConstants.ZimmetFormuReport, true);
+            _report.DataSource = productDetails;
+            _report.DataMember = "data";
+            #endregion
+
+        }
+        #endregion
+
 
         #region Product Approve Reject
         async Task ProductApproveReject(string status)
@@ -157,7 +183,7 @@ namespace InventoryManagement.Frontend.Pages.Product
                 var fullName = productDetails?.data?.FirstOrDefault()?.AssignedProducts?.FirstOrDefault()?.FullName;
                 var barcode = productDetails?.data?.FirstOrDefault()?.Barcode;
 
-                if (!string.IsNullOrEmpty(fullName) && !string.IsNullOrEmpty(barcode))
+                if (!string.IsNullOrEmpty(fullName) && !string.IsNullOrEmpty(barcode.ToString()))
                 {
                     NotificationService?.Notify(severity, status, $"Sayın {fullName}, {barcode} numaralı ürünü {message}.", duration: 6000);
                 }

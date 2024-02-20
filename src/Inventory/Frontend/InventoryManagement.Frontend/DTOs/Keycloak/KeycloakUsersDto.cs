@@ -27,6 +27,11 @@
         public List<string>? ModifyTimestamp { get; set; }
         public List<string>? LDAP_ID { get; set; }
         public List<string>? CreateTimestamp { get; set; }
+        public List<string>? Company { get; set; }
+        public List<string>? PhysicalDeliveryOfficeName { get; set; }
+        public List<string>? Title { get; set; }
+        public List<string>? Manager { get; set; }
+        public List<string>? Department { get; set; }
     }
 
     public class Access

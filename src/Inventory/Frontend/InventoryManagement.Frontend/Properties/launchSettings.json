@@ -6,7 +6,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:4003"
+      "applicationUrl": "http://localhost:4002"
     },
     "https": {
       "commandName": "Project",
@@ -14,7 +14,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:4003"
+      "applicationUrl": "https://localhost:4002"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -36,10 +36,10 @@
     },
     "WSL": {
       "commandName": "WSL2",
-      "launchUrl": "https://localhost:4003",
+      "launchUrl": "https://localhost:4002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "https://localhost:4003"
+        "ASPNETCORE_URLS": "https://localhost:4002"
       },
       "distributionName": ""
     }
@@ -49,8 +49,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost:4003",
-      "sslPort": 4003
+      "applicationUrl": "https://localhost:4002",
+      "sslPort": 4002
     }
   }
 }

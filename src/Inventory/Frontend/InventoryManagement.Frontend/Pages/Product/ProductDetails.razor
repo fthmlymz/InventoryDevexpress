@@ -105,7 +105,7 @@
                                 {
                                     @if (SelectedProduct?.Status == GenericConstantDefinitions.Embezzled)
                                     {
-                                        <DxToolbarItem Text="Zimmet Formu Yazdır" />
+                                        <DxToolbarItem Text="Zimmet Formu Yazdır" Click="@(() => ShowAssignedFormVisible = true)" />
                                     }
                                     @if (SelectedProduct?.Status == GenericConstantDefinitions.InStock)
                                     {
@@ -126,7 +126,11 @@
 
                     <hr />
 
-                    @if (product?.Status != GenericConstantDefinitions.InStock && product?.Status != GenericConstantDefinitions.Embezzled)
+                    @if (product?.Status == null)
+                    {
+                        <div class="alert alert-warning" role="alert"> Ürünün durum bilgisi boş olamaz veritabanından düzeltilmesi gerekli </div>
+                    }
+                    else if (product?.Status != GenericConstantDefinitions.InStock && product?.Status != GenericConstantDefinitions.Embezzled)
                     {
                         <RadzenStack Orientation="Radzen.Orientation.Horizontal"
                                      AlignItems="AlignItems.Center"
@@ -134,7 +138,7 @@
                                      Class="rz-p-4 rz-mb-6 rz-border-radius-1"
                                      Style="border: var(--rz-grid-cell-border); width: 100%">
 
-                            <div style="flex: 1;">Taşıma durumu : <strong>@SelectedProduct?.Status</strong></div>
+                            <div style="flex: 1;">Durumu : <strong>@SelectedProduct?.Status</strong></div>
 
                             @if (AuthorizationService!.HasPermission("res:product", "scopes:update"))
                             {
@@ -297,5 +301,21 @@
                 </Columns>
             </DxGrid>
         </RadzenStack>
+    </DxPopup>
+}
+
+
+
+
+@if (ShowAssignedFormVisible)
+{
+    ReportSet();
+    <DxPopup HeaderText="Zimmet Formu"
+             AllowDrag="true"
+             Width="75%"
+             MinWidth="300px"
+             MaxWidth="600px"
+             @bind-Visible="@ShowAssignedFormVisible">
+        <DxReportViewer @ref="@_reportViewer" Report="@_report"  SizeMode="SizeMode.Small" />
     </DxPopup>
 }

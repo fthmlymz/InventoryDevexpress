@@ -3,9 +3,7 @@
 @using System.Security.Claims
 @using InventoryManagement.Frontend.Services.Authorization;
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-@inject NavigationManager _navigationManager
-@inject AuthenticationStateProvider authenticationStateProvider
-@inject IAuthorizationService AuthorizationService
+
 @inherits InventoryManagement.Frontend.Shared.MainLayoutComponent
 
 
@@ -136,12 +134,14 @@
                     <RadzenFooter style="display: flex; height: 40px; align-items: center; justify-content: space-between; text-align: left;">
                         <ChildContent>
                             <div style="display: flex; align-items: center;">
-                                <RadzenLabel style="margin-right: 10px;" Text="Ahlatcı Holding, Copyright Ⓒ 2023">
+                                <RadzenLabel style="margin-right: 10px;"
+                                             Text="Ahlatcı Holding, Copyright Ⓒ 2023">
                                 </RadzenLabel>
                             </div>
 
                             <div style="display: flex; align-items: center;">
-                                <RadzenLabel style="margin-left: 10px;" Text="Coded by Fatih Malyemez 2023">
+                                <RadzenLabel style="margin-left: 10px;"
+                                             Text="Coded by Fatih Malyemez 2023">
                                 </RadzenLabel>
                             </div>
                         </ChildContent>
@@ -167,33 +167,3 @@
 
     </AuthorizeView>
 </CascadingAuthenticationState>
-
-
-@code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await AuthorizationService.InitializeAsync();
-            await UpdateIsAuthorized();
-        }
-    }
-
-
-    private bool isAuthorized;
-    private async Task UpdateIsAuthorized()
-    {
-        var authenticationState = await authenticationStateProvider.GetAuthenticationStateAsync();
-        isAuthorized = authenticationState.User.Identity.IsAuthenticated;
-        StateHasChanged();
-
-        if (!isAuthorized)
-        {
-            _navigationManager.NavigateTo("/login", forceLoad: true);
-        }
-        else
-        {
-            _navigationManager.NavigateTo("/");
-        }
-    }
-}

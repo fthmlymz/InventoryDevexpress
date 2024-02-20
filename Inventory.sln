@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Persistence", "src\Inven
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{8F71FD59-D9B2-42A4-96DE-B3D1A2C7063A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.API", "src\Inventory\Backend\WebAPI\InventoryManagement.API\InventoryManagement.API.csproj", "{8F419030-FFFC-4EF8-BA12-A8854D03D16E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.API", "src\Inventory\Backend\WebAPI\IM.API\IM.API.csproj", "{8F419030-FFFC-4EF8-BA12-A8854D03D16E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Infrastructure", "src\Inventory\Backend\Infrastructure\IM.Infrastructure\IM.Infrastructure.csproj", "{F3911E27-C49E-4BE5-A1DB-2A60CA686027}"
 EndProject
@@ -34,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Helpers.txt = Helpers.txt
 		Onemli notlar.txt = Onemli notlar.txt
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{A349A282-13B0-4FEF-A04B-3FDB32E822A6}"
@@ -47,6 +48,30 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.Frontend", "src\Inventory\Frontend\InventoryManagement.Frontend\InventoryManagement.Frontend.csproj", "{808EABA6-17F8-4F3F-BB08-A3352F1D2AA9}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{36887007-9143-42C2-AFE0-D093F58584A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Keycloak", "Keycloak", "{976ABD88-912B-4C4A-B253-B596147548E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MsSql", "MsSql", "{D6DEF4E9-E5B6-41E5-98A5-C24CF5ED2CA9}"
+	ProjectSection(SolutionItems) = preProject
+		src\Inventory\Keycloak\MsSql\Dockerfile = src\Inventory\Keycloak\MsSql\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ssl", "ssl", "{4DF73A12-4102-443A-BFF4-48DCABE597F1}"
+	ProjectSection(SolutionItems) = preProject
+		src\Inventory\Keycloak\MsSql\ssl\docker-host.crt = src\Inventory\Keycloak\MsSql\ssl\docker-host.crt
+		src\Inventory\Keycloak\MsSql\ssl\docker-host.key = src\Inventory\Keycloak\MsSql\ssl\docker-host.key
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Postgres", "Postgres", "{F582BD19-DE3B-490E-8E90-8DED778AAF4A}"
+	ProjectSection(SolutionItems) = preProject
+		src\Inventory\Keycloak\Postgres\Dockerfile = src\Inventory\Keycloak\Postgres\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ssl", "ssl", "{4B4FD32A-31C3-440D-908B-DDCEB144FF11}"
+	ProjectSection(SolutionItems) = preProject
+		src\Inventory\Keycloak\Postgres\ssl\docker-host.crt = src\Inventory\Keycloak\Postgres\ssl\docker-host.crt
+		src\Inventory\Keycloak\Postgres\ssl\docker-host.key = src\Inventory\Keycloak\Postgres\ssl\docker-host.key
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +136,11 @@ Global
 		{07364367-DC8F-441E-9431-500819D99A9D} = {E2B6E18A-DC4F-41AD-A34E-FC4DB6716606}
 		{7FBEFE39-5158-4B5D-B70E-9A884AC157D2} = {07364367-DC8F-441E-9431-500819D99A9D}
 		{808EABA6-17F8-4F3F-BB08-A3352F1D2AA9} = {A349A282-13B0-4FEF-A04B-3FDB32E822A6}
+		{976ABD88-912B-4C4A-B253-B596147548E5} = {E2B6E18A-DC4F-41AD-A34E-FC4DB6716606}
+		{D6DEF4E9-E5B6-41E5-98A5-C24CF5ED2CA9} = {976ABD88-912B-4C4A-B253-B596147548E5}
+		{4DF73A12-4102-443A-BFF4-48DCABE597F1} = {D6DEF4E9-E5B6-41E5-98A5-C24CF5ED2CA9}
+		{F582BD19-DE3B-490E-8E90-8DED778AAF4A} = {976ABD88-912B-4C4A-B253-B596147548E5}
+		{4B4FD32A-31C3-440D-908B-DDCEB144FF11} = {F582BD19-DE3B-490E-8E90-8DED778AAF4A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD3374C8-8C11-4599-BF35-82EF2635C1E7}

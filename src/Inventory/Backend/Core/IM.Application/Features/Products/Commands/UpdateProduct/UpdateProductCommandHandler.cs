@@ -29,13 +29,13 @@ namespace InventoryManagement.Application.Features.Products.Commands.UpdateProdu
                 throw new NotFoundExceptionCustom($"{request.Name} isimli ürün bulunamadı");
             }
 
-            // Barcode daha önce kaydedilmiş mi?
-            var existingProduct = _unitOfWork.Repository<Product>().Entities.FirstOrDefault(x => x.Barcode == request.Barcode);
-            if (existingProduct != null)
-            {
-                _logger.LogWarning($"Barcode already exists for product: {request.Name}", request.Name);
-                throw new BadRequestExceptionCustom($"{request.Name} için kaydedilmek istenen barkod zaten mevcut");
-            }
+            //// Barcode daha önce kaydedilmiş mi?
+            //var existingProduct = _unitOfWork.Repository<Product>().Entities.FirstOrDefault(x => x.Barcode == request.Barcode);
+            //if (existingProduct != null)
+            //{
+            //    _logger.LogWarning($"Barcode already exists for product: {request.Name}", request.Name);
+            //    throw new BadRequestExceptionCustom($"{request.Name} için kaydedilmek istenen barkod zaten mevcut");
+            //}
 
 
             //Product kayıt edilecek company bilgisi

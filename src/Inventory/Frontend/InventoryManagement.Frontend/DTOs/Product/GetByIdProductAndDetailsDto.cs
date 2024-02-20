@@ -5,7 +5,7 @@ namespace InventoryManagement.Frontend.DTOs.Product
     public class GetByIdProductAndDetailsDto : BaseAuditableEntity
     {
         public string? Name { get; set; }
-        public string? Barcode { get; set; }
+        public int? Barcode { get; set; }
         public string? SerialNumber { get; set; }
         public string? Imei { get; set; }
         public string? Mac { get; set; }
@@ -48,7 +48,13 @@ namespace InventoryManagement.Frontend.DTOs.Product
         public string? AssignedUserPhoto { get; set; }
         public string? FullName { get; set; }
         public string? ApprovalStatus { get; set; }
+        public string? Department { get; set; }
+        public string? Manager { get; set; }
+        public string? PhysicalDeliveryOfficeName { get; set; }
+        public string? Title { get; set; }
         public int? ProductId { get; set; }
+
+
 
         public ICollection<AssignedProductMovementQueryDto>? AssignedProductMovements { get; set; }
     }

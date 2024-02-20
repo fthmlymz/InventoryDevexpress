@@ -1,4 +1,4 @@
-﻿using InventoryManagement.Application.Features.Reports.Queries.GetProductCountsQuery;
+﻿using IM.Application.Features.Reports.Queries.GeneralReport;
 using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,13 +17,12 @@ namespace InventoryManagement.API.Controllers
             _mediator = mediator;
         }
 
-
         [Authorize("ReportReadRole")]
         [HttpGet]
-        [Route("GetProductCountsQuery")]
-        public async Task<ActionResult<Result<List<CategoryProductCountsDto>>>> GetProductCountsQuery()
+        [Route("GeneralReport")]
+        public async Task<ActionResult<Result<List<CombinedProductCountsDto>>>> ProductCountsAllQuery2()
         {
-            return await _mediator.Send(new GetProductCountsQuery());
+            return await _mediator.Send(new CombinedProductCountsQuery());
         }
     }
 }

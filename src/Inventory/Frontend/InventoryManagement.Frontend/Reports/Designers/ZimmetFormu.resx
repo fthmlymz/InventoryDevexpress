@@ -163,6 +163,10 @@
         "UpdatedBy": null,
         "UpdatedUserId": "",
         "UpdatedDate": null,
+        "Title": null,
+        "PhysicalDeliveryOfficeName": null,
+        "Manager": null,
+        "Department": null,
         "DomainEvents": []
       }
     ],

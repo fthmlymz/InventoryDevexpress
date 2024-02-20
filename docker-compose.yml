@@ -1,15 +1,57 @@
 version: '3.9'
 
 services:
+  mssqlscripts:
+    container_name: keycloak.sqlscript
+    image: mcr.microsoft.com/mssql-tools
+    command: /bin/bash -c 'until /opt/mssql-tools/bin/sqlcmd -S host.docker.internal -U sa -P Aa123456789*-+ -Q "create database KeycloakDb"; do sleep 5; done'
+    network_mode: bridge
+
+  keycloak:
+    container_name: keycloak
+    restart: always
+    build:
+      context: .
+      dockerfile: src/Inventory/Keycloak/MsSql/Dockerfile
+      args:
+        KEYCLOAK_VERSION: latest
+    command: ['start', '--optimized']
+    environment:
+      JAVA_OPTS_APPEND: -Dkeycloak.profile.feature.upload_scripts=enabled
+      KC_DB_URL: jdbc:sqlserver://host.docker.internal;databaseName=KeycloakDb;encrypt=false
+      KC_DB_USERNAME: sa                                              # database server user
+      KC_DB_PASSWORD: Aa123456789*-+                                  # database server password
+      KC_DB: mssql
+      KC_HEALTH_ENABLED: 'true'
+      KC_HTTP_ENABLED: 'true'
+      KC_METRICS_ENABLED: 'true'
+      KC_PROXY: passthrough
+      KC_HOSTNAME_STRICT: 'false'
+      KC_HOSTNAME_URL: 'http://localhost:4000'
+      KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/docker-host.crt      # host.docker.internal SSL
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/docker-host.key  # host.docker.internal SSL
+      KEYCLOAK_ADMIN: 'admin'
+      KEYCLOAK_ADMIN_PASSWORD: 'Aa123456789*-+'
+    ports:
+      - "4000:8080" # localhost ssl port 4000 yapilacak
+      #- "4000:8443" # localhost ssl port
+    volumes:
+      - ./src/Inventory/Keycloak/MsSql/ssl:/etc/x509/https
+      #- ./src/Inventory/Keycloak/MsSql/ssl/docker-host.crt:/etc/x509/https/docker-host.crt                   # host.docker.internal ssl
+      #- ./src/Inventory/Keycloak/MsSql/ssl/docker-host.key:/etc/x509/https/docker-host.key                   # host.docker.internal ssl
+    depends_on:
+      - mssqlscripts
+    network_mode: bridge
+
   inventorymanagement.api:
     image: ${DOCKER_REGISTRY-}inventorymanagementapi
     container_name: "inventorymanagement.api"
     restart: "always"
     ports:
-      - "4002:8080"
+      - "4001:8080"
     build:
       context: .
-      dockerfile: src/Inventory/Backend/WebAPI/InventoryManagement.API/Dockerfile
+      dockerfile: src/Inventory/Backend/WebAPI/IM.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
@@ -40,7 +82,9 @@ services:
       - Keycloak__KeycloakResourceUrl=http://host.docker.internal:4000/realms/inventory_management_realm/authz/protection/resource_set/
       - Keycloak__ClientCredentialsTokenAddress=http://host.docker.internal:4000/realms/inventory_management_realm/protocol/openid-connect/token
     volumes:
-      - ./src/Inventory/Backend/WebAPI/InventoryManagement.API/ssl:/app/ssl
+      - ./src/Inventory/Backend/WebAPI/IM.API/ssl:/app/ssl
+    depends_on:
+      - keycloak
     network_mode: bridge
 
 
@@ -49,7 +93,7 @@ services:
     container_name: "inventorymanagement.frontend"
     restart: "always"
     ports:
-      - "4003:8081"
+      - "4002:8081"
     build:
       context: .
       dockerfile: src/Inventory/Frontend/InventoryManagement.Frontend/Dockerfile
@@ -58,16 +102,25 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
 
-      - GatewayAddress=http://host.docker.internal:4001
+      - InventoryManagementApi=http://host.docker.internal:4001
 
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/ssl/aspnetapp.pfx
+
+      - Keycloak__KeycloakEndpoint=http://host.docker.internal:4000
+      - Keycloak__ClientId=InventoryManagementClient
+      - Keycloak__ClientSecret=Zs6XKKBjBple3OJJPLsZpK5M7MmD1TFn
+      - Keycloak__GrantType=password
+      - Keycloak__Audience=InventoryManagementClient
+      - Keycloak__Realm=InventoryManagementClient
+      - Keycloak__RealmId=inventory_management_realm
+      - Keycloak__GrantTypePermissions=urn:ietf:params:oauth:grant-type:uma-ticket
     depends_on:
       - inventorymanagement.api
     volumes:
       - ./src/Inventory/Frontend/InventoryManagement.Frontend/ssl:/app/ssl
-      - ./src/Inventory/Frontend/InventoryManagement.Frontend/ssl/docker-host.crt:/etc/x509/https/docker-host.crt                   # host.docker.internal ssl
-      - ./src/Inventory/Frontend/InventoryManagement.Frontend/ssl/docker-host.key:/etc/x509/https/docker-host.key                   # host.docker.internal ssl
+#      - ./src/Inventory/Frontend/InventoryManagement.Frontend/ssl/docker-host.crt:/etc/x509/https/docker-host.crt                   # host.docker.internal ssl
+#      - ./src/Inventory/Frontend/InventoryManagement.Frontend/ssl/docker-host.key:/etc/x509/https/docker-host.key                   # host.docker.internal ssl
       - ./src/Inventory/Frontend/InventoryManagement.Frontend/Reports:/app/Reports
     network_mode: bridge
     

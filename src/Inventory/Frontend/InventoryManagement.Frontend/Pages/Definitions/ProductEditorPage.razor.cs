@@ -186,12 +186,13 @@ namespace InventoryManagement.Frontend.Pages.Definitions
             if (e.IsNew)
             {
                 var newProduct = (ProductDto)e.EditModel;
+                newProduct.Status = GenericConstantDefinitions.InStock; // First record in stock
+
                 var response = await ApiService.PostAsync(ApiEndpointConstants.PostProduct, newProduct);
                 if (response.IsSuccessStatusCode)
                 {
                     var insertedProduct = await response.Content.ReadFromJsonAsync<ProductDto>();
 
-                    // Kategorileri alanlarını doldur
                     FillCategoryNames(insertedProduct);
 
                     productModel?.data?.Add(insertedProduct);
