@@ -10,12 +10,14 @@ namespace SharedLibrary.Common
         public const string ReturnIt = "ReturnIt";
         public const string InStock = "Depoda";
         public const string Embezzled = "Zimmetlendi";
+        public const string Scrap = "Hurda";
     }
 
     public class GenericConstantDescriptions
     {
         public static Dictionary<string, string> Descriptions = new Dictionary<string, string>
         {
+            { GenericConstantDefinitions.Scrap, "Hurda" },
             { GenericConstantDefinitions.Transfer, "Transfer Aşamasında" },
             { GenericConstantDefinitions.Accepted, "Depoda" },
             { GenericConstantDefinitions.Rejected, "Transfer Aşamasında - Red Edildi" },

@@ -2,6 +2,7 @@
 
 @using DevExpress.Blazor
 @using InventoryManagement.Frontend.DTOs.Product
+@using SharedLibrary.Common
 
 @inherits ComponentBase
 
@@ -14,6 +15,7 @@
                 ShowFilterRow="true"
                 PageSize="@PageSize"
                 TextWrapEnabled="false"
+                CustomizeElement="OnCustomizeElement"
                 ColumnResizeMode="GridColumnResizeMode.NextColumn">
 
             <Columns>
@@ -88,4 +90,32 @@
 else
 {
     <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+}
+
+
+@{
+    void OnCustomizeElement(GridCustomizeElementEventArgs e)
+    {
+        if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Scrap])
+        {
+            //e.Style += "background-color: rgba(245, 198, 203, 0.5)";
+            e.Style += "background-color: #9F9F9F";
+        }
+        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Accepted])
+        {
+            e.Style += "background-color: #dfdfdf";
+        }
+        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Transfer])
+        {
+            e.Style += "background-color: #ffef85d1";
+        }
+        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Rejected])
+        {
+            e.Style += "background-color: ##ff001847";
+        }
+        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.ReturnIt])
+        {
+            e.Style += "background-color: ##ff001847";
+        }
+    }
 }

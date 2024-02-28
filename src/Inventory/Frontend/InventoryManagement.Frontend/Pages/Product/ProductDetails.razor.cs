@@ -105,6 +105,10 @@ namespace InventoryManagement.Frontend.Pages.Product
 
             await fileManagerRef!.SearchFiles();
             await InvokeAsync(StateHasChanged);
+            /*System.NullReferenceException: 'Object reference not set to an instance of an object.'
+
+fileManagerRef was null.
+            */
         }
         #endregion
 
