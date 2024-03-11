@@ -1,14 +1,14 @@
-version: '3.9'
+﻿version: '3.9'
 
 services:
   mssqlscripts:
-    container_name: keycloak.sqlscript
+    container_name: KeycloakSqlScript
     image: mcr.microsoft.com/mssql-tools
     command: /bin/bash -c 'until /opt/mssql-tools/bin/sqlcmd -S host.docker.internal -U sa -P Aa123456789*-+ -Q "create database KeycloakDb"; do sleep 5; done'
     network_mode: bridge
 
   keycloak:
-    container_name: keycloak
+    container_name: Keycloak
     restart: always
     build:
       context: .
@@ -34,18 +34,67 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: 'Aa123456789*-+'
     ports:
       - "4000:8080" # localhost ssl port 4000 yapilacak
-      #- "4000:8443" # localhost ssl port
+      #- "4000:8081"# localhost ssl port: 8443
     volumes:
       - ./src/Inventory/Keycloak/MsSql/ssl:/etc/x509/https
-      #- ./src/Inventory/Keycloak/MsSql/ssl/docker-host.crt:/etc/x509/https/docker-host.crt                   # host.docker.internal ssl
-      #- ./src/Inventory/Keycloak/MsSql/ssl/docker-host.key:/etc/x509/https/docker-host.key                   # host.docker.internal ssl
     depends_on:
       - mssqlscripts
     network_mode: bridge
 
-  inventorymanagement.api:
+  redis:
+    container_name: Redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=Aa123456789*-+
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
+    network_mode: bridge
+
+  mssql:
+    container_name: MsSqlServer2022
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Aa123456789*-+"
+    ports:
+      - 1433:1433
+    network_mode: bridge
+
+  serilogseq:
+    container_name: SerilogSeq
+    image: datalust/seq:latest
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - 5341:80
+    network_mode: bridge
+    depends_on:
+      - mssql
+
+    
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: RabbitMQ
+    ports:
+        - 5672:5672
+        - 15672:15672
+    environment:
+        RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+        RABBITMQ_DEFAULT_USER: "rabbitmq"
+        RABBITMQ_DEFAULT_PASS: "Aa123456789*-+"
+        RABBITMQ_DEFAULT_VHOST: "/"
+    network_mode: bridge
+    restart: always
+
+
+  InventoryManagementApi:
     image: ${DOCKER_REGISTRY-}inventorymanagementapi
-    container_name: "inventorymanagement.api"
+    container_name: "InventoryManagementApi"
     restart: "always"
     ports:
       - "4001:8080"
@@ -70,8 +119,8 @@ services:
       - RedisConnectionSettings__DefaultExpiration=00:01:00
 
       - RabbitMQ__Host=host.docker.internal
-      - RabbitMQ__Username=guest
-      - RabbitMQ__Password=guest
+      - RabbitMQ__Username=rabbitmq
+      - RabbitMQ__Password=Aa123456789*-+
       - RabbitMQ__Port=5672
 
       - SerilogSeqUrl=http://seq:5341/
@@ -85,12 +134,15 @@ services:
       - ./src/Inventory/Backend/WebAPI/IM.API/ssl:/app/ssl
     depends_on:
       - keycloak
+      - mssql
+      - rabbitmq
+      - redis
     network_mode: bridge
 
 
-  inventorymanagement.frontend:
+  InventoryManagementFrontend:
     image: ${DOCKER_REGISTRY-}inventorymanagementfrontend
-    container_name: "inventorymanagement.frontend"
+    container_name: "InventoryManagementFrontend"
     restart: "always"
     ports:
       - "4002:8081"
@@ -116,14 +168,12 @@ services:
       - Keycloak__RealmId=inventory_management_realm
       - Keycloak__GrantTypePermissions=urn:ietf:params:oauth:grant-type:uma-ticket
     depends_on:
-      - inventorymanagement.api
+      - InventoryManagementApi
     volumes:
       - ./src/Inventory/Frontend/InventoryManagement.Frontend/ssl:/app/ssl
-#      - ./src/Inventory/Frontend/InventoryManagement.Frontend/ssl/docker-host.crt:/etc/x509/https/docker-host.crt                   # host.docker.internal ssl
-#      - ./src/Inventory/Frontend/InventoryManagement.Frontend/ssl/docker-host.key:/etc/x509/https/docker-host.key                   # host.docker.internal ssl
       - ./src/Inventory/Frontend/InventoryManagement.Frontend/Reports:/app/Reports
     network_mode: bridge
-    
+
 
 volumes:
   keycloak_data_cert:

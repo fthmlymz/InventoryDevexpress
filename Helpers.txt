@@ -1,56 +1,60 @@
-Ports
-
-Keycloak
-		- http://localhost:4000;
-InventoryManagement.API
-		- http://localhost:4002;
-InventoryManagement.Frontend
-		- https://localhost:4003;
-EmailService.API
-		- http://localhost:4004;
-FileTransferManager.Service
-		- http://localhost:4005;
+------------------------------------ Application Ports ------------------------------------
+Keycloak                     : http://localhost:4000;
+InventoryManagement.API      : http://localhost:4001;
+InventoryManagement.Frontend : https://localhost:4002;
+EmailService.API             : http://localhost:4004;
+------------------------------------ Application Ports ------------------------------------
 
 
 
-____________________________ DOCKER - Requirements ____________________________
-Docker Serilog      :
-docker run --name Serilog.Seq -d --restart unless-stopped -e ACCEPT_EULA=Y -p 5341:80 datalust/seq:latest
-
-
-Docker RabbitMQ     :
-docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-
-
-Docker MsSql Server :
-docker pull mcr.microsoft.com/mssql/server
-docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Aa123456789*-+" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
-
-
-Docker Redis        :
-docker pull redis
-docker run --name Redis -p 6379:6379 -d redis
+------------------------------------ Docker container backup/restore ------------------------------------
+Powershell : docker login
+Backup     : docker cp 0776f15b9409:/var/opt/mssql/data/KeycloakDb_log.ldf C:\Database
+Restore    : docker cp "C:/Users/malfx001/Desktop/Yeni Disk/Programlama/Workshop/Enerya/Database/Keycloak/KeycloakDb.mdf" 6b01fe1fee98:/var/opt/mssql/data/
+------------------------------------ Docker container backup/restore ------------------------------------
 
 
 
-Docker Keycloak     :
+------------------------------------ minikube/Kubernetes Ayarlari ------------------------------------
+1-) Choco kullanilarak minikube kur:
+    https://community.chocolatey.org/packages/Minikube
+	https://dev.to/sanjaybsm/installing-minikube-kubectl-with-chocolatey-windows-5gc7
+2-) Hyper-V set
+    https://minikube.sigs.k8s.io/docs/drivers/hyperv/
+    Set Hyper-V: minikube config set driver hyperv
+3-) Hyper-V uzerinde bir tane external01 olustur ve asagidaki komut ile calistir.
+    minikube start --vm-driver hyperv --hyperv-virtual-switch "External01"
+------------------------------------ minikube/Kubernetes Ayarlari ------------------------------------
 
 
-____________________________ DOCKER ____________________________
+
+------------------------------------ docker-compose.yml to kubernetes ------------------------------------
+Docker Compose Dosyalarını Kubernetes YAML Dosyalarına donustur:
+- kompose convert -f docker-compose.yml -o kubernetes/
+
+Bu komut, docker-compose.yml dosyasını kubernetes/ dizinine donusturulecektir.
+
+Docker Imajlarını Kubernetes Cluster'a Yukle:
+- kubectl apply -f kubernetes/
+- minikube tunnel 
+------------------------------------ docker-compose.yml to kubernetes ------------------------------------
 
 
 
 
-Genel Bilgi: 
-Persistence katman�nda bir kere migrations �al��t�r�lacak, 
+
+
+------------------------------------ Migrations - Persistence Layer ------------------------------------
 Migrate: dotnet ef migrations add InitialCreate5 --context ApplicationDbContext
 Update : dotnet ef database update --context ApplicationDbContext
 Remove : dotnet ef migrations remove --force --context ApplicationDbContext
+------------------------------------ Migrations - Persistence Layer ------------------------------------
 
 
 
-Test Dockerfile run
+------------------------------------ Dockerfile - Test Run ------------------------------------
 InventoryManagement.Frontend
 Command: docker build -t inventory.management-frontend .
 Command: docker run -d -p 4004:4004 inventory.management.frontend
 Command: docker-compose up --build
+------------------------------------ Dockerfile - Test Run ------------------------------------

@@ -50,13 +50,26 @@
 
     <!-- Autostart function -->
     <script src="_framework/blazor.server.js" autostart="false"></script>
-    <script>
+@*     <script>
         Blazor.start().then(() => {
             Blazor.defaultReconnectionHandler._reconnectCallback = function (d) {
                 document.location.reload();
             }
         });
+    </script> *@
+    <script>
+        Blazor.start({
+            configureSignalR: function (builder) {
+                builder.configureLogging("none");
+            },
+            callback: function () {
+                Blazor.defaultReconnectionHandler._reconnectCallback = function (d) {
+                    document.location.reload();
+                }
+            }
+        });
     </script>
+
     <!-- Autostart function -->
     
     <!-- FileDownload JavaScript function -->

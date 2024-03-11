@@ -96,26 +96,25 @@ else
 @{
     void OnCustomizeElement(GridCustomizeElementEventArgs e)
     {
-        if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Scrap])
+        if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDefinitions.Scrap)
         {
-            //e.Style += "background-color: rgba(245, 198, 203, 0.5)";
-            e.Style += "background-color: #9F9F9F";
+            e.Style += "background-color: #ff6573cf";
         }
-        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Accepted])
+        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDefinitions.InStock)
         {
-            e.Style += "background-color: #dfdfdf";
+            e.Style += "background-color: #1e70d129";
         }
-        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Transfer])
+        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDefinitions.Transfer)
         {
-            e.Style += "background-color: #ffef85d1";
+            e.Style += "background-color: #04fffc29";
         }
-        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Rejected])
+        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDefinitions.Rejected)
         {
-            e.Style += "background-color: ##ff001847";
+            e.Style += "background-color: #ff171729";
         }
-        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.ReturnIt])
+        else if (e.ElementType == GridElementType.DataRow && (System.String)e.Grid.GetRowValue(e.VisibleIndex, "Status") == GenericConstantDefinitions.ReturnIt)
         {
-            e.Style += "background-color: ##ff001847";
+            e.Style += "background-color: #ff171729";
         }
     }
 }

@@ -15,9 +15,9 @@
     {
         var transferOptions = productDetails?.data?.SelectMany(product => product?.ProductTransfers)?.ToList();
 
-        bool isTransferInProgress = product?.Status?.Contains(GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Transfer]) == true;
-        bool isTransferReturned = product?.Status?.Contains(GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.ReturnIt]) == true;
-        bool isTransferRejected = product?.Status?.Contains(GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Rejected]) == true;
+        bool isTransferInProgress = product?.Status?.Contains(GenericConstantDefinitions.Transfer) == true;
+        bool isTransferReturned = product?.Status?.Contains(GenericConstantDefinitions.ReturnIt) == true;
+        bool isTransferRejected = product?.Status?.Contains(GenericConstantDefinitions.Rejected) == true;
         bool currentUserIsSender = transferOptions?.Any(transfer => transfer?.SenderUserName == ((KeycloakAuthenticationStateProvider)AuthenticationStateProvider)?.UserInfo?.PreferredUsername) == true;
         bool currentUserIsRecipient = transferOptions?.Any(transfer => transfer?.RecipientUserName == ((KeycloakAuthenticationStateProvider)AuthenticationStateProvider)?.UserInfo?.PreferredUsername) == true;
 

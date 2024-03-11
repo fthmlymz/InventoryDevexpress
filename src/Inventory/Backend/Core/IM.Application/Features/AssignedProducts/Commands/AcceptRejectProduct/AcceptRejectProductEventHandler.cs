@@ -21,7 +21,7 @@ namespace InventoryManagement.Application.Features.AssignedProducts.Commands.Acc
             var assignedProduct = notification.AssignedProduct;
 
             #region Product Movement Add
-            string approvalStatusDescription = assignedProduct.ApprovalStatus == "Accepted" ? "Onaylandı" : "Red Edildi";
+            string approvalStatusDescription = assignedProduct.ApprovalStatus == "Onaylandı" ? "Onaylandı" : "Red Edildi";
 
             var productMovement = new ProductMovement
             {

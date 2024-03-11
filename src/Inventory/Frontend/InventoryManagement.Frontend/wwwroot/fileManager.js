@@ -1,4 +1,4 @@
-export function initializeFilePaste(fileDropContainer, inputFile) {
+function initializeFilePaste(fileDropContainer, inputFile) {
 
     function onPaste(e) {
         inputFile.files = e.clipboardData.files;

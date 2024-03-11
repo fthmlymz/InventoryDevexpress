@@ -75,10 +75,10 @@ namespace InventoryManagement.Application.Features.Products.Commands.ProductOper
             string typeOfOperation = request.TypeOfOperations;
             string changeStatus = typeOfOperation switch
             {
-                GenericConstantDefinitions.Transfer => GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Transfer],
-                GenericConstantDefinitions.Accepted => GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Accepted],
-                GenericConstantDefinitions.Rejected => GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Rejected],
-                GenericConstantDefinitions.ReturnIt => GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.ReturnIt],
+                GenericConstantDefinitions.Transfer => GenericConstantDefinitions.Transfer,
+                GenericConstantDefinitions.Accepted => GenericConstantDefinitions.Accepted,
+                GenericConstantDefinitions.Rejected => GenericConstantDefinitions.Rejected,
+                GenericConstantDefinitions.ReturnIt => GenericConstantDefinitions.ReturnIt,
                 _ => throw new ArgumentOutOfRangeException(nameof(typeOfOperation))
             };
            
@@ -118,7 +118,7 @@ namespace InventoryManagement.Application.Features.Products.Commands.ProductOper
                 productTransferDto.SenderCompanyName = executionPointer.SenderCompanyName;
                 productTransferDto.SenderUserName = executionPointer.SenderUserName;
                 productTransferDto.SenderEmail = executionPointer.SenderEmail;
-                product.Status = GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.ReturnIt];
+                product.Status = GenericConstantDefinitions.ReturnIt;
             }
             //Red edildi
             else if (request.TypeOfOperations == GenericConstantDefinitions.Rejected)
@@ -135,7 +135,7 @@ namespace InventoryManagement.Application.Features.Products.Commands.ProductOper
                 productTransferDto.SenderUserName = executionPointer.SenderUserName;
                 productTransferDto.SenderEmail = executionPointer.SenderEmail;
 
-                product.Status = GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Rejected];
+                product.Status = GenericConstantDefinitions.Rejected;
             }
 
             else if (request.TypeOfOperations == GenericConstantDefinitions.Accepted)
@@ -144,7 +144,7 @@ namespace InventoryManagement.Application.Features.Products.Commands.ProductOper
                 var executionPointer = _workflowRepository.GetWorkflowInstance(product.WorkflowId).Result.Data.Adapt<UpdateProductOperationsCommand>();
 
                 //product.status == "Transfer Aşamasında1
-                if (product.Status == GenericConstantDescriptions.Descriptions[GenericConstantDefinitions.Transfer] && request.TypeOfOperations == GenericConstantDefinitions.Accepted)
+                if (product.Status == GenericConstantDefinitions.Transfer && request.TypeOfOperations == GenericConstantDefinitions.Accepted)
                 {
                     product.CompanyId = executionPointer.RecipientCompanyId.Value;
                     product.Status = GenericConstantDefinitions.InStock;

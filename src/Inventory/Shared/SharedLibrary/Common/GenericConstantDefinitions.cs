@@ -4,6 +4,18 @@ namespace SharedLibrary.Common
 {
     public class GenericConstantDefinitions
     {
+        public const string InStock = "Depoda";
+        public const string Accepted = "Onaylandı";
+        public const string Transfer = "Transfer Aşamasında";
+        public const string Rejected = "Transfer Aşamasında - Red Edildi";
+        public const string ReturnIt = "Transfer Aşamasında - İade Edildi";
+        public const string Embezzled = "Zimmetlendi";
+        public const string Scrap = "Hurda";
+    }
+
+
+    /*public class GenericConstantDefinitions
+    {
         public const string Transfer = "Transfer";
         public const string Accepted = "Accepted";
         public const string Rejected = "Rejected";
@@ -23,7 +35,7 @@ namespace SharedLibrary.Common
             { GenericConstantDefinitions.Rejected, "Transfer Aşamasında - Red Edildi" },
             { GenericConstantDefinitions.ReturnIt, "Transfer Aşamasında - İade Edildi" }
         };
-    }
+    }*/
 
 
     #region DataClass
