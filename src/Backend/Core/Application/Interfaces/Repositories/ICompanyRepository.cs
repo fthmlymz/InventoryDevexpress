@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Entities;
+﻿using Domain.Entities;
 
-namespace InventoryManagement.Application.Interfaces.Repositories
+namespace Application.Interfaces.Repositories
 {
     public interface ICompanyRepository
     {

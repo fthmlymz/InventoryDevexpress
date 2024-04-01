@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Brands.Commands.CreateBrand
+namespace Application.Features.Brands.Commands.CreateBrand
 {
     public class BrandCreatedEvent : BaseEvent
     {

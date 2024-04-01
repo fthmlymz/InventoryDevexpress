@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace InventoryManagement.Application.Keycloak
+namespace Application.Keycloak
 {
     public class KeycloakRolesClaimsTransformation : IClaimsTransformation
     {

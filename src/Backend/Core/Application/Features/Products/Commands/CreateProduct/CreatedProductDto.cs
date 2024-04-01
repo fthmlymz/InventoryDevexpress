@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Products.Commands.CreateProduct
+namespace Application.Features.Products.Commands.CreateProduct
 {
     public class CreatedProductDto : BaseAuditableEntity
     {

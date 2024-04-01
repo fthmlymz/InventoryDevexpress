@@ -1,9 +1,9 @@
-﻿using InventoryManagement.Shared;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Shared;
 using System.Net;
 using System.Text.Json;
 
-namespace InventoryManagement.Application.Common.Exceptions
+namespace Application.Common.Exceptions
 {
     public class UseCustomExceptionHandler
     {

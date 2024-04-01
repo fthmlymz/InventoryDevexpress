@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common;
-using InventoryManagement.Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 
-namespace InventoryManagement.Application.Features.CategoriesSub.Commands.DeleteCategorySub
+namespace Application.Features.CategoriesSub.Commands.DeleteCategorySub
 {
     public class CategoryDeletedEvent : BaseEvent
     {

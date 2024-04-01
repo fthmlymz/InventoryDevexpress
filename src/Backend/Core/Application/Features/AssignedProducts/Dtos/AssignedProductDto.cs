@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Dtos
+namespace Application.Features.AssignedProducts.Dtos
 {
     public class AssignedProductDto : BaseAuditableEntity
     {

@@ -1,13 +1,13 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Domain.Entities
+namespace Domain.Entities
 {
     public class TransferOfficier : BaseAuditableEntity
     {
-        public string ? FullName { get; set; }
-        public string ? UserName { get; set; }
-        public string ? Email { get; set; }
-        
+        public string? FullName { get; set; }
+        public string? UserName { get; set; }
+        public string? Email { get; set; }
+
 
 
         #region Relationship - Affiliated with the upper class

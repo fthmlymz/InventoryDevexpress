@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.Models.Commands.DeleteModel
+namespace Application.Features.Models.Commands.DeleteModel
 {
     public class DeleteModelCommandValidator : AbstractValidator<DeleteModelCommand>
     {

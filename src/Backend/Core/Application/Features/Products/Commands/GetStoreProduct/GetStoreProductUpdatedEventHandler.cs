@@ -1,13 +1,13 @@
-﻿using InventoryManagement.Application.Features.FileManager.Commands;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using InventoryManagement.Application.Features.FileManager.Commands;
 using InventoryManagement.Application.Features.FileManager.Queries;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using SharedLibrary.Common;
 
-namespace InventoryManagement.Application.Features.Products.Commands.GetStoreProduct
+namespace Application.Features.Products.Commands.GetStoreProduct
 {
     public class GetStoreProductUpdatedEventHandler : INotificationHandler<GetStoreProductUpdatedEvent>
     {

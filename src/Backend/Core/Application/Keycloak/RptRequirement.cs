@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace InventoryManagement.Application.Keycloak
+namespace Application.Keycloak
 {
     public class RptRequirement : IAuthorizationRequirement
     {

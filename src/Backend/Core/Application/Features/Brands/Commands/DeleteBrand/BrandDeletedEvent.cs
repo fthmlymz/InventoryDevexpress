@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Brands.Commands.DeleteBrand
+namespace Application.Features.Brands.Commands.DeleteBrand
 {
     public class BrandDeletedEvent : BaseEvent
     {

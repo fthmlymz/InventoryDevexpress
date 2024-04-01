@@ -1,12 +1,12 @@
-﻿using InventoryManagement.Application.Features.Products.GeneralDtos;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Features.Products.GeneralDtos;
+using Application.Interfaces.Repositories;
+using Domain.Entities;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Products.Commands.FileTransfer
+namespace Application.Features.Products.Commands.FileTransfer
 {
     internal sealed class FileTransferCommandHandler : IRequestHandler<FileTransferCommand, Result<CreatedProductMovementDto>>
     {

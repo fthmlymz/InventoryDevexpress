@@ -1,10 +1,10 @@
-﻿using InventoryManagement.Application.Features.AssignedProducts.Dtos;
-using InventoryManagement.Shared;
+﻿using Application.Features.AssignedProducts.Dtos;
 using MediatR;
+using Shared;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Commands.AcceptRejectProduct
+namespace Application.Features.AssignedProducts.Commands.AcceptRejectProduct
 {
-    public sealed record UpdatedAcceptRejectProductCommand( int? ProductId, int? AssignedProductId, string? ApprovalStatus
+    public sealed record UpdatedAcceptRejectProductCommand(int? ProductId, int? AssignedProductId, string? ApprovalStatus
                                                           ) : IRequest<Result<AssignedProductDto>>;
-    
+
 }

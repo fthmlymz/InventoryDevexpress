@@ -1,11 +1,12 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Application.Interfaces.Services;
-using InventoryManagement.Domain.Entities;
+﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
+using InventoryManagement.Application.Features.Companies.Commands.DeleteCompany;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace InventoryManagement.Application.Features.Companies.Commands.DeleteCompany
+namespace Application.Features.Companies.Commands.DeleteCompany
 {
     internal class DeleteCompanyCommandHandler : IRequestHandler<DeleteCompanyCommand, bool>
     {

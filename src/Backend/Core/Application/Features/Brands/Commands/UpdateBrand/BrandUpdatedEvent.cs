@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Brands.Commands.UpdateBrand
+namespace Application.Features.Brands.Commands.UpdateBrand
 {
     public class BrandUpdatedEvent : BaseEvent
     {

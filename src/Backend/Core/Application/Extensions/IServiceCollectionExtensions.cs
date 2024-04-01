@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Application.Behaviors;
+using FluentValidation;
 using FluentValidation.AspNetCore;
-using InventoryManagement.Application.Behaviors;
 using InventoryManagement.Application.Common.Exceptions;
 using Mapster;
 using MediatR;
@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace InventoryManagement.Application.Extensions
+namespace Application.Extensions
 {
     public static class IServiceCollectionExtensions
     {

@@ -1,11 +1,11 @@
-﻿using InventoryManagement.Domain.Common;
-using InventoryManagement.Domain.Common.Interfaces;
-using InventoryManagement.Domain.Entities;
+﻿using Domain.Common;
+using Domain.Common.Interfaces;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
-namespace InventoryManagement.Persistence.Context
+namespace Persistence.Context
 {
     public class ApplicationDbContext : DbContext
     {
@@ -14,7 +14,7 @@ namespace InventoryManagement.Persistence.Context
 
         public ApplicationDbContext()
         {
-            
+
         }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDomainEventDispatcher dispatcher, IConfiguration configuration) : base(options)
         {
@@ -23,7 +23,7 @@ namespace InventoryManagement.Persistence.Context
         }
 
 
-    
+
         public DbSet<Company> Companies { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategorySub> CategorySubs { get; set; }

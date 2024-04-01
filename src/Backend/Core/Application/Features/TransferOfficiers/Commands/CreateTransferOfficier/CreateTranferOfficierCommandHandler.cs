@@ -1,12 +1,13 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
+using InventoryManagement.Application.Features.TransferOfficiers.Commands.CreateTransferOfficier;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.CreateTransferOfficier
+namespace Application.Features.TransferOfficiers.Commands.CreateTransferOfficier
 {
     internal sealed class CreateTranferOfficierCommandHandler : IRequestHandler<CreateTranferOfficierCommand, Result<TransferOfficierDto>>
     {

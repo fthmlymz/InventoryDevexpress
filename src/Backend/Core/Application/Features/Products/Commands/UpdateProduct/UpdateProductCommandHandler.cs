@@ -1,11 +1,11 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Products.Commands.UpdateProduct
+namespace Application.Features.Products.Commands.UpdateProduct
 {
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result<Product>>
     {

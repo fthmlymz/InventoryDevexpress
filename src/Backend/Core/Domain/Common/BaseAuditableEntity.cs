@@ -1,10 +1,10 @@
-﻿using InventoryManagement.Domain.Common.Interfaces;
+﻿using Domain.Common.Interfaces;
 
-namespace InventoryManagement.Domain.Common
+namespace Domain.Common
 {
     public abstract class BaseAuditableEntity : BaseEntity, IAuditableEntity
     {
-        public int  Id { get; set; }
+        public int Id { get; set; }
         public string? CreatedBy { get; set; }
         public string? CreatedUserId { get; set; }
         public DateTime? CreatedDate { get; set; }

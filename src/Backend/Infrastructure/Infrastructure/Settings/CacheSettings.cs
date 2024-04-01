@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Infrastructure.Settings
+﻿namespace Infrastructure.Settings
 {
     public class CacheSettings
     {

@@ -1,10 +1,10 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace IM.Application.Features.Reports.Queries.GeneralReport
+namespace Application.Features.Reports.Queries.GeneralReport
 {
     public sealed record CombinedProductCountsQuery() : IRequest<Result<List<CombinedProductCountsDto>>>;
 
@@ -27,17 +27,17 @@ namespace IM.Application.Features.Reports.Queries.GeneralReport
                 .Entities
                 .GroupBy(product => new
                 {
-                    CompanyId = product.CompanyId,
+                    product.CompanyId,
                     CompanyName = product.Company.Name,
-                    CategorySubId = product.CategorySubId,
+                    product.CategorySubId,
                     CategorySubName = product.CategorySub.Name
                 })
                 .Select(group => new
                 {
-                    CompanyId = group.Key.CompanyId,
-                    CompanyName = group.Key.CompanyName,
+                    group.Key.CompanyId,
+                    group.Key.CompanyName,
                     CategorySubId = group.Key.CategorySubId.Value,
-                    CategorySubName = group.Key.CategorySubName,
+                    group.Key.CategorySubName,
                     ProductCount = group.Count()
                 })
                 .ToList();

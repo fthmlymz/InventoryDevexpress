@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.Brands.Queries.GetBrandListWithPaginationQuery
+namespace Application.Features.Brands.Queries.GetBrandListWithPaginationQuery
 {
     public class GetBrandWithPaginationValidator : AbstractValidator<GetBrandWithPaginationQuery>
     {

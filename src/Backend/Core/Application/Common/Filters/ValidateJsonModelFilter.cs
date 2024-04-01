@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace InventoryManagement.Application.Common.Filters
+namespace Application.Common.Filters
 {
     //Best performance
     public class ValidateJsonModelFilter : IActionFilter

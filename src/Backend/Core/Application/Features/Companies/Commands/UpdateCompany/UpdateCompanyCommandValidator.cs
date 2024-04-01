@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.Companies.Commands.UpdateCompany
+namespace Application.Features.Companies.Commands.UpdateCompany
 {
     public class UpdateCompanyCommandValidator : AbstractValidator<UpdateCompanyCommand>
     {

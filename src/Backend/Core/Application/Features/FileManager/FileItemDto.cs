@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Application.Features.FileManager
+﻿namespace Application.Features.FileManager
 {
     public sealed class FileItemDto
     {

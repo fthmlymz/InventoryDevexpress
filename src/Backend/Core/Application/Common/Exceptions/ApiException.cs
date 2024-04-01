@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace InventoryManagement.Application.Common.Exceptions
+namespace Application.Common.Exceptions
 {
     [Serializable]
     public class ApiException : Exception

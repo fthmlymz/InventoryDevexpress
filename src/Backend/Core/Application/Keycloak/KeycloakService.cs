@@ -1,7 +1,7 @@
 ﻿using IdentityModel.Client;
 using System.Net.Http.Json;
 
-namespace InventoryManagement.Application.Keycloak
+namespace Application.Keycloak
 {
     public class KeycloakService
     {

@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Application.Common.Exceptions
+﻿namespace Application.Common.Exceptions
 {
     public class NotFoundExceptionCustom : Exception
     {

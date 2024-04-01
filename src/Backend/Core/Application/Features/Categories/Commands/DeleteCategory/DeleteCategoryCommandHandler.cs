@@ -1,11 +1,11 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Application.Interfaces.Services;
-using InventoryManagement.Domain.Entities;
+﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace InventoryManagement.Application.Features.Categories.Commands.DeleteCategory
+namespace Application.Features.Categories.Commands.DeleteCategory
 {
     //Best performance
     public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, bool>

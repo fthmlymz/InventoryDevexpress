@@ -1,11 +1,12 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
+using InventoryManagement.Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier
+namespace Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier
 {
     internal class UpdateTransferOfficierCommandHandler : IRequestHandler<UpdateTransferOfficierCommand, Result<TransferOfficier>>
     {

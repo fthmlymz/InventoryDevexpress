@@ -1,10 +1,10 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Common;
-using InventoryManagement.Persistence.Context;
+﻿using Application.Interfaces.Repositories;
+using Domain.Common;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Context;
 using System.Linq.Expressions;
 
-namespace InventoryManagement.Persistence.Repositories
+namespace Persistence.Repositories
 {
     //Best performance
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseAuditableEntity

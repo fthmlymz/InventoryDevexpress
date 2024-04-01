@@ -1,12 +1,13 @@
-﻿using InventoryManagement.Application.Features.FileManager;
+﻿using Application.Features.FileManager;
+using Application.Features.FileManager.Commands;
 using InventoryManagement.Application.Features.FileManager.Commands;
 using InventoryManagement.Application.Features.FileManager.Queries;
-using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,14 +1,14 @@
-﻿using DotNetCore.CAP;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using DotNetCore.CAP;
 using InventoryManagement.Application.Common.Exceptions;
 using InventoryManagement.Application.Features.Products.GeneralDtos;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Products.Commands.CreateProduct
+namespace Application.Features.Products.Commands.CreateProduct
 {
     internal sealed class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<CreatedProductDto>>
     {
@@ -68,7 +68,7 @@ namespace InventoryManagement.Application.Features.Products.Commands.CreateProdu
             #endregion
 
             //Ürün kayıt edildiğini publish et
-            await _capPublisher.PublishAsync<CreatedProductDto>("product.created.transaction", createdProductDto);
+            await _capPublisher.PublishAsync("product.created.transaction", createdProductDto);
 
             return await Result<CreatedProductDto>.SuccessAsync(createdProductDto);
         }

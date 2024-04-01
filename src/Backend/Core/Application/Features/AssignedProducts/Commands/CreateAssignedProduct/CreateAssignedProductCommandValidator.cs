@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Commands.CreateAssignedProduct
+namespace Application.Features.AssignedProducts.Commands.CreateAssignedProduct
 {
     public class CreateAssignedProductCommandValidator : AbstractValidator<CreateAssignedProductCommand>
     {

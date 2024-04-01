@@ -1,6 +1,6 @@
 ﻿using IdentityModel.Client;
 
-namespace InventoryManagement.Application.Keycloak
+namespace Application.Keycloak
 {
     public class TokenClient
     {

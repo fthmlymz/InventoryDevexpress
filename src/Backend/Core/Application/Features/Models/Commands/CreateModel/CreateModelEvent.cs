@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 using MediatR;
 
-namespace InventoryManagement.Application.Features.Models.Commands.CreateModel
+namespace Application.Features.Models.Commands.CreateModel
 {
     public class CreateModelEvent : BaseEvent, INotification
     {

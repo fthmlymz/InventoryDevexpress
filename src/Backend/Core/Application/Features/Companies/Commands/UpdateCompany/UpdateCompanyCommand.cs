@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Domain.Entities;
 using MediatR;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Companies.Commands.UpdateCompany
+namespace Application.Features.Companies.Commands.UpdateCompany
 {
     public sealed record UpdateCompanyCommand : IRequest<Result<Company>>
     {

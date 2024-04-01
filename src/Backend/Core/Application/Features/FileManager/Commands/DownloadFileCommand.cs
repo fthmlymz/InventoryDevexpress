@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Shared;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using Shared;
 
-namespace InventoryManagement.Application.Features.FileManager.Commands
+namespace Application.Features.FileManager.Commands
 {
     public sealed class DownloadFileCommand : IRequest<Result<DownloadFileResult>>
     {

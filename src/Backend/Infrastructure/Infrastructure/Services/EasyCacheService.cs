@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Application.Interfaces.Services;
-using EasyCaching.Core;
+﻿using EasyCaching.Core;
 using Microsoft.Extensions.Configuration;
+using Application.Interfaces.Services;
 
-namespace InventoryManagement.Infrastructure.Services
+namespace Infrastructure.Services
 {
     public class EasyCacheService : IEasyCacheService
     {
@@ -50,7 +50,7 @@ namespace InventoryManagement.Infrastructure.Services
             else
             {
                 var defaultExpiration = TimeSpan.FromMinutes(5);
-                var appSettingsExpiration = _configuration.GetValue<TimeSpan>("RedisConnectionSettings:DefaultExpiration", defaultExpiration);
+                var appSettingsExpiration = _configuration.GetValue("RedisConnectionSettings:DefaultExpiration", defaultExpiration);
                 await _easyCachingProvider.SetAsync(key, value, appSettingsExpiration);
             }
         }

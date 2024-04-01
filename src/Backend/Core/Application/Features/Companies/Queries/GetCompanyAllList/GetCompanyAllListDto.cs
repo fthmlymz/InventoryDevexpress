@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Application.Features.Companies.Queries.GetCompanyAllList
+﻿namespace Application.Features.Companies.Queries.GetCompanyAllList
 {
     public class GetCompanyAllListDto
     {

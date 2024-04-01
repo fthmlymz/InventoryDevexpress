@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.CreateTransferOfficier
+namespace Application.Features.TransferOfficiers.Commands.CreateTransferOfficier
 {
     public class CreateTranferOfficierCommandValidator : AbstractValidator<CreateTranferOfficierCommand>
     {

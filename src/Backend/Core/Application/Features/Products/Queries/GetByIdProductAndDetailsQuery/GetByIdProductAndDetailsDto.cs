@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Products.Queries.GetByIdProductAndDetailsQuery
+namespace Application.Features.Products.Queries.GetByIdProductAndDetailsQuery
 {
     public class GetByIdProductAndDetailsDto : BaseAuditableEntity
     {

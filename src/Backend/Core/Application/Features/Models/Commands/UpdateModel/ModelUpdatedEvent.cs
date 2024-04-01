@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common;
-using InventoryManagement.Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 
-namespace InventoryManagement.Application.Features.Models.Commands.UpdateModel
+namespace Application.Features.Models.Commands.UpdateModel
 {
     public class ModelUpdatedEvent : BaseEvent
     {

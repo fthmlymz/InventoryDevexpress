@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Products.Commands.ProductOperations
+namespace Application.Features.Products.Commands.ProductOperations
 {
     public class ProductOperationsUpdatedEvent : BaseEvent
     {

@@ -2,14 +2,14 @@
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace InventoryManagement.Application.Keycloak
+namespace Application.Keycloak
 {
     public class RptRequirementHandler : AuthorizationHandler<RptRequirement>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, RptRequirement requirement)
         {
             var authorizationClaim = context.User.FindFirstValue("authorization");
-            if (String.IsNullOrWhiteSpace(authorizationClaim))
+            if (string.IsNullOrWhiteSpace(authorizationClaim))
             {
                 return Task.CompletedTask;
             }

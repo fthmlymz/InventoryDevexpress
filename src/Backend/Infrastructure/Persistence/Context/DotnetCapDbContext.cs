@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace InventoryManagement.Persistence.Context
+namespace Persistence.Context
 {
     public class DotnetCapDbContext : DbContext
     {

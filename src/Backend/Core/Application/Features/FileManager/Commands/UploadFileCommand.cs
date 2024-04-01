@@ -1,9 +1,9 @@
-﻿using InventoryManagement.Shared;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Shared;
 
-namespace InventoryManagement.Application.Features.FileManager.Commands
+namespace Application.Features.FileManager.Commands
 {
     public sealed record UploadFileCommand(IFormFile File, string FolderType) : IRequest<Result<bool>>;
     public class UploadFileCommandHandler : IRequestHandler<UploadFileCommand, Result<bool>>

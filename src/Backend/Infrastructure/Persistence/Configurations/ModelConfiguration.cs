@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace InventoryManagement.Persistence.Configurations
+namespace Persistence.Configurations
 {
     public class ModelConfiguration : IEntityTypeConfiguration<Model>
     {

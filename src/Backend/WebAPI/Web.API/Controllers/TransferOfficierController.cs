@@ -1,16 +1,17 @@
-﻿using InventoryManagement.Application.Features.TransferOfficiers.Commands.CreateTransferOfficier;
+﻿using Application.Features.TransferOfficiers.Commands.CreateTransferOfficier;
+using Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier;
+using Application.Features.TransferOfficiers.Queries.GetByIdCompanyAndTransferOfficer;
 using InventoryManagement.Application.Features.TransferOfficiers.Commands.DeleteTransferOfficier;
-using InventoryManagement.Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier;
 using InventoryManagement.Application.Features.TransferOfficiers.Queries.GetAllCompanyAndTransferOfficer;
 using InventoryManagement.Application.Features.TransferOfficiers.Queries.GetByIdCompanyAndTransferOfficer;
-using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 using SharedLibrary.DTOs;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -48,7 +49,7 @@ namespace InventoryManagement.API.Controllers
         public async Task<ActionResult> DeleteTransferOfficierCommand(int id)
         {
             await _mediator.Send(new DeleteTransferOfficierCommand(id));
-            
+
             return NoContent();
         }
 

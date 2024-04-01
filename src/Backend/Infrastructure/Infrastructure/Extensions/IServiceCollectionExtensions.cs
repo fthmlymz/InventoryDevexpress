@@ -1,15 +1,15 @@
-﻿using EasyCaching.Core.Configurations;
-using InventoryManagement.Application.Interfaces;
-using InventoryManagement.Application.Interfaces.Services;
-using InventoryManagement.Domain.Common;
-using InventoryManagement.Domain.Common.Interfaces;
-using InventoryManagement.Infrastructure.Services;
-using InventoryManagement.Infrastructure.Settings;
+﻿using Application.Interfaces;
+using Application.Interfaces.Services;
+using Domain.Common;
+using Domain.Common.Interfaces;
+using EasyCaching.Core.Configurations;
+using Infrastructure.Services;
+using Infrastructure.Settings;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace InventoryManagement.Infrastructure.Extensions
+namespace Infrastructure.Extensions
 {
     public static class IServiceCollectionExtensions
     {
@@ -33,7 +33,7 @@ namespace InventoryManagement.Infrastructure.Extensions
             });
             services.AddTransient<IEasyCacheService, EasyCacheService>();
             #endregion
-        }        
+        }
     }
 }
 

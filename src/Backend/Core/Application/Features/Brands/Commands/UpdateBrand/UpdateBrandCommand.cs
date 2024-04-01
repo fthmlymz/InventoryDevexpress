@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Domain.Entities;
 using MediatR;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Brands.Commands.UpdateBrand
+namespace Application.Features.Brands.Commands.UpdateBrand
 {
     public sealed record UpdateBrandCommand : IRequest<Result<Brand>>
     {

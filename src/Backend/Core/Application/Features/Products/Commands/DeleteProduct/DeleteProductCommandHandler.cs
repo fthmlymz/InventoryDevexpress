@@ -1,10 +1,11 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
+using InventoryManagement.Application.Features.Products.Commands.DeleteProduct;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace InventoryManagement.Application.Features.Products.Commands.DeleteProduct
+namespace Application.Features.Products.Commands.DeleteProduct
 {
     public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, bool>
     {

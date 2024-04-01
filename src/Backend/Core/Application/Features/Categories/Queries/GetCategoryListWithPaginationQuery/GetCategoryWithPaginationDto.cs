@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace InventoryManagement.Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery
+namespace Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery
 {
     public class GetCategoryWithPaginationDto : BaseAuditableEntity
     {

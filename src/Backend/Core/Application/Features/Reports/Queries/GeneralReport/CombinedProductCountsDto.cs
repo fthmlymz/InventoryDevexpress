@@ -1,4 +1,4 @@
-﻿namespace IM.Application.Features.Reports.Queries.GeneralReport
+﻿namespace Application.Features.Reports.Queries.GeneralReport
 {
     public class CombinedProductCountsDto
     {

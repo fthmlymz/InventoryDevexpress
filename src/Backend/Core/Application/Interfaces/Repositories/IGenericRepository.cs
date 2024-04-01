@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common.Interfaces;
+﻿using Domain.Common.Interfaces;
 using System.Linq.Expressions;
 
-namespace InventoryManagement.Application.Interfaces.Repositories
+namespace Application.Interfaces.Repositories
 {
     public interface IGenericRepository<T> where T : class, IEntity
     {

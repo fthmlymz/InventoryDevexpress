@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common;
-using InventoryManagement.Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 
-namespace InventoryManagement.Application.Features.Products.Commands.UpdateProduct
+namespace Application.Features.Products.Commands.UpdateProduct
 {
     public class ProductUpdatedEvent : BaseEvent
     {

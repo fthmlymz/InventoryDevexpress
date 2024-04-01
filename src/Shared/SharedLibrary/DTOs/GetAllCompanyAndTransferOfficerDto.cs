@@ -1,4 +1,4 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
 namespace SharedLibrary.DTOs
 {

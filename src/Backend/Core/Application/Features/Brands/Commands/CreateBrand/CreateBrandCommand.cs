@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Shared;
-using MediatR;
+﻿using MediatR;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Brands.Commands.CreateBrand
+namespace Application.Features.Brands.Commands.CreateBrand
 {
     public sealed record CreateBrandCommand(string Name, string CreatedBy, string CreatedUserId) : IRequest<Result<CreatedBrandDto>>;
 }

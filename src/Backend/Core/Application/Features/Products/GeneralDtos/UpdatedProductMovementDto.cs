@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Products.GeneralDtos
+namespace Application.Features.Products.GeneralDtos
 {
     public class UpdatedProductMovementDto : BaseAuditableEntity
     {

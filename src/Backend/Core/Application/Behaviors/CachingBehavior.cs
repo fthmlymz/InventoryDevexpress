@@ -1,9 +1,9 @@
-﻿using InventoryManagement.Application.Interfaces;
-using InventoryManagement.Application.Interfaces.Services;
+﻿using Application.Interfaces;
+using Application.Interfaces.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace InventoryManagement.Application.Behaviors
+namespace Application.Behaviors
 {
     public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
@@ -30,7 +30,7 @@ namespace InventoryManagement.Application.Behaviors
                 {
                     response = await next();
 
-                    await _easyCacheService.SetAsync<TResponse>((string)cacheableQuery.CacheKey, response);
+                    await _easyCacheService.SetAsync(cacheableQuery.CacheKey, response);
                     return response;
                 }
                 var cachedResponse = await _easyCacheService.GetAsync(cacheableQuery.CacheKey, typeof(TResponse));

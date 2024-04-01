@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Commands.AcceptRejectProduct
+namespace Application.Features.AssignedProducts.Commands.AcceptRejectProduct
 {
     public class UpdatedAcceptRejectProductValidator : AbstractValidator<UpdatedAcceptRejectProductCommand>
     {

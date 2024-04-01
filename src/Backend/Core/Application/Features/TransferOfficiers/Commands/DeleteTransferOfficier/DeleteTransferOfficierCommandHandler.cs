@@ -1,10 +1,10 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.DeleteTransferOfficier
+namespace Application.Features.TransferOfficiers.Commands.DeleteTransferOfficier
 {
     internal class DeleteTransferOfficierCommandHandler : IRequestHandler<DeleteTransferOfficierCommand, bool>
     {

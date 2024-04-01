@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Shared.Interfaces
+﻿namespace Shared.Interfaces
 {
     public interface IResult<T>
     {

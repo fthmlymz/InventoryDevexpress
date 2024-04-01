@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.CategoriesSub.Commands.CreateCategorySub
+namespace Application.Features.CategoriesSub.Commands.CreateCategorySub
 {
     public class CreateCategorySubCommandValidator : AbstractValidator<CreateCategorySubCommand>
     {

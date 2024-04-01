@@ -1,12 +1,12 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Application.Interfaces.Services;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Companies.Queries.GetCompanyAllList
+namespace Application.Features.Companies.Queries.GetCompanyAllList
 {
     public sealed record GetCompanyAllListQuery : IRequest<Result<List<GetCompanyAllListDto>>>
     {

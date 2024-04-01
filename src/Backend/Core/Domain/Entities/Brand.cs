@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Domain.Entities
+namespace Domain.Entities
 {
     public class Brand : BaseAuditableEntity
     {

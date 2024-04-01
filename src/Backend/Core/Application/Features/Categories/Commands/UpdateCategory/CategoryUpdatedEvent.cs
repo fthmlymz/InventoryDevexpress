@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Categories.Commands.UpdateCategory
+namespace Application.Features.Categories.Commands.UpdateCategory
 {
     public class CategoryUpdatedEvent : BaseEvent
     {

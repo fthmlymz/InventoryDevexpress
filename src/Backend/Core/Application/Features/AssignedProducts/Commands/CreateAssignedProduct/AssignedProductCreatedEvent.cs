@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common;
-using InventoryManagement.Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Commands.CreateAssignedProduct
+namespace Application.Features.AssignedProducts.Commands.CreateAssignedProduct
 {
     public class AssignedProductCreatedEvent : BaseEvent
     {

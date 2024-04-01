@@ -1,14 +1,14 @@
-﻿using InventoryManagement.Application.Features.Categories.Commands.CreateCategory;
+﻿using Application.Features.Categories.Commands.CreateCategory;
+using Application.Features.Categories.Commands.UpdateCategory;
+using Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery;
+using Domain.Entities;
 using InventoryManagement.Application.Features.Categories.Commands.DeleteCategory;
-using InventoryManagement.Application.Features.Categories.Commands.UpdateCategory;
-using InventoryManagement.Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

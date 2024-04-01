@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common;
-using InventoryManagement.Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Commands.AcceptRejectProduct
+namespace Application.Features.AssignedProducts.Commands.AcceptRejectProduct
 {
     public class AcceptRejectProductEvent : BaseEvent
     {
@@ -12,6 +12,6 @@ namespace InventoryManagement.Application.Features.AssignedProducts.Commands.Acc
             AssignedProduct = assignedProduct;
         }
 
-       
+
     }
 }

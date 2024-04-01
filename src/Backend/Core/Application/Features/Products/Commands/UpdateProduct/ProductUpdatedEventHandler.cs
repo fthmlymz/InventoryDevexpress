@@ -1,9 +1,9 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace InventoryManagement.Application.Features.Products.Commands.UpdateProduct
+namespace Application.Features.Products.Commands.UpdateProduct
 {
     public class ProductUpdatedEventHandler : INotificationHandler<ProductUpdatedEvent>
     {

@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Application.Features.Products.Queries.ProductSearchWithPagination
+﻿namespace Application.Features.Products.Queries.ProductSearchWithPagination
 {
     public sealed class GetProductSearchWithPaginationDto
     {

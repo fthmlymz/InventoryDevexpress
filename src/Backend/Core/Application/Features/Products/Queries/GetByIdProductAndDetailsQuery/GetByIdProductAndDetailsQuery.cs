@@ -1,15 +1,15 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Features.Products.Commands.ProductOperations;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Application.Interfaces.Services;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Features.Products.Commands.ProductOperations;
+using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shared;
 using WorkflowCore.Interface;
 
-namespace InventoryManagement.Application.Features.Products.Queries.GetByIdProductAndDetailsQuery
+namespace Application.Features.Products.Queries.GetByIdProductAndDetailsQuery
 {
     public sealed record GetByIdProductAndDetailsQuery : IRequest<Result<List<GetByIdProductAndDetailsDto>>>
     {
@@ -60,14 +60,14 @@ namespace InventoryManagement.Application.Features.Products.Queries.GetByIdProdu
                 .ToListAsync();
 
 
-            var companyNames = (await _unitOfWork.Repository<Company>().Entities
-                .ToDictionaryAsync(c => c.Id, c => c.Name, cancellationToken));
+            var companyNames = await _unitOfWork.Repository<Company>().Entities
+                .ToDictionaryAsync(c => c.Id, c => c.Name, cancellationToken);
 
 
             // Marka ve model nesnelerini alın
             var brand = await _unitOfWork.Repository<Brand>().GetByIdAsync(product.BrandId.Value);
             var model = await _unitOfWork.Repository<Model>().GetByIdAsync(product.ModelId.Value);
-            
+
             if (brand == null || model == null)
             {
                 // Marka veya model bulunamazsa ilgili hata işlenmeli

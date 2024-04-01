@@ -1,10 +1,10 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Domain.Entities
+namespace Domain.Entities
 {
     public class Category : BaseAuditableEntity
     {
-        public string ? Name { get; set; }
+        public string? Name { get; set; }
 
 
 
@@ -14,7 +14,7 @@ namespace InventoryManagement.Domain.Entities
         //public Company? Company { get; set; }
         //#endregion
 
-        
+
 
 
         #region Relationship - Fetch Subclasses

@@ -1,11 +1,11 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Application.Interfaces.Services;
-using InventoryManagement.Domain.Entities;
+﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace InventoryManagement.Application.Features.Brands.Commands.DeleteBrand
+namespace Application.Features.Brands.Commands.DeleteBrand
 {
     public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand, bool>
     {

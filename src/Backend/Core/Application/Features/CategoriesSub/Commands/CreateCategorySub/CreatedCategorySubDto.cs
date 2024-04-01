@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.CategoriesSub.Commands.CreateCategorySub
+namespace Application.Features.CategoriesSub.Commands.CreateCategorySub
 {
     public class CreatedCategorySubDto : BaseAuditableEntity
     {

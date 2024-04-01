@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace InventoryManagement.Application.Common.Exceptions
+namespace Application.Common.Exceptions
 {
     public class BadRequestExceptionCustom : Exception
     {

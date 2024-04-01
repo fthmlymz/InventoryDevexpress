@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Domain.Entities;
 using MediatR;
+using Shared;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Commands.UpdateAssignedProduct
+namespace Application.Features.AssignedProducts.Commands.UpdateAssignedProduct
 {
     public sealed record UpdateAssignedProductCommand : IRequest<Result<AssignedProduct>>
     {

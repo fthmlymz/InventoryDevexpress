@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Brands.Queries.GetBrandListWithPaginationQuery
+namespace Application.Features.Brands.Queries.GetBrandListWithPaginationQuery
 {
     public class GetBrandWithPaginationDto : BaseAuditableEntity
     {

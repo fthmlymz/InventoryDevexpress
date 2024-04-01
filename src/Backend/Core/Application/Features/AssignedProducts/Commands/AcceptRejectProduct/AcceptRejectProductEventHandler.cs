@@ -1,9 +1,9 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Commands.AcceptRejectProduct
+namespace Application.Features.AssignedProducts.Commands.AcceptRejectProduct
 {
     public class AcceptRejectProductEventHandler : INotificationHandler<AcceptRejectProductEvent>
     {

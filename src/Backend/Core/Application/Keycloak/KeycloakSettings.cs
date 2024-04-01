@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Application.Keycloak
+﻿namespace Application.Keycloak
 {
     public class KeycloakSettings
     {

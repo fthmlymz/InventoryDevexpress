@@ -1,14 +1,14 @@
-﻿using InventoryManagement.Application.Features.AssignedProducts.Commands.AcceptRejectProduct;
-using InventoryManagement.Application.Features.AssignedProducts.Commands.CreateAssignedProduct;
-using InventoryManagement.Application.Features.AssignedProducts.Commands.UpdateAssignedProduct;
-using InventoryManagement.Application.Features.AssignedProducts.Dtos;
-using InventoryManagement.Shared;
+﻿using Application.Features.AssignedProducts.Commands.AcceptRejectProduct;
+using Application.Features.AssignedProducts.Commands.CreateAssignedProduct;
+using Application.Features.AssignedProducts.Commands.UpdateAssignedProduct;
+using Application.Features.AssignedProducts.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

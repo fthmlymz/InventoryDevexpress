@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Domain.Common;
-using InventoryManagement.Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 using MediatR;
 
-namespace InventoryManagement.Application.Features.CategoriesSub.Commands.CreateCategorySub
+namespace Application.Features.CategoriesSub.Commands.CreateCategorySub
 {
     public class CreateCategorySubEvent : BaseEvent, INotification
     {

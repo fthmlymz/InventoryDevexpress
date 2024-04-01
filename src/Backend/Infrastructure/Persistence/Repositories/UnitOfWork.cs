@@ -1,9 +1,9 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Common;
-using InventoryManagement.Persistence.Context;
+﻿using Application.Interfaces.Repositories;
+using Domain.Common;
+using Persistence.Context;
 using System.Collections;
 
-namespace InventoryManagement.Persistence.Repositories
+namespace Persistence.Repositories
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {

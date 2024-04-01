@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Domain.Entities;
 using MediatR;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Categories.Commands.UpdateCategory
+namespace Application.Features.Categories.Commands.UpdateCategory
 {
     public sealed record UpdateCategoryCommand : IRequest<Result<Category>>
     {

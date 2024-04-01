@@ -1,15 +1,15 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shared;
 using SharedLibrary.Common;
 using WorkflowCore.Interface;
 
-namespace InventoryManagement.Application.Features.Products.Commands.ProductOperations
+namespace Application.Features.Products.Commands.ProductOperations
 {
     internal class UpdateProductOperationsCommandHandler : IRequestHandler<UpdateProductOperationsCommand, Result<Product>>
     {
@@ -81,7 +81,7 @@ namespace InventoryManagement.Application.Features.Products.Commands.ProductOper
                 GenericConstantDefinitions.ReturnIt => GenericConstantDefinitions.ReturnIt,
                 _ => throw new ArgumentOutOfRangeException(nameof(typeOfOperation))
             };
-           
+
 
             var productTransferDto = new UpdateProductOperationsCommand
             {

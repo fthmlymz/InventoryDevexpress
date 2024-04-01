@@ -1,12 +1,12 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Application.Interfaces.Services;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared;
 using System.Linq.Expressions;
 
-namespace InventoryManagement.Application.Features.Products.Queries.ProductSearchWithPagination
+namespace Application.Features.Products.Queries.ProductSearchWithPagination
 {
     public class GetProductSearchWithPaginationQuery : IRequest<PaginatedResult<GetProductSearchWithPaginationDto>>
     {
@@ -27,7 +27,7 @@ namespace InventoryManagement.Application.Features.Products.Queries.ProductSearc
         public string? FullName { get; set; }
         public GetProductSearchWithPaginationQuery() { }
         public GetProductSearchWithPaginationQuery(int pageNumber, int pageSize, string name, string createdBy, string updatedBy, int barcode, string serialNumber,
-            string status, string? imei, string? mac, int? companyId, string? companyName, string ? assignedUserName, string? approvalStatus, string? fullName)
+            string status, string? imei, string? mac, int? companyId, string? companyName, string? assignedUserName, string? approvalStatus, string? fullName)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;

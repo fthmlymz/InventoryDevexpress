@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Shared;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared;
 
-namespace InventoryManagement.Application.Extensions
+namespace Application.Extensions
 {
     public static class QueryableExtensions
     {

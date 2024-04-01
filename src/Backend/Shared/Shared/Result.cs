@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Shared.Interfaces;
+﻿using Shared.Interfaces;
 
-namespace InventoryManagement.Shared
+namespace Shared
 {
     //Best performance
     public class Result<T> : IResult<T>

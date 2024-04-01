@@ -2,7 +2,7 @@
 using InventoryManagement.Application.Common.Exceptions;
 using MediatR;
 
-namespace InventoryManagement.Application.Behaviors
+namespace Application.Behaviors
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {

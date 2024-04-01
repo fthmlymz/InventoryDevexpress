@@ -1,12 +1,12 @@
-﻿using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using InventoryManagement.Application.Common.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared;
 using SharedLibrary.Common;
 
-namespace InventoryManagement.Application.Features.Products.Commands.GetStoreProduct
+namespace Application.Features.Products.Commands.GetStoreProduct
 {
     internal class UpdateGetStoreProductCommandHandler : IRequestHandler<UpdateGetStoreProductCommand, Result<Product>>
     {

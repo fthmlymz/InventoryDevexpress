@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Categories.Commands.CreateCategory
+namespace Application.Features.Categories.Commands.CreateCategory
 {
     public class CategoryCreatedEvent : BaseEvent
     {

@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Application.Features.Companies.Queries.CompanySearchWithPagination
+﻿namespace Application.Features.Companies.Queries.CompanySearchWithPagination
 {
     public class GetCompanySearchWithPaginationDto
     {

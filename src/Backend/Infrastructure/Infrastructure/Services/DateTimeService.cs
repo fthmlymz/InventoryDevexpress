@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Application.Interfaces;
+﻿using Application.Interfaces;
 
-namespace InventoryManagement.Infrastructure.Services
+namespace Infrastructure.Services
 {
     public class DateTimeService : IDateTimeService
     {

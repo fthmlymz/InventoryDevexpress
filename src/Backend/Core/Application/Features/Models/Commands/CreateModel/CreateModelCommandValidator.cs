@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.Models.Commands.CreateModel
+namespace Application.Features.Models.Commands.CreateModel
 {
     public class CreateModelCommandValidator : AbstractValidator<CreateModelCommand>
     {

@@ -1,10 +1,11 @@
-﻿using IM.Application.Features.Reports.Queries.GeneralReport;
-using InventoryManagement.Shared;
+﻿using Application.Features.Reports.Queries.GeneralReport;
+using IM.Application.Features.Reports.Queries.GeneralReport;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

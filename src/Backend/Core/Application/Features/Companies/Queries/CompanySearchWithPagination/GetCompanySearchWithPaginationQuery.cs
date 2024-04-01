@@ -1,12 +1,12 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Application.Interfaces.Services;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared;
 using System.Linq.Expressions;
 
-namespace InventoryManagement.Application.Features.Companies.Queries.CompanySearchWithPagination
+namespace Application.Features.Companies.Queries.CompanySearchWithPagination
 {
     //Best performance
     public class GetCompanySearchWithPaginationQuery : IRequest<PaginatedResult<GetCompanySearchWithPaginationDto>>

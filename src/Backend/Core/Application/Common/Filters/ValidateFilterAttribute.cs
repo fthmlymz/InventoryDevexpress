@@ -1,9 +1,9 @@
-﻿using InventoryManagement.Shared;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Shared;
 
-namespace InventoryManagement.Application.Common.Filters
+namespace Application.Common.Filters
 {
     public class ValidateFilterAttribute : ActionFilterAttribute
     {

@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.Products.Queries.GetProductListWithPaginationQuery
+namespace Application.Features.Products.Queries.GetProductListWithPaginationQuery
 {
     public class GetProductWithPaginationDto : BaseAuditableEntity
     {
@@ -32,7 +32,7 @@ namespace InventoryManagement.Application.Features.Products.Queries.GetProductLi
         public int CompanyId { get; set; }
         public string? CompanyName { get; set; }
         #endregion
-        
+
 
         #region Product Assigned
         public string? AssignedUserName { get; set; }

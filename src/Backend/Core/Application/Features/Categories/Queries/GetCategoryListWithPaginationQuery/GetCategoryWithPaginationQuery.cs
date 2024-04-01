@@ -1,11 +1,11 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery
+namespace Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery
 {
     public sealed record GetCategoryWithPaginationQuery : IRequest<PaginatedResult<GetCategoryWithPaginationDto>>
     {

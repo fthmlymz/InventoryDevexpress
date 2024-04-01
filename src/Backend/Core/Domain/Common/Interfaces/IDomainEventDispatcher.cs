@@ -1,4 +1,6 @@
-﻿namespace InventoryManagement.Domain.Common.Interfaces
+﻿using Domain.Common;
+
+namespace Domain.Common.Interfaces
 {
     public interface IDomainEventDispatcher
     {

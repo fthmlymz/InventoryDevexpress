@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common;
-using InventoryManagement.Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 
-namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier
+namespace Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier
 {
     public class TransferOfficierUpdatedEvent : BaseEvent
     {

@@ -1,14 +1,14 @@
-﻿using InventoryManagement.Application.Features.Brands.Commands.CreateBrand;
+﻿using Application.Features.Brands.Commands.CreateBrand;
+using Application.Features.Brands.Commands.UpdateBrand;
+using Application.Features.Brands.Queries.GetBrandListWithPaginationQuery;
+using Domain.Entities;
 using InventoryManagement.Application.Features.Brands.Commands.DeleteBrand;
-using InventoryManagement.Application.Features.Brands.Commands.UpdateBrand;
-using InventoryManagement.Application.Features.Brands.Queries.GetBrandListWithPaginationQuery;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -59,6 +59,6 @@ namespace InventoryManagement.API.Controllers
             return NoContent();
         }
 
- 
+
     }
 }

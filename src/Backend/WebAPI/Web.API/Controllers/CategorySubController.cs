@@ -1,13 +1,13 @@
-﻿using InventoryManagement.Application.Features.CategoriesSub.Commands.CreateCategorySub;
+﻿using Application.Features.CategoriesSub.Commands.CreateCategorySub;
+using Application.Features.CategoriesSub.Commands.UpdateCategorySub;
+using Domain.Entities;
 using InventoryManagement.Application.Features.CategoriesSub.Commands.DeleteCategorySub;
-using InventoryManagement.Application.Features.CategoriesSub.Commands.UpdateCategorySub;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -34,7 +34,7 @@ namespace InventoryManagement.API.Controllers
         public async Task<ActionResult<Result<CategorySub>>> UpdateCategorySubCommand([FromBody] UpdateCategorySubCommand command)
         {
             await _mediator.Send(command);
-            
+
             return NoContent();
         }
 

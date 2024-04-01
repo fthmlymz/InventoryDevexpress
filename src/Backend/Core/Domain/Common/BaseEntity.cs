@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common.Interfaces;
+﻿using Domain.Common.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace InventoryManagement.Domain.Common
+namespace Domain.Common
 {
     public abstract class BaseEntity : IEntity
     {

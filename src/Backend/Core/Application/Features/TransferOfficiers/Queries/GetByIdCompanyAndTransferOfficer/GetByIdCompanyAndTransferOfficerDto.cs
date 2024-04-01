@@ -1,6 +1,6 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.TransferOfficiers.Queries.GetByIdCompanyAndTransferOfficer
+namespace Application.Features.TransferOfficiers.Queries.GetByIdCompanyAndTransferOfficer
 {
     public class GetByIdCompanyAndTransferOfficerDto : BaseAuditableEntity
     {

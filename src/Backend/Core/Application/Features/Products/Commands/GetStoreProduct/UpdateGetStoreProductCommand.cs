@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Domain.Entities;
 using MediatR;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Products.Commands.GetStoreProduct
+namespace Application.Features.Products.Commands.GetStoreProduct
 {
     public class UpdateGetStoreProductCommand : IRequest<Result<Product>>
     {

@@ -1,11 +1,11 @@
-﻿namespace InventoryManagement.Shared
+﻿namespace Shared
 {
     //Best performance AI
     public class PaginatedResult<T> : Result<T>
     {
         public PaginatedResult()
         {
-            
+
         }
         public PaginatedResult(IReadOnlyList<T> data)
         {

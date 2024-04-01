@@ -1,14 +1,14 @@
-﻿using DotNetCore.CAP;
+﻿using Application.Features.AssignedProducts.Dtos;
+using Application.Interfaces.Repositories;
+using Domain.Entities;
+using DotNetCore.CAP;
 using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Features.AssignedProducts.Dtos;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Commands.UpdateAssignedProduct
+namespace Application.Features.AssignedProducts.Commands.UpdateAssignedProduct
 {
     internal class UpdateAssignedProductCommandHandler : IRequestHandler<UpdateAssignedProductCommand, Result<AssignedProduct>>
     {
@@ -62,7 +62,7 @@ namespace InventoryManagement.Application.Features.AssignedProducts.Commands.Upd
             updatedAssignedDto.Email = request.Email;
             updatedAssignedDto.Barcode = request.Barcode;
             //updatedAssignedDto.AssignedUserPhoto = null;
-            await _capPublisher.PublishAsync<AssignedProductDto>("product.assigned.transaction", updatedAssignedDto);
+            await _capPublisher.PublishAsync("product.assigned.transaction", updatedAssignedDto);
             #endregion
 
 

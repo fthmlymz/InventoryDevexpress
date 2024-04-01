@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier
+﻿namespace Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier
 {
     internal class TransferOfficierUpdatedEventHandler
     {

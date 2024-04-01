@@ -1,10 +1,10 @@
-﻿using DotNetCore.CAP;
-using InventoryManagement.Application.Features.Products.Commands.ProductOperations;
+﻿using Application.Features.Products.Commands.ProductOperations;
+using DotNetCore.CAP;
 using Mapster;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace InventoryManagement.Application.Workflows.Product
+namespace Application.Workflows.Product
 {
     public class ProductTransferWorkflow : IWorkflow<UpdateProductOperationsCommand>
     {
@@ -29,7 +29,7 @@ namespace InventoryManagement.Application.Workflows.Product
                            {
                                var productTransferDto = context.Workflow.Data.Adapt<UpdateProductOperationsCommand>();
                                productTransferDto.TypeOfOperations = "Transfer";
-                               _capPublisher.PublishAsync<UpdateProductOperationsCommand>("product.transfer.transaction", productTransferDto);
+                               _capPublisher.PublishAsync("product.transfer.transaction", productTransferDto);
                            });
 
 
@@ -40,7 +40,7 @@ namespace InventoryManagement.Application.Workflows.Product
                              {
                                  var productTransferDto = context.Workflow.Data.Adapt<UpdateProductOperationsCommand>();
                                  productTransferDto.TypeOfOperations = "Rejected";
-                                 _capPublisher.PublishAsync<UpdateProductOperationsCommand>("product.transfer.transaction", productTransferDto);
+                                 _capPublisher.PublishAsync("product.transfer.transaction", productTransferDto);
                              });
 
             var returnIt = builder
@@ -50,7 +50,7 @@ namespace InventoryManagement.Application.Workflows.Product
                              {
                                  var productTransferDto = context.Workflow.Data.Adapt<UpdateProductOperationsCommand>();
                                  productTransferDto.TypeOfOperations = "ReturnIt";
-                                 _capPublisher.PublishAsync<UpdateProductOperationsCommand>("product.transfer.transaction", productTransferDto);
+                                 _capPublisher.PublishAsync("product.transfer.transaction", productTransferDto);
                              });
 
 

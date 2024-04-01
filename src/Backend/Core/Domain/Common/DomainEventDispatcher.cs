@@ -1,7 +1,7 @@
-﻿using InventoryManagement.Domain.Common.Interfaces;
+﻿using Domain.Common.Interfaces;
 using MediatR;
 
-namespace InventoryManagement.Domain.Common
+namespace Domain.Common
 {
     public class DomainEventDispatcher : IDomainEventDispatcher
     {

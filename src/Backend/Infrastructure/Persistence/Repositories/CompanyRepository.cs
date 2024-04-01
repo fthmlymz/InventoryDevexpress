@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace InventoryManagement.Persistence.Repositories
+namespace Persistence.Repositories
 {
     internal class CompanyRepository : ICompanyRepository
     {

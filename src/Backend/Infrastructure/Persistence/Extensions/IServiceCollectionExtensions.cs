@@ -1,14 +1,14 @@
-﻿using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Persistence.Context;
-using InventoryManagement.Persistence.Repositories;
+﻿using Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Persistence.Context;
+using Persistence.Repositories;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
 
-namespace InventoryManagement.Persistence.Extensions
+namespace Persistence.Extensions
 {
     //Best performance
     public static class IServiceCollectionExtensions

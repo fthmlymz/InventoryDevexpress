@@ -1,20 +1,20 @@
-﻿using InventoryManagement.Application.Features.Products.Commands.CreateProduct;
+﻿using Application.Features.Products.Commands.CreateProduct;
+using Application.Features.Products.Commands.FileTransfer;
+using Application.Features.Products.Commands.GetStoreProduct;
+using Application.Features.Products.Commands.ProductOperations;
+using Application.Features.Products.Commands.UpdateProduct;
+using Application.Features.Products.GeneralDtos;
+using Application.Features.Products.Queries.GetByIdProductAndDetailsQuery;
+using Application.Features.Products.Queries.GetProductListWithPaginationQuery;
+using Application.Features.Products.Queries.ProductSearchWithPagination;
+using Domain.Entities;
 using InventoryManagement.Application.Features.Products.Commands.DeleteProduct;
-using InventoryManagement.Application.Features.Products.Commands.FileTransfer;
-using InventoryManagement.Application.Features.Products.Commands.GetStoreProduct;
-using InventoryManagement.Application.Features.Products.Commands.ProductOperations;
-using InventoryManagement.Application.Features.Products.Commands.UpdateProduct;
-using InventoryManagement.Application.Features.Products.GeneralDtos;
-using InventoryManagement.Application.Features.Products.Queries.GetByIdProductAndDetailsQuery;
-using InventoryManagement.Application.Features.Products.Queries.GetProductListWithPaginationQuery;
-using InventoryManagement.Application.Features.Products.Queries.ProductSearchWithPagination;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

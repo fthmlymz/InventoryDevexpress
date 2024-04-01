@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Application.Interfaces
+﻿namespace Application.Interfaces
 {
     public interface IDateTimeService
     {

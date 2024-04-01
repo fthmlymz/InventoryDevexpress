@@ -1,15 +1,16 @@
-﻿using InventoryManagement.Application.Features.Companies.Commands.CreateCompany;
+﻿using Application.Features.Companies.Commands.CreateCompany;
+using Application.Features.Companies.Commands.UpdateCompany;
+using Application.Features.Companies.Queries.CompanySearchWithPagination;
+using Application.Features.Companies.Queries.GetCompanyAllList;
 using InventoryManagement.Application.Features.Companies.Commands.DeleteCompany;
-using InventoryManagement.Application.Features.Companies.Commands.UpdateCompany;
-using InventoryManagement.Application.Features.Companies.Queries.CompanySearchWithPagination;
 using InventoryManagement.Application.Features.Companies.Queries.GetCompanyAllList;
-using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

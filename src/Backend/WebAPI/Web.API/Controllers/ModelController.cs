@@ -1,13 +1,13 @@
-﻿using InventoryManagement.Application.Features.Models.Commands.CreateModel;
+﻿using Application.Features.Models.Commands.CreateModel;
+using Application.Features.Models.Commands.UpdateModel;
+using Domain.Entities;
 using InventoryManagement.Application.Features.Models.Commands.DeleteModel;
-using InventoryManagement.Application.Features.Models.Commands.UpdateModel;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
-namespace InventoryManagement.API.Controllers
+namespace Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

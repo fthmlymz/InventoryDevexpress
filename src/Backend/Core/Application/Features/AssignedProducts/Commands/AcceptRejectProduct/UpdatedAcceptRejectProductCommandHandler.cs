@@ -1,14 +1,14 @@
-﻿using DotNetCore.CAP;
+﻿using Application.Features.AssignedProducts.Dtos;
+using Application.Interfaces.Repositories;
+using Domain.Entities;
+using DotNetCore.CAP;
 using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Features.AssignedProducts.Dtos;
-using InventoryManagement.Application.Interfaces.Repositories;
-using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared;
 
-namespace InventoryManagement.Application.Features.AssignedProducts.Commands.AcceptRejectProduct
+namespace Application.Features.AssignedProducts.Commands.AcceptRejectProduct
 {
     internal class UpdatedAcceptRejectProductCommandHandler : IRequestHandler<UpdatedAcceptRejectProductCommand, Result<AssignedProductDto>>
     {

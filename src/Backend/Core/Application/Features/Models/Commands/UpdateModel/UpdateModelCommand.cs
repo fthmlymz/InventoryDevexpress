@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Domain.Entities;
-using InventoryManagement.Shared;
+﻿using Domain.Entities;
 using MediatR;
+using Shared;
 
-namespace InventoryManagement.Application.Features.Models.Commands.UpdateModel
+namespace Application.Features.Models.Commands.UpdateModel
 {
     public class UpdateModelCommand : IRequest<Result<Model>>
     {

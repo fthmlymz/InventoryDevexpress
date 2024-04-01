@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using InventoryManagement.Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery;
 
-namespace InventoryManagement.Application.Features.Categories.Queries.GetCategoryListWithPagination
+namespace Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery
 {
     public class GetCategoryWithPaginationValidator : AbstractValidator<GetCategoryWithPaginationQuery>
     {

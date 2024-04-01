@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.DeleteTransferOfficier
+namespace Application.Features.TransferOfficiers.Commands.DeleteTransferOfficier
 {
     public sealed class DeleteTransferOfficierCommandValidator : AbstractValidator<DeleteTransferOfficierCommand>
     {

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace InventoryManagement.Application.Common.Exceptions
+namespace Application.Common.Exceptions
 {
     public class ConflictExceptionCustom : Exception
     {
@@ -8,7 +8,7 @@ namespace InventoryManagement.Application.Common.Exceptions
 
         public ConflictExceptionCustom(string message) : base(message) { }
 
-        public ConflictExceptionCustom(string message, params object[] args) : base(String.Format(CultureInfo.CurrentCulture, message, args))
+        public ConflictExceptionCustom(string message, params object[] args) : base(string.Format(CultureInfo.CurrentCulture, message, args))
         {
         }
     }

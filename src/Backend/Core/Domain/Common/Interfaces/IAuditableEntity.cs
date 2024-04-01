@@ -1,4 +1,4 @@
-﻿namespace InventoryManagement.Domain.Common.Interfaces
+﻿namespace Domain.Common.Interfaces
 {
     public interface IAuditableEntity : IEntity
     {

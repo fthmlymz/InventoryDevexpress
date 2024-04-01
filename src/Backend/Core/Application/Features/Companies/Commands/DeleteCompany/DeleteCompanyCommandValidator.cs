@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagement.Application.Features.Companies.Commands.DeleteCompany
+namespace Application.Features.Companies.Commands.DeleteCompany
 {
     public class DeleteCompanyCommandValidator : AbstractValidator<DeleteCompanyCommand>
     {

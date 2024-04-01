@@ -1,8 +1,8 @@
-﻿using InventoryManagement.Domain.Common;
+﻿using Domain.Common;
 
-namespace InventoryManagement.Application.Features.TransferOfficiers.Commands.CreateTransferOfficier
+namespace Application.Features.TransferOfficiers.Commands.CreateTransferOfficier
 {
-    public class TransferOfficierDto: BaseAuditableEntity
+    public class TransferOfficierDto : BaseAuditableEntity
     {
         public string? Email { get; set; }
         public string? UserName { get; set; }

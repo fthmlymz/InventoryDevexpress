@@ -1,9 +1,10 @@
-﻿using InventoryManagement.Shared;
+﻿using Application.Features.FileManager;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using Shared;
 using System.Text.RegularExpressions;
 
-namespace InventoryManagement.Application.Features.FileManager.Queries
+namespace Application.Features.FileManager.Queries
 {
     public sealed class SearchFileQuery : IRequest<Result<List<FileItemDto>>>//IRequest<List<FileItemDto>>
     {

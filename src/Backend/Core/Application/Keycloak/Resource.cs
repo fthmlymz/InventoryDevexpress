@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace InventoryManagement.Application.Keycloak
+namespace Application.Keycloak
 {
     public class Resource
     {
