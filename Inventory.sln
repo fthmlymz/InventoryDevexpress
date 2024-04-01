@@ -8,27 +8,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5745671E-ED7
 		Helpers.txt = Helpers.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{E2B6E18A-DC4F-41AD-A34E-FC4DB6716606}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{096667AE-D1E4-4595-A8E5-8B3595AD3F14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Application", "src\Inventory\Backend\Core\IM.Application\IM.Application.csproj", "{6719D83A-3468-4F56-9FFD-51A422ED06D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Backend\Core\Application\Application.csproj", "{6719D83A-3468-4F56-9FFD-51A422ED06D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Domain", "src\Inventory\Backend\Core\IM.Domain\IM.Domain.csproj", "{B0102C81-A3EB-48A0-9A61-29CB51D0F999}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Backend\Core\Domain\Domain.csproj", "{B0102C81-A3EB-48A0-9A61-29CB51D0F999}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9C4C8165-7C0A-4791-BD4D-CB7EBD1AFF1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Persistence", "src\Inventory\Backend\Infrastructure\IM.Persistence\IM.Persistence.csproj", "{F79222A5-C116-474D-81E2-E36D75FBCA9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\Backend\Infrastructure\Persistence\Persistence.csproj", "{F79222A5-C116-474D-81E2-E36D75FBCA9B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{8F71FD59-D9B2-42A4-96DE-B3D1A2C7063A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.API", "src\Inventory\Backend\WebAPI\IM.API\IM.API.csproj", "{8F419030-FFFC-4EF8-BA12-A8854D03D16E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.API", "src\Backend\WebAPI\Web.API\Web.API.csproj", "{8F419030-FFFC-4EF8-BA12-A8854D03D16E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Infrastructure", "src\Inventory\Backend\Infrastructure\IM.Infrastructure\IM.Infrastructure.csproj", "{F3911E27-C49E-4BE5-A1DB-2A60CA686027}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Backend\Infrastructure\Infrastructure\Infrastructure.csproj", "{F3911E27-C49E-4BE5-A1DB-2A60CA686027}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{1C508C98-8A75-45C2-90D3-A2761B6C8017}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IM.Shared", "src\Inventory\Backend\Shared\IM.Shared\IM.Shared.csproj", "{9F0E2C42-D37D-4F27-B611-9E56DAB51700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "src\Backend\Shared\Shared\Shared.csproj", "{9F0E2C42-D37D-4F27-B611-9E56DAB51700}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C81C9B02-A352-4A16-9B46-9F326A8B9B83}"
 	ProjectSection(SolutionItems) = preProject
@@ -43,9 +41,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{A982
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{07364367-DC8F-441E-9431-500819D99A9D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedLibrary", "src\Inventory\Shared\SharedLibrary\SharedLibrary.csproj", "{7FBEFE39-5158-4B5D-B70E-9A884AC157D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedLibrary", "src\Shared\SharedLibrary\SharedLibrary.csproj", "{7FBEFE39-5158-4B5D-B70E-9A884AC157D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.Frontend", "src\Inventory\Frontend\InventoryManagement.Frontend\InventoryManagement.Frontend.csproj", "{808EABA6-17F8-4F3F-BB08-A3352F1D2AA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.Frontend", "src\Frontend\InventoryManagement.Frontend\InventoryManagement.Frontend.csproj", "{808EABA6-17F8-4F3F-BB08-A3352F1D2AA9}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{36887007-9143-42C2-AFE0-D093F58584A9}"
 EndProject
@@ -53,24 +51,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Keycloak", "Keycloak", "{97
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MsSql", "MsSql", "{D6DEF4E9-E5B6-41E5-98A5-C24CF5ED2CA9}"
 	ProjectSection(SolutionItems) = preProject
-		src\Inventory\Keycloak\MsSql\Dockerfile = src\Inventory\Keycloak\MsSql\Dockerfile
+		src\Keycloak\MsSql\Dockerfile = src\Keycloak\MsSql\Dockerfile
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ssl", "ssl", "{4DF73A12-4102-443A-BFF4-48DCABE597F1}"
 	ProjectSection(SolutionItems) = preProject
-		src\Inventory\Keycloak\MsSql\ssl\docker-host.crt = src\Inventory\Keycloak\MsSql\ssl\docker-host.crt
-		src\Inventory\Keycloak\MsSql\ssl\docker-host.key = src\Inventory\Keycloak\MsSql\ssl\docker-host.key
+		src\Keycloak\MsSql\ssl\docker-host.crt = src\Keycloak\MsSql\ssl\docker-host.crt
+		src\Keycloak\MsSql\ssl\docker-host.key = src\Keycloak\MsSql\ssl\docker-host.key
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Postgres", "Postgres", "{F582BD19-DE3B-490E-8E90-8DED778AAF4A}"
 	ProjectSection(SolutionItems) = preProject
-		src\Inventory\Keycloak\Postgres\Dockerfile = src\Inventory\Keycloak\Postgres\Dockerfile
+		src\Keycloak\Postgres\Dockerfile = src\Keycloak\Postgres\Dockerfile
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ssl", "ssl", "{4B4FD32A-31C3-440D-908B-DDCEB144FF11}"
 	ProjectSection(SolutionItems) = preProject
-		src\Inventory\Keycloak\Postgres\ssl\docker-host.crt = src\Inventory\Keycloak\Postgres\ssl\docker-host.crt
-		src\Inventory\Keycloak\Postgres\ssl\docker-host.key = src\Inventory\Keycloak\Postgres\ssl\docker-host.key
+		src\Keycloak\Postgres\ssl\docker-host.crt = src\Keycloak\Postgres\ssl\docker-host.crt
+		src\Keycloak\Postgres\ssl\docker-host.key = src\Keycloak\Postgres\ssl\docker-host.key
 	EndProjectSection
 EndProject
 Global
@@ -120,7 +118,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E2B6E18A-DC4F-41AD-A34E-FC4DB6716606} = {5745671E-ED7F-4629-97DD-4BB80D09E28A}
 		{096667AE-D1E4-4595-A8E5-8B3595AD3F14} = {A9829557-551A-4A15-AC9A-4A5C201A90B9}
 		{6719D83A-3468-4F56-9FFD-51A422ED06D7} = {096667AE-D1E4-4595-A8E5-8B3595AD3F14}
 		{B0102C81-A3EB-48A0-9A61-29CB51D0F999} = {096667AE-D1E4-4595-A8E5-8B3595AD3F14}
@@ -131,12 +128,12 @@ Global
 		{F3911E27-C49E-4BE5-A1DB-2A60CA686027} = {9C4C8165-7C0A-4791-BD4D-CB7EBD1AFF1E}
 		{1C508C98-8A75-45C2-90D3-A2761B6C8017} = {A9829557-551A-4A15-AC9A-4A5C201A90B9}
 		{9F0E2C42-D37D-4F27-B611-9E56DAB51700} = {1C508C98-8A75-45C2-90D3-A2761B6C8017}
-		{A349A282-13B0-4FEF-A04B-3FDB32E822A6} = {E2B6E18A-DC4F-41AD-A34E-FC4DB6716606}
-		{A9829557-551A-4A15-AC9A-4A5C201A90B9} = {E2B6E18A-DC4F-41AD-A34E-FC4DB6716606}
-		{07364367-DC8F-441E-9431-500819D99A9D} = {E2B6E18A-DC4F-41AD-A34E-FC4DB6716606}
+		{A349A282-13B0-4FEF-A04B-3FDB32E822A6} = {5745671E-ED7F-4629-97DD-4BB80D09E28A}
+		{A9829557-551A-4A15-AC9A-4A5C201A90B9} = {5745671E-ED7F-4629-97DD-4BB80D09E28A}
+		{07364367-DC8F-441E-9431-500819D99A9D} = {5745671E-ED7F-4629-97DD-4BB80D09E28A}
 		{7FBEFE39-5158-4B5D-B70E-9A884AC157D2} = {07364367-DC8F-441E-9431-500819D99A9D}
 		{808EABA6-17F8-4F3F-BB08-A3352F1D2AA9} = {A349A282-13B0-4FEF-A04B-3FDB32E822A6}
-		{976ABD88-912B-4C4A-B253-B596147548E5} = {E2B6E18A-DC4F-41AD-A34E-FC4DB6716606}
+		{976ABD88-912B-4C4A-B253-B596147548E5} = {5745671E-ED7F-4629-97DD-4BB80D09E28A}
 		{D6DEF4E9-E5B6-41E5-98A5-C24CF5ED2CA9} = {976ABD88-912B-4C4A-B253-B596147548E5}
 		{4DF73A12-4102-443A-BFF4-48DCABE597F1} = {D6DEF4E9-E5B6-41E5-98A5-C24CF5ED2CA9}
 		{F582BD19-DE3B-490E-8E90-8DED778AAF4A} = {976ABD88-912B-4C4A-B253-B596147548E5}

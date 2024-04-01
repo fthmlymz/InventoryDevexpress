@@ -100,7 +100,7 @@ services:
       - "4001:8080"
     build:
       context: .
-      dockerfile: src/Inventory/Backend/WebAPI/IM.API/Dockerfile
+      dockerfile: src/Inventory/Backend/WebAPI/Web.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
@@ -131,7 +131,7 @@ services:
       - Keycloak__KeycloakResourceUrl=http://host.docker.internal:4000/realms/inventory_management_realm/authz/protection/resource_set/
       - Keycloak__ClientCredentialsTokenAddress=http://host.docker.internal:4000/realms/inventory_management_realm/protocol/openid-connect/token
     volumes:
-      - ./src/Inventory/Backend/WebAPI/IM.API/ssl:/app/ssl
+      - ./src/Inventory/Backend/WebAPI/Web.API/ssl:/app/ssl
     depends_on:
       - keycloak
       - mssql
