@@ -1,8 +1,8 @@
 ﻿using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Domain.Entities;
-using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Features.Companies.Commands.DeleteCompany;
+using Application.Common.Exceptions;
+//using Application.Features.Companies.Commands.DeleteCompany;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

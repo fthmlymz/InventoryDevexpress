@@ -1,7 +1,6 @@
 ﻿using Application.Features.FileManager;
 using Application.Features.FileManager.Commands;
-using InventoryManagement.Application.Features.FileManager.Commands;
-using InventoryManagement.Application.Features.FileManager.Queries;
+using Application.Features.FileManager.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

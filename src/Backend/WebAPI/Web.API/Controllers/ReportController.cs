@@ -1,5 +1,4 @@
 ﻿using Application.Features.Reports.Queries.GeneralReport;
-using IM.Application.Features.Reports.Queries.GeneralReport;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,8 +1,8 @@
 ﻿using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Domain.Entities;
-using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Features.Models.Commands.UpdateModel;
+using Application.Common.Exceptions;
+using Application.Features.Models.Commands.UpdateModel;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Shared;

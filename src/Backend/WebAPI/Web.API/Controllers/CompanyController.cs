@@ -2,8 +2,8 @@
 using Application.Features.Companies.Commands.UpdateCompany;
 using Application.Features.Companies.Queries.CompanySearchWithPagination;
 using Application.Features.Companies.Queries.GetCompanyAllList;
-using InventoryManagement.Application.Features.Companies.Commands.DeleteCompany;
-using InventoryManagement.Application.Features.Companies.Queries.GetCompanyAllList;
+using Application.Features.Companies.Commands.DeleteCompany;
+//using Features.Companies.Queries.GetCompanyAllList;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;

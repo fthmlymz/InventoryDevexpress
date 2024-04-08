@@ -8,7 +8,7 @@ using Application.Features.Products.Queries.GetByIdProductAndDetailsQuery;
 using Application.Features.Products.Queries.GetProductListWithPaginationQuery;
 using Application.Features.Products.Queries.ProductSearchWithPagination;
 using Domain.Entities;
-using InventoryManagement.Application.Features.Products.Commands.DeleteProduct;
+using Application.Features.Products.Commands.DeleteProduct;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -5,14 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.Context;
 
 #nullable disable
 
-namespace IM.Persistence.Migrations
+namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240201053417_InitialCreate")]
+    [Migration("20240404102239_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,16 +21,17 @@ namespace IM.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.AssignedProduct", b =>
+            modelBuilder.Entity("Domain.Entities.AssignedProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -48,6 +50,10 @@ namespace IM.Persistence.Migrations
                     b.Property<string>("AssignedUserPhoto")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Company")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
@@ -59,12 +65,28 @@ namespace IM.Persistence.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<string>("Department")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<string>("FullName")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Manager")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("PhysicalDeliveryOfficeName")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(250)
@@ -84,11 +106,12 @@ namespace IM.Persistence.Migrations
                     b.ToTable("AssignedProduct", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Brand", b =>
+            modelBuilder.Entity("Domain.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -128,11 +151,12 @@ namespace IM.Persistence.Migrations
                     b.ToTable("Brand", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -172,11 +196,12 @@ namespace IM.Persistence.Migrations
                     b.ToTable("Category", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.CategorySub", b =>
+            modelBuilder.Entity("Domain.Entities.CategorySub", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -217,11 +242,12 @@ namespace IM.Persistence.Migrations
                     b.ToTable("CategorySub", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Company", b =>
+            modelBuilder.Entity("Domain.Entities.Company", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -259,11 +285,12 @@ namespace IM.Persistence.Migrations
                     b.ToTable("Company", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Model", b =>
+            modelBuilder.Entity("Domain.Entities.Model", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -304,17 +331,17 @@ namespace IM.Persistence.Migrations
                     b.ToTable("Model", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Product", b =>
+            modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Barcode")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                    b.Property<int>("Barcode")
+                        .HasColumnType("int");
 
                     b.Property<int?>("BrandId")
                         .HasColumnType("int");
@@ -392,6 +419,9 @@ namespace IM.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Barcode")
+                        .IsUnique();
+
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryId");
@@ -405,11 +435,12 @@ namespace IM.Persistence.Migrations
                     b.ToTable("Product", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.ProductMovement", b =>
+            modelBuilder.Entity("Domain.Entities.ProductMovement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -447,11 +478,12 @@ namespace IM.Persistence.Migrations
                     b.ToTable("ProductMovement", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.TransferOfficier", b =>
+            modelBuilder.Entity("Domain.Entities.TransferOfficier", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -499,9 +531,9 @@ namespace IM.Persistence.Migrations
                     b.ToTable("TransferOfficier", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.AssignedProduct", b =>
+            modelBuilder.Entity("Domain.Entities.AssignedProduct", b =>
                 {
-                    b.HasOne("InventoryManagement.Domain.Entities.Product", "Product")
+                    b.HasOne("Domain.Entities.Product", "Product")
                         .WithMany("AssignedProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -510,23 +542,23 @@ namespace IM.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Brand", b =>
+            modelBuilder.Entity("Domain.Entities.Brand", b =>
                 {
-                    b.HasOne("InventoryManagement.Domain.Entities.Company", null)
+                    b.HasOne("Domain.Entities.Company", null)
                         .WithMany("Brands")
                         .HasForeignKey("CompanyId");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.HasOne("InventoryManagement.Domain.Entities.Company", null)
+                    b.HasOne("Domain.Entities.Company", null)
                         .WithMany("Categories")
                         .HasForeignKey("CompanyId");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.CategorySub", b =>
+            modelBuilder.Entity("Domain.Entities.CategorySub", b =>
                 {
-                    b.HasOne("InventoryManagement.Domain.Entities.Category", "Category")
+                    b.HasOne("Domain.Entities.Category", "Category")
                         .WithMany("CategorySubs")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -535,36 +567,36 @@ namespace IM.Persistence.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Model", b =>
+            modelBuilder.Entity("Domain.Entities.Model", b =>
                 {
-                    b.HasOne("InventoryManagement.Domain.Entities.Brand", "Brand")
+                    b.HasOne("Domain.Entities.Brand", "Brand")
                         .WithMany("Models")
                         .HasForeignKey("BrandId");
 
                     b.Navigation("Brand");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Product", b =>
+            modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.HasOne("InventoryManagement.Domain.Entities.Brand", "Brand")
+                    b.HasOne("Domain.Entities.Brand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId");
 
-                    b.HasOne("InventoryManagement.Domain.Entities.Category", "Category")
+                    b.HasOne("Domain.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("InventoryManagement.Domain.Entities.CategorySub", "CategorySub")
+                    b.HasOne("Domain.Entities.CategorySub", "CategorySub")
                         .WithMany()
                         .HasForeignKey("CategorySubId");
 
-                    b.HasOne("InventoryManagement.Domain.Entities.Company", "Company")
+                    b.HasOne("Domain.Entities.Company", "Company")
                         .WithMany("Products")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InventoryManagement.Domain.Entities.Model", "Model")
+                    b.HasOne("Domain.Entities.Model", "Model")
                         .WithMany()
                         .HasForeignKey("ModelId");
 
@@ -579,9 +611,9 @@ namespace IM.Persistence.Migrations
                     b.Navigation("Model");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.ProductMovement", b =>
+            modelBuilder.Entity("Domain.Entities.ProductMovement", b =>
                 {
-                    b.HasOne("InventoryManagement.Domain.Entities.Product", "Product")
+                    b.HasOne("Domain.Entities.Product", "Product")
                         .WithMany("ProductMovements")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -590,9 +622,9 @@ namespace IM.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.TransferOfficier", b =>
+            modelBuilder.Entity("Domain.Entities.TransferOfficier", b =>
                 {
-                    b.HasOne("InventoryManagement.Domain.Entities.Company", "Company")
+                    b.HasOne("Domain.Entities.Company", "Company")
                         .WithMany("TransferOfficiers")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -601,17 +633,17 @@ namespace IM.Persistence.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Brand", b =>
+            modelBuilder.Entity("Domain.Entities.Brand", b =>
                 {
                     b.Navigation("Models");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Navigation("CategorySubs");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Company", b =>
+            modelBuilder.Entity("Domain.Entities.Company", b =>
                 {
                     b.Navigation("Brands");
 
@@ -622,7 +654,7 @@ namespace IM.Persistence.Migrations
                     b.Navigation("TransferOfficiers");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Domain.Entities.Product", b =>
+            modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
                     b.Navigation("AssignedProducts");
 

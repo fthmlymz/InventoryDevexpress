@@ -1,7 +1,7 @@
 ﻿using Application.Features.Models.Commands.CreateModel;
 using Application.Features.Models.Commands.UpdateModel;
 using Domain.Entities;
-using InventoryManagement.Application.Features.Models.Commands.DeleteModel;
+using Application.Features.Models.Commands.DeleteModel;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Repositories;
 using Domain.Entities;
-using InventoryManagement.Application.Features.FileManager.Commands;
-using InventoryManagement.Application.Features.FileManager.Queries;
+using Application.Features.FileManager.Commands;
+using Application.Features.FileManager.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;

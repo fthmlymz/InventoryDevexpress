@@ -2,8 +2,8 @@
 using Application.Interfaces.Repositories;
 using Domain.Entities;
 using DotNetCore.CAP;
-using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Features.AssignedProducts.Commands.CreateAssignedProduct;
+using Application.Common.Exceptions;
+//using Application.Features.AssignedProducts.Commands.CreateAssignedProduct;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

@@ -45,7 +45,7 @@ Docker Imajlarını Kubernetes Cluster'a Yukle:
 
 
 ------------------------------------ Migrations - Persistence Layer ------------------------------------
-Migrate: dotnet ef migrations add InitialCreate5 --context ApplicationDbContext
+Migrate: dotnet ef migrations add InitialCreate --context ApplicationDbContext
 Update : dotnet ef database update --context ApplicationDbContext
 Remove : dotnet ef migrations remove --force --context ApplicationDbContext
 ------------------------------------ Migrations - Persistence Layer ------------------------------------

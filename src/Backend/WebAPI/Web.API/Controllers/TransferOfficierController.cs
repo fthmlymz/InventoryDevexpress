@@ -1,9 +1,9 @@
 ﻿using Application.Features.TransferOfficiers.Commands.CreateTransferOfficier;
 using Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier;
 using Application.Features.TransferOfficiers.Queries.GetByIdCompanyAndTransferOfficer;
-using InventoryManagement.Application.Features.TransferOfficiers.Commands.DeleteTransferOfficier;
-using InventoryManagement.Application.Features.TransferOfficiers.Queries.GetAllCompanyAndTransferOfficer;
-using InventoryManagement.Application.Features.TransferOfficiers.Queries.GetByIdCompanyAndTransferOfficer;
+using Application.Features.TransferOfficiers.Commands.DeleteTransferOfficier;
+using Application.Features.TransferOfficiers.Queries.GetAllCompanyAndTransferOfficer;
+//using Application.Features.TransferOfficiers.Queries.GetByIdCompanyAndTransferOfficer;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;

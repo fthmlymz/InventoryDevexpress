@@ -2,7 +2,7 @@
 using Application.Features.Brands.Commands.UpdateBrand;
 using Application.Features.Brands.Queries.GetBrandListWithPaginationQuery;
 using Domain.Entities;
-using InventoryManagement.Application.Features.Brands.Commands.DeleteBrand;
+using Application.Features.Brands.Commands.DeleteBrand;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

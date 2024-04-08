@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Domain.Entities;
-using InventoryManagement.Application.Common.Exceptions;
+using Application.Common.Exceptions;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;

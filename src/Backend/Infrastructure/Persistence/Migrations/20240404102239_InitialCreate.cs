@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace IM.Persistence.Migrations
+namespace Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -167,7 +167,7 @@ namespace IM.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    Barcode = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Barcode = table.Column<int>(type: "int", nullable: false),
                     SerialNumber = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Imei = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Mac = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
@@ -231,6 +231,11 @@ namespace IM.Persistence.Migrations
                     AssignedUserPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FullName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     ApprovalStatus = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Company = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    PhysicalDeliveryOfficeName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Manager = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Department = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     CreatedUserId = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
@@ -301,6 +306,12 @@ namespace IM.Persistence.Migrations
                 name: "IX_Model_BrandId",
                 table: "Model",
                 column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_Barcode",
+                table: "Product",
+                column: "Barcode",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_BrandId",

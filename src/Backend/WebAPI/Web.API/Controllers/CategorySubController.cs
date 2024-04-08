@@ -1,7 +1,7 @@
 ﻿using Application.Features.CategoriesSub.Commands.CreateCategorySub;
 using Application.Features.CategoriesSub.Commands.UpdateCategorySub;
 using Domain.Entities;
-using InventoryManagement.Application.Features.CategoriesSub.Commands.DeleteCategorySub;
+using Application.Features.CategoriesSub.Commands.DeleteCategorySub;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

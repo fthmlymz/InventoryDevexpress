@@ -10,7 +10,6 @@ using Serilog.Sinks.MSSqlServer;
 
 namespace Persistence.Extensions
 {
-    //Best performance
     public static class IServiceCollectionExtensions
     {
         public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
@@ -38,7 +37,6 @@ namespace Persistence.Extensions
                     builder => builder.MigrationsAssembly(assemblyType.Assembly.GetName().Name).MigrationsHistoryTable("__EFMigrationsHistory")));
         }
 
-
         private static ILogger CreateLogger(IConfiguration configuration)
         {
             var serilogSeqUrl = configuration.GetSection("SerilogSeqUrl").Value;
@@ -63,65 +61,4 @@ namespace Persistence.Extensions
                 .AddScoped<ICompanyRepository, CompanyRepository>();
         }
     }
-
 }
-
-
-/* Original code
-     public static class IServiceCollectionExtensions
-    {
-
-        public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
-        {
-            //services.AddMappings();
-            services.AddDbContext(configuration);
-            services.AddRepositories();
-        }
-
-        //private static void AddMappings(this IServiceCollection services)
-        //{
-        //    services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        //}
-
-
-       
-
-        public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
-        {
-            #region Application Database connection
-            var connectionString = configuration.GetConnectionString("SqlServerConnection");
-            services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlServer(connectionString,
-                   builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.GetName().Name).MigrationsHistoryTable("__EFMigrationsHistory")));
-            #endregion
-
-
-            #region Event Drive - DotnetCap log
-            var capConnectionString = configuration.GetConnectionString("CapLogSqlServerConnection");
-            services.AddDbContext<DotnetCapDbContext>(options =>
-               options.UseSqlServer(capConnectionString,
-                   builder => builder.MigrationsAssembly(typeof(DotnetCapDbContext).Assembly.GetName().Name).MigrationsHistoryTable("__EFMigrationsHistory")));
-            #endregion
-
-
-            #region Serilog Logging
-            var logger = new LoggerConfiguration()
-              //.MinimumLevel.Information()
-              .MinimumLevel.Warning()
-              .WriteTo.Seq(Convert.ToString(configuration.GetSection("SerilogSeqUrl").Value))
-              .WriteTo.MSSqlServer(
-                connectionString: configuration.GetConnectionString("SeriLogConnection"),
-                sinkOptions: new MSSqlServerSinkOptions { AutoCreateSqlDatabase = true, AutoCreateSqlTable = true, TableName = "LogEvents" })
-              .CreateLogger();
-            services.AddLogging(x => x.AddSerilog(logger));
-            #endregion
-        }
-
-        private static void AddRepositories(this IServiceCollection services)
-        {
-            services
-                .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
-                .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
-                .AddTransient<ICompanyRepository, CompanyRepository>();
-        }
-    }*/

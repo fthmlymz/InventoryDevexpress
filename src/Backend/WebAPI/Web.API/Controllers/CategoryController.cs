@@ -2,7 +2,7 @@
 using Application.Features.Categories.Commands.UpdateCategory;
 using Application.Features.Categories.Queries.GetCategoryListWithPaginationQuery;
 using Domain.Entities;
-using InventoryManagement.Application.Features.Categories.Commands.DeleteCategory;
+using Application.Features.Categories.Commands.DeleteCategory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

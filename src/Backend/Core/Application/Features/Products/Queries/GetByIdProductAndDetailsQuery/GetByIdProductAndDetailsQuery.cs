@@ -2,7 +2,7 @@
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Domain.Entities;
-using InventoryManagement.Application.Common.Exceptions;
+using Application.Common.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

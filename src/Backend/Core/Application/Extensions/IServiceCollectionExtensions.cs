@@ -1,7 +1,7 @@
 ﻿using Application.Behaviors;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using InventoryManagement.Application.Common.Exceptions;
+using Application.Common.Exceptions;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

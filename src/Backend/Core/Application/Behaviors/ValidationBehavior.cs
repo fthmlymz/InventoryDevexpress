@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using InventoryManagement.Application.Common.Exceptions;
+using Application.Common.Exceptions;
 using MediatR;
 
 namespace Application.Behaviors

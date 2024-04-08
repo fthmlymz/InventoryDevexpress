@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Repositories;
 using Domain.Entities;
-using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier;
+using Application.Common.Exceptions;
+using Application.Features.TransferOfficiers.Commands.UpdateTransferOfficier;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Shared;

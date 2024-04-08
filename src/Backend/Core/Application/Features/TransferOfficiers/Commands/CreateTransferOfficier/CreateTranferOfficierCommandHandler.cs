@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Repositories;
 using Domain.Entities;
-using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Features.TransferOfficiers.Commands.CreateTransferOfficier;
+using Application.Common.Exceptions;
+//using Application.Features.TransferOfficiers.Commands.CreateTransferOfficier;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;

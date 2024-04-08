@@ -7,7 +7,6 @@ using Application.Workflows.Product;
 using DotNetCore.CAP.Messages;
 using IdentityModel.Client;
 using Infrastructure.Extensions;
-using InventoryManagement.Application.Common.Filters;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

@@ -1,8 +1,8 @@
 ﻿using Application.Interfaces.Repositories;
 using Domain.Entities;
 using DotNetCore.CAP;
-using InventoryManagement.Application.Common.Exceptions;
-using InventoryManagement.Application.Features.Products.GeneralDtos;
+using Application.Common.Exceptions;
+using Application.Features.Products.GeneralDtos;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;
