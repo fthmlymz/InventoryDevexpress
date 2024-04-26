@@ -43,7 +43,7 @@ namespace Application.Features.Products.Commands.UpdateProduct
             if (company == null)
             {
                 _logger.LogWarning($"Company ID not found: {request.Name}", request.Name);
-                throw new NotFoundExceptionCustom($"{request.Name} için kayıt edilecek şirket bilgisi bulunamadu");
+                throw new NotFoundExceptionCustom($"{request.Name} için kayıt edilecek şirket bilgisi bulunamadı");
             }
 
 
